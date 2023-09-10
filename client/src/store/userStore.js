@@ -3,9 +3,13 @@ import axios from "axios"
 
 export default class UserStore {
 
-  user = "test"
+  user = ""
 
   constructor (){
     makeAutoObservable(this)
+  }
+
+  setUser (name){
+    this.user=name
   }
 }
