@@ -1,20 +1,23 @@
 import './App.css';
+import LogIn from './components/Autofication/LogIn';
 import SignUp from './components/Autofication/SignUp';
 import MainPage from './components/MainPage/MPage';
-import UserStore  from './store/userStore';
-import {BrowserRouter,Routes,Route} from "react-router-dom"
+import { BrowserRouter, Routes, Route } from "react-router-dom"
+import Header from './components/NavBar/Header';
 
-const userStore = new UserStore()
 
 function App() {
   return (
-<BrowserRouter>
-  <Routes>
-    <Route path='/' element={<MainPage/>}/> 
-    <Route path='/signup' element={<SignUp/>}/> 
+    <BrowserRouter>
+    <Header/>
+      <Routes>
+        <Route path='/' element={<MainPage />} />
+        <Route path='/signup' element={<SignUp />} />
+        <Route path='/signin' element={<LogIn />} />
 
-  </Routes>
-</BrowserRouter>
+
+      </Routes>
+    </BrowserRouter>
   );
 }
 

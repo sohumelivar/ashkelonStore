@@ -1,23 +1,53 @@
 import axios from "axios"
-import UserStore from "../store/userStore"
+import userStore from "../store/userStore"
 
-const userStore = new UserStore()
 
-const axiosOptions = axios.create({
+const axiosFromUser = axios.create({
   withCredentials: true,
   baseURL: 'http://localhost:5000/api/user'
 });
 
-const registration = async (name,password)=>{
+export const registration = async (name, password) => {
   try {
-    const response = await axiosOptions.post('/signup', {name, password});
-    if(response.data.status===200){
+    const response = await axiosFromUser.post('/signup', { name, password });
+    if (response.data.status === 200) {
       userStore.setUser(response.data.name)
       return response.data.status
     }
+    if (response.data.status !== 200) {
+      userStore.setError(response.data.error)
+      return response.data.status
+    }
+
   } catch (error) {
     console.log(error)
   }
 }
 
-export default registration
+export const signIn = async (name, password) => {
+  try {
+    const response = await axiosFromUser.post('/signin', { name, password })
+    if (response.data.status === 200) {
+      userStore.setUser(response.data.name)
+      return response.data.status
+    }
+    if (response.data.status !== 200) {
+      userStore.setError(response.data.error)
+      return response.data.status
+    }
+
+  } catch (error) {
+    console.log(error)
+
+  }
+}
+
+export const logout = async () => {
+  try {
+    await axiosFromUser.post('/signout')
+    userStore.setUser('')
+
+  } catch (error) {
+    console.log(error)
+  }
+}

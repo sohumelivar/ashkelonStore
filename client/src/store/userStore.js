@@ -1,9 +1,10 @@
 import {makeAutoObservable} from "mobx"
-import axios from "axios"
+// import axios from "axios"
 
-export default class UserStore {
+ class UserStore {
 
   user = ""
+  error =""
 
   constructor (){
     makeAutoObservable(this)
@@ -12,4 +13,11 @@ export default class UserStore {
   setUser (name){
     this.user=name
   }
+  setError (error){
+    this.error=error
+  }
+  
 }
+const userStore = new UserStore();
+
+export default userStore
