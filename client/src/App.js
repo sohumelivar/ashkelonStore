@@ -4,6 +4,7 @@ import SignUp from './components/Autofication/SignUp';
 import MainPage from './components/MainPage/MPage';
 import { BrowserRouter, Routes, Route } from "react-router-dom"
 import Header from './components/NavBar/Header';
+import Profile from './components/Profile/Profile';
 
 
 function App() {
@@ -14,7 +15,7 @@ function App() {
         <Route path='/' element={<MainPage />} />
         <Route path='/signup' element={<SignUp />} />
         <Route path='/signin' element={<LogIn />} />
-
+        <Route path='/profile' element={<Profile />} />
 
       </Routes>
     </BrowserRouter>
