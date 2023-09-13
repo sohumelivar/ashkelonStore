@@ -3,7 +3,7 @@ import {makeAutoObservable} from "mobx"
 
  class UserStore {
 
-  user = "d"
+  user = "ы"
   error =""
 
   constructor (){

@@ -44,9 +44,8 @@ export const signIn = async (name, password) => {
 
 export const logout = async () => {
   try {
-    await axiosFromUser.post('/signout')
+    // await axiosFromUser.post('/signout')
     userStore.setUser('')
-
   } catch (error) {
     console.log(error)
   }
