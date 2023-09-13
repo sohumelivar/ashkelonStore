@@ -5,7 +5,7 @@ import Col from "react-bootstrap/Col";
 import Container from "react-bootstrap/Container";
 import Image from "react-bootstrap/Image";
 import Row from "react-bootstrap/Row";
-import Button from 'react-bootstrap/Button';
+import Button from "react-bootstrap/Button";
 import ListGroup from "react-bootstrap/ListGroup";
 import "./Profile.css";
 
@@ -44,10 +44,15 @@ const Profile = observer(() => {
         </div>
       </div>
       <div className="buttons">
-      <Button className="butt" variant="secondary">Мои обьявления</Button>{' '}
-      <Button className="butt" variant="secondary">Избранное</Button>{' '}
-      <Button className="butt" variant="secondary">Мои сообщения</Button>{' '}
-
+        <Button className="butt" variant="secondary">
+          Мои обьявления
+        </Button>{" "}
+        <Button className="butt" variant="secondary">
+          Избранное
+        </Button>{" "}
+        <Button className="butt" variant="secondary">
+          Мои сообщения
+        </Button>{" "}
       </div>
     </div>
   );
