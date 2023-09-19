@@ -26,7 +26,6 @@ const Header = observer(() => {
             <Nav.Link onClick={(event)=>{
               event.preventDefault(0)
               logout()
-              console.log('ssss');
             }} href="/">
               Выйти
             </Nav.Link>
