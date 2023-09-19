@@ -7,9 +7,9 @@ const axiosFromUser = axios.create({
   baseURL: 'http://localhost:5000/api/user'
 });
 
-export const registration = async (name, password) => {
+export const registration = async (name, password, phone) => {
   try {
-    const response = await axiosFromUser.post('/signup', { name, password });
+    const response = await axiosFromUser.post('/signup', { name, password, phone });
     if (response.data.status === 200) {
       userStore.setUser(response.data.name)
       return response.data.status
