@@ -8,6 +8,7 @@ import Row from "react-bootstrap/Row";
 import Button from "react-bootstrap/Button";
 import ListGroup from "react-bootstrap/ListGroup";
 import "./Profile.css";
+import Message from "../Message/Message";
 
 const Profile = observer(() => {
   return (
@@ -54,6 +55,7 @@ const Profile = observer(() => {
           Мои сообщения
         </Button>{" "}
       </div>
+      <Message/>
     </div>
   );
 });
