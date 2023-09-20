@@ -1,5 +1,5 @@
-import axios from "axios"
-import userStore from "../store/userStore"
+import axios from "axios";
+import userStore from "../store/userStore";
 
 
 const axiosFromUser = axios.create({
@@ -44,9 +44,19 @@ export const signIn = async (name, password) => {
 
 export const logout = async () => {
   try {
-    // await axiosFromUser.post('/signout')
+    await axiosFromUser.post('/signout')
     userStore.setUser('')
   } catch (error) {
     console.log(error)
+  }
+}
+
+export const checkUser = async () => {
+  try {
+    const response = await axiosFromUser.get('/checkUser');
+    userStore.setUser(response.data.name); 
+    // || userStore.setImg(response.data.img);
+  } catch (error) {
+    console.log('⚛ --- ⚛ --- ⚛ --- ⚛ ---  >>> ☢ checkUser ☢ error:', error);
   }
 }
