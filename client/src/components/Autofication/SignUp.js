@@ -20,6 +20,7 @@ const SignUp = observer(() => {
       const result = await registration(name, password, phone);
       setName("") || setPassword("") || setPhone("");
       if (result === 200) {
+        userStore.setError('');
         navigate("/");
       }
     } catch (error) {
