@@ -10,5 +10,6 @@ router.post('/pageViewId', itemController.pageViewId);
 router.get('/pageAfter', itemController.pageViewIdAfterRefresh);
 router.get('/getAllUserItems', itemController.getAllUserItems);
 router.post('/deleteItem', itemController.deleteItem);
+router.post('/editItem', itemController.editItem);
 
 module.exports = router;

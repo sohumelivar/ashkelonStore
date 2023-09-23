@@ -5,7 +5,8 @@ import Form from "react-bootstrap/Form";
 import Card from "react-bootstrap/Card";
 import { useNavigate } from "react-router-dom";
 import { pageViewId, getAllUserItems } from "../../../api/goodApi";
-import { deleteItemApi } from "../../../api/goodApi";
+import { deleteItemApi, editItemApi } from "../../../api/goodApi";
+import itemStore from '../../../store/itemStore';
 
 const userGoods = observer(({ itemData }) => {
   const navigate = useNavigate();
@@ -19,6 +20,16 @@ const userGoods = observer(({ itemData }) => {
     getAllUserItems();
   }
 
+  const editItem = async (e) => {
+    try {
+      await editItemApi(e.target.id);
+      console.log('edit item --- >>> ', itemStore.editItem);
+    } catch (error) {
+      console.log('⚛ --- ⚛ --- ⚛ --- ⚛ ---  >>> ☢ editItem ☢ error:', error);
+    }
+  }
+
+
   return (
     <Card
       onClick={() => {
@@ -31,9 +42,10 @@ const userGoods = observer(({ itemData }) => {
       <Card.Body>
         <Card.Title>{itemData.name}</Card.Title>
         <Card.Text>{itemData.description}</Card.Text>
-        <Button
+        <Button id={itemData.id}
           onClick={(e) => {
             e.stopPropagation();
+            editItem(e);
           }}
           variant="dark"
         >
