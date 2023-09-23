@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { observer } from "mobx-react-lite";
 
 import Col from "react-bootstrap/Col";
@@ -9,18 +9,44 @@ import Button from "react-bootstrap/Button";
 import ListGroup from "react-bootstrap/ListGroup";
 import "./Profile.css";
 import Message from "../Message/Message";
+import avatarDefault from './DSOTM.jpg';
+import userStore from "../../store/userStore";
+import AddGood from "../Goods/addGoods/AddGood";
 
 const Profile = observer(() => {
+  const [addGoodsCN, setAddGoodsCN] = useState('none');
+  const [userGoodsCN, setUserGoodsCN] = useState('active');
+  const [userFavoriteCN, setUserFavoriteCN] = useState('none');
+  const [userMessageCN, setUserMessageCN] = useState('none');
+
+  const checkBox1 = () => {
+    return setAddGoodsCN('visible') || setUserGoodsCN('none') || setUserFavoriteCN('none') || setUserMessageCN('none');
+  };
+
+  const checkBox2 = () => {
+    return setAddGoodsCN('none') || setUserGoodsCN('visible') || setUserFavoriteCN('none') || setUserMessageCN('none');
+  };
+
+  const checkBox3 = () => {
+    return setAddGoodsCN('none') || setUserGoodsCN('none') || setUserFavoriteCN('visible') || setUserMessageCN('none');
+  };
+
+  const checkBox4 = () => {
+    return setAddGoodsCN('none') || setUserGoodsCN('none') || setUserFavoriteCN('none') || setUserMessageCN('visible');
+  };
+
   return (
     <div>
       <div className="profileInfo">
         <Container>
           <Row>
             <Col xs={1} md={2}>
+              {userStore.img ? 
+              <Image className="logo"
+                src={`${userStore.img}`} alt="profile photo" roundedCircle /> :
               <Image
-                src="https://sun9-23.userapi.com/sun9-20/s/v1/ig2/OUH4eAs3eB8FiD8uxehjm2VLbcUUTBSi-XEe-mJrIC4U3n6xxVXCY4WhkUr6qXGSBjWESb4ryb70lqVUN4F92rQK.jpg?size=200x200&quality=95&crop=317,133,448,448&ava=1"
-                roundedCircle
-              />
+                src={`${avatarDefault}`} alt="DSOTM" roundedCircle /> 
+              }
             </Col>
           </Row>
         </Container>
@@ -45,17 +71,27 @@ const Profile = observer(() => {
         </div>
       </div>
       <div className="buttons">
-        <Button className="butt" variant="secondary">
+        <Button type="button" onClick={checkBox1} className="butt" variant="secondary">
+          Разместить объявление
+        </Button>{" "}
+        <Button type="button" onClick={checkBox2} className="butt" variant="secondary">
           Мои обьявления
         </Button>{" "}
-        <Button className="butt" variant="secondary">
+        <Button type="button" onClick={checkBox3} className="butt" variant="secondary">
           Избранное
         </Button>{" "}
-        <Button className="butt" variant="secondary">
+        <Button type="button" onClick={checkBox4} className="butt" variant="secondary">
           Мои сообщения
         </Button>{" "}
       </div>
       <Message/>
+      <div className="divForButtonsOption">
+        <div className={addGoodsCN} > <AddGood /> </div>
+        <div className={userGoodsCN} > объявления юзера</div>
+        <div className={userFavoriteCN} > избранное </div>
+        <div className={userMessageCN} > сообщения</div>
+        
+      </div>
     </div>
   );
 });

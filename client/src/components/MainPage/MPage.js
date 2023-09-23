@@ -1,15 +1,19 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import {observer} from "mobx-react-lite"
 import Item from './Item'
 import ItemStore from '../../store/itemStore'
 import InputGroup from 'react-bootstrap/InputGroup';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
-import './MPage.css'
+import './MPage.css';
+import { getAllGoods } from '../../api/goodApi';
 
 
 
 const MainPage = observer(() => {
+  useEffect(() => {
+    getAllGoods();
+  }, []);
   return (
     <div>
             <InputGroup className="mb-3">

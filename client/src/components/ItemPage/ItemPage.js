@@ -7,15 +7,19 @@ import "./ItemPage.css";
 import itemStore from "../../store/itemStore";
 import InputGroup from "react-bootstrap/InputGroup";
 import Form from "react-bootstrap/Form";
+import { pageViewIdAfterRefresh } from '../../api/goodApi';
 
 const ItemPage = observer(() => {
   const navigate = useNavigate();
   const [buttonInfo, setButtonInfo] = useState("Показать телефон");
 
   const handleButton = () => {
-    setButtonInfo(itemStore.items[0].phoneNumber);
+    setButtonInfo(itemStore.item.user.phone);
   };
   const sendButton = () => {};
+
+  if(!itemStore.item.name) pageViewIdAfterRefresh();
+
 
   return (
     <div>
@@ -30,22 +34,22 @@ const ItemPage = observer(() => {
         </Button>
         <div className="photoAndContactDiv">
           <div className="carouselParent">
-            <h2>{itemStore.items[0].name} </h2>
+            <h2>Название: {itemStore.item.name} </h2>
             <Carousel data-bs-theme="dark" className="mainCarousel">
               <Carousel.Item className="carouselBlock">
                 <img
                   id="photo"
                   className="d-block w-100 "
-                  src={itemStore.items[0].photo}
+                  src={itemStore.item.img}
                   alt="First slide"
                 />
               </Carousel.Item>
             </Carousel>
-            <div>{itemStore.items[0].description}</div>
+            <div>описание: {itemStore.item.description}</div>
           </div>
           <div className="contactInfo">
-            <div>Цена: {itemStore.items[0].price}</div>
-            <div>Контактное лицо: {itemStore.items[0].contactPerson}</div>
+            <div>Цена: {itemStore.item.price}</div>
+            <div>Контактное лицо: {itemStore.item.user?.name}</div>
             <Button onClick={handleButton} variant="primary">
               {buttonInfo}
             </Button>
