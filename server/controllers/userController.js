@@ -26,6 +26,20 @@ class UserController {
         }
     }
 
+    async addPhoto (req, res) {
+        try {
+            if (req.file) {
+                const filePath = 'http://localhost:5000/'+ req.file.path;
+                await User.update({img: filePath}, {where: {name: req.file.originalname}});
+                return res.json(filePath);
+            } else {
+                res.json({status: 404});
+            }
+        } catch (error) {
+            console.log('⚛ --- ⚛ --- ⚛ --- ⚛ ---  >>> ☢ UserController ☢ addPhoto ☢ error:', error);
+        }
+    }
+
     async login (req, res) {
         try {
             const { name, password } = req.body;
@@ -51,6 +65,7 @@ class UserController {
     async logout (req, res) {
         try {
             res.clearCookie('accessToken');
+            res.clearCookie('updateId');
             return res.json({status: 200, user: ''});
         } catch (error) {
             console.log('⚛ --- ⚛ --- ⚛ --- ⚛ ---  >>> ☢ UserController ☢ logout ☢ error:', error);

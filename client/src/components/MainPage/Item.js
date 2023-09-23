@@ -4,6 +4,7 @@ import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import Card from "react-bootstrap/Card";
 import { useNavigate } from "react-router-dom";
+import { pageViewId } from "../../api/goodApi";
 
 const Item = observer(({ itemData }) => {
   const navigate = useNavigate();
@@ -11,13 +12,14 @@ const Item = observer(({ itemData }) => {
   return (
     <Card
       onClick={() => {
+        pageViewId(itemData.id);
         navigate(`/item/${itemData.id}`);
       }}
       style={{ width: "18rem" }}
     >
-      <Card.Img variant="top" src={itemData.photo} />
+      <Card.Img variant="top" src={itemData.img} />
       <Card.Body>
-        <Card.Title>{itemData.title}</Card.Title>
+        <Card.Title>{itemData.name}</Card.Title>
         <Card.Text>{itemData.description}</Card.Text>
         <Button
           onClick={(e) => {
