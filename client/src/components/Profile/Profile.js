@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { observer } from "mobx-react-lite";
 
 import Col from "react-bootstrap/Col";
@@ -11,9 +11,17 @@ import "./Profile.css";
 import Message from "../Message/Message";
 import avatarDefault from './DSOTM.jpg';
 import userStore from "../../store/userStore";
+import itemStore from "../../store/itemStore";
 import AddGood from "../Goods/addGoods/AddGood";
+import UserGoods from "../Goods/userGoods/userGoods";
+import { getAllUserItems } from '../../api/goodApi';
 
 const Profile = observer(() => {
+  useEffect(() => {
+    getAllUserItems();
+  }, []);
+
+
   const [addGoodsCN, setAddGoodsCN] = useState('none');
   const [userGoodsCN, setUserGoodsCN] = useState('active');
   const [userFavoriteCN, setUserFavoriteCN] = useState('none');
@@ -62,9 +70,9 @@ const Profile = observer(() => {
           </div>
           <div>
             <ListGroup className="info" variant="flush">
-              <ListGroup.Item>Cras justo odio</ListGroup.Item>
+              <ListGroup.Item>{userStore.user}</ListGroup.Item>
               <ListGroup.Item>Dapibus ac facilisis in</ListGroup.Item>
-              <ListGroup.Item>Morbi leo risus</ListGroup.Item>
+              <ListGroup.Item>test</ListGroup.Item>
               <ListGroup.Item>Porta ac consectetur ac</ListGroup.Item>
             </ListGroup>
           </div>
@@ -87,9 +95,15 @@ const Profile = observer(() => {
       <Message/>
       <div className="divForButtonsOption">
         <div className={addGoodsCN} > <AddGood /> </div>
-        <div className={userGoodsCN} > объявления юзера</div>
         <div className={userFavoriteCN} > избранное </div>
         <div className={userMessageCN} > сообщения</div>
+        <div className={userGoodsCN} >
+          <div className='cardDiv'>
+            {itemStore.userItems && itemStore.userItems.map((item) => (
+            <UserGoods key={item.id} itemData={item} />
+            ))}
+          </div>
+        </div>
         
       </div>
     </div>
