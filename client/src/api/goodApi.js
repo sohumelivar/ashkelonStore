@@ -77,3 +77,12 @@ export const deleteItemApi = async (id) => {
         console.log('⚛ --- ⚛ --- ⚛ --- ⚛ ---  >>> ☢ deleteItem ☢ error:', error);
     }
 }
+
+export const editItemApi = async (id) => {
+    try {
+        const response = await axiosFromGood.post('/editItem', { id });
+        return itemStore.setEditItem(response.data);
+    } catch (error) {
+        console.log('⚛ --- ⚛ --- ⚛ --- ⚛ ---  >>> ☢ editItemApi ☢ error:', error);
+    }
+}

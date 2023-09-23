@@ -8,6 +8,7 @@ class ItemStore  {
   items = [];
   item = [];
   userItems = [];
+  editItem = [];
 
   //  items = [
   //   {
@@ -124,6 +125,10 @@ class ItemStore  {
 
   setUserItems(items) {
     this.userItems = items;
+  }
+
+  setEditItem(item) {
+    this.editItem = item;
   }
 
 };
