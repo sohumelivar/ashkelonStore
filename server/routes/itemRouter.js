@@ -8,5 +8,7 @@ router.post('/addGood', itemController.addGood);
 router.post('/addImg', fileMiddlaware.single('goodsImg'), itemController.addImg);
 router.post('/pageViewId', itemController.pageViewId);
 router.get('/pageAfter', itemController.pageViewIdAfterRefresh);
+router.get('/getAllUserItems', itemController.getAllUserItems);
+router.post('/deleteItem', itemController.deleteItem);
 
 module.exports = router;

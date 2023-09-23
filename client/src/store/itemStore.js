@@ -7,6 +7,7 @@ class ItemStore  {
   
   items = [];
   item = [];
+  userItems = [];
 
   //  items = [
   //   {
@@ -114,14 +115,19 @@ class ItemStore  {
   
    
   setItem(items){
-    this.items= items
+    this.items= items;
   }
 
   setItemOne(item){
-    this.item= item
+    this.item = item;
   }
 
+  setUserItems(items) {
+    this.userItems = items;
+  }
 
 };
-const itemStore = new ItemStore()
+
+const itemStore = new ItemStore();
+
 export default itemStore;

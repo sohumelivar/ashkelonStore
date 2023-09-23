@@ -50,13 +50,37 @@ class itemController {
 
     async pageViewIdAfterRefresh (req, res) {
         try {
-            console.log('⚛ --- ⚛ --- ⚛ --- ⚛ ---  >>> ☢ itemController ☢ pageViewIdAfterRefresh ☢ req.cookies.updateId:', req.cookies.updateId);
             const item = (await Goods.findOne({where: {id: req.cookies.updateId.id}, include: User}, {include: User} )).dataValues;
             const user = item.user.dataValues;
             const data = Object.assign(item, {user});
             return res.json(data);
         } catch (error) {
             console.log('⚛ --- ⚛ --- ⚛ --- ⚛ ---  >>> ☢ itemController ☢ pageViewIdAfterRefresh ☢ error:', error);
+        }
+    }
+
+    async getAllUserItems (req, res) {
+        try {
+            const item = (await Goods.findAll({where: {userId: req.cookies.accessToken.id}, include: User}, {include: User})).map((e) => e = e.dataValues).sort((a, b) => b.id - a.id);
+            if (item.length > 0) {
+                const user = item[0].user.dataValues;
+                const data = item.map((e) => Object.assign(e, {user}));
+                return res.json(data);
+            }
+            return res.json({message: 'empty'});
+        } catch (error) {
+            console.log('⚛ --- ⚛ --- ⚛ --- ⚛ ---  >>> ☢ itemController ☢ getAllUserItems ☢ error:', error);
+        }
+    }
+
+    async deleteItem (req, res) {
+        try {
+            const { id } = req.body;
+            console.log('⚛ --- ⚛ --- ⚛ --- ⚛ ---  >>> ☢ itemController ☢ deleteItem ☢ id:', id)
+            await Goods.destroy({where: {id}});
+            res.json({message: 'deleted'});
+        } catch (error) {
+            console.log('⚛ --- ⚛ --- ⚛ --- ⚛ ---  >>> ☢ itemController ☢ deleteItem ☢ error:', error);
         }
     }
 };

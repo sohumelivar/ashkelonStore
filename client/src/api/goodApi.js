@@ -36,7 +36,7 @@ export const addImg = async (img) => {
 export const getAllGoods = async () => {
     try {
         const response = await axiosFromGood.get('/getAll');
-        return itemStore.setItem(response.data);
+        itemStore.setItem(response.data);
     } catch (error) {
         console.log('⚛ --- ⚛ --- ⚛ --- ⚛ ---  >>> ☢ getAll ☢ error:', error);
     }
@@ -57,5 +57,23 @@ export const pageViewIdAfterRefresh = async () => {
         itemStore.setItemOne(response.data);
     } catch (error) {
         console.log('⚛ --- ⚛ --- ⚛ --- ⚛ ---  >>> ☢ pageViewIdAfterRefresh ☢ error:', error);
+    }
+}
+
+export const getAllUserItems = async () => {
+    try {
+        const response = await axiosFromGood.get('/getAllUserItems');
+        if (response.data.message === 'empty') return itemStore.setUserItems(null);
+        itemStore.setUserItems(response.data);
+    } catch (error) {
+        console.log('⚛ --- ⚛ --- ⚛ --- ⚛ ---  >>> ☢ getAllUserItems ☢ error:', error);
+    }
+}
+
+export const deleteItemApi = async (id) => {
+    try {
+        await axiosFromGood.post('/deleteItem', {id});
+    } catch (error) {
+        console.log('⚛ --- ⚛ --- ⚛ --- ⚛ ---  >>> ☢ deleteItem ☢ error:', error);
     }
 }

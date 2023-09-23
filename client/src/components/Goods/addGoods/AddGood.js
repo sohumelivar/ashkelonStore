@@ -13,7 +13,7 @@ const AddGood = observer(() => {
     const navigate = useNavigate();
 
     const addGood = async () => {
-        addGoodApi(name, description, price, img);
+        await addGoodApi(name, description, price, img);
         navigate('/');
     };
 
