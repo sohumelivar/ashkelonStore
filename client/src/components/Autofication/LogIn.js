@@ -14,8 +14,9 @@ const LogIn = observer(() => {
   const handleButton = async () => {
     try {
       const result = await signIn(name, password);
-      setName("") && setPassword("");
+      setName("") || setPassword("");
       if (result === 200) {
+        userStore.setError('');
         navigate("/");
       }
     } catch (error) {

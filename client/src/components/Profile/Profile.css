@@ -21,3 +21,11 @@
 .butt{
   margin: 10px;
 }
+
+.visible {
+  display: block;
+}
+
+.none{
+  display: none;
+}

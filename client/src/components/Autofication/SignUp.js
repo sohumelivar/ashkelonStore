@@ -9,15 +9,18 @@ import "./Autofication.css";
 
 const SignUp = observer(() => {
   const navigate = useNavigate();
+  console.log('user === >>> ', userStore.user);
 
   const [name, setName] = useState("");
   const [password, setPassword] = useState("");
+  const [phone, setPhone] = useState(""); 
 
   async function handleButton() {
     try {
-      const result = await registration(name, password);
-      setName("") && setPassword("");
+      const result = await registration(name, password, phone);
+      setName("") || setPassword("") || setPhone("");
       if (result === 200) {
+        userStore.setError('');
         navigate("/");
       }
     } catch (error) {
@@ -46,6 +49,14 @@ const SignUp = observer(() => {
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           placeholder="Введите пароль"
+        />
+      </div>
+      <div>
+        <input
+          type="phone"
+          value={phone}
+          onChange={(e) => setPhone(e.target.value)}
+          placeholder="Введите телефон"
         />
       </div>
       {userStore.error && <div>{userStore.error}</div>}
