@@ -19,7 +19,7 @@ function App() {
         <Route path='/signin' element={<LogIn />} />
         <Route path='/profile' element={<Profile />} />
         <Route path='/item/:id' element={<ItemPage />} />
-        <Route path='/item/edit/:id' element={<EditGood />} />
+        <Route path='item/edit/:id' element={<EditGood />} />
       </Routes>
     </BrowserRouter>
   );

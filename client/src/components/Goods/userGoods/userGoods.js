@@ -23,6 +23,7 @@ const userGoods = observer(({ itemData }) => {
   const editItem = async (e) => {
     try {
       await editItemApi(e.target.id);
+      navigate(`/item/edit/${itemStore.editItem.id}`);
       console.log('edit item --- >>> ', itemStore.editItem);
     } catch (error) {
       console.log('⚛ --- ⚛ --- ⚛ --- ⚛ ---  >>> ☢ editItem ☢ error:', error);

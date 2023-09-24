@@ -86,3 +86,12 @@ export const editItemApi = async (id) => {
         console.log('⚛ --- ⚛ --- ⚛ --- ⚛ ---  >>> ☢ editItemApi ☢ error:', error);
     }
 }
+
+export const editItemRefreshApi = async () => {
+    try {
+        const response = await axiosFromGood.get('/editItemRefresh');
+        return itemStore.setEditItem(response.data);
+    } catch (error) {
+        console.log('⚛ --- ⚛ --- ⚛ --- ⚛ ---  >>> ☢ editItemRefreshApi ☢ error:', error);
+    }
+}
