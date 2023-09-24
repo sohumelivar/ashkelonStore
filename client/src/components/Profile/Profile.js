@@ -8,7 +8,6 @@ import Row from "react-bootstrap/Row";
 import Button from "react-bootstrap/Button";
 import ListGroup from "react-bootstrap/ListGroup";
 import "./Profile.css";
-import Message from "../Message/Message";
 import avatarDefault from './DSOTM.jpg';
 import userStore from "../../store/userStore";
 import itemStore from "../../store/itemStore";
@@ -92,7 +91,6 @@ const Profile = observer(() => {
           Мои сообщения
         </Button>{" "}
       </div>
-      <Message/>
       <div className="divForButtonsOption">
         <div className={addGoodsCN} > <AddGood /> </div>
         <div className={userFavoriteCN} > избранное </div>

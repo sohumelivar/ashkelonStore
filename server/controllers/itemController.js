@@ -86,11 +86,23 @@ class itemController {
     async editItem (req, res) {
         try {
             const { id } = req.body;
-            const result = (await Goods.findOne({where: {id}})).dataValues
+            const result = (await Goods.findOne({where: {id}})).dataValues;
+            console.log('⚛ --- ⚛ --- ⚛ --- ⚛ ---  >>> ☢ itemController ☢ editItem ☢ result:', result)
+
             res.cookie('updateId', {id: result.id}, {httpOnly: true,});
-            res.json(result);
+            return res.json(result);
         } catch (error) {
             console.log('⚛ --- ⚛ --- ⚛ --- ⚛ ---  >>> ☢ itemController ☢ editItem ☢ error:', error);
+        }
+    }
+
+    async editItemRefresh (req, res) {
+        try {
+            const { id } = req.cookies.updateId;
+            const result = (await Goods.findOne({where: {id}})).dataValues;
+            return res.json(result);
+        } catch (error) {
+            console.log('⚛ --- ⚛ --- ⚛ --- ⚛ ---  >>> ☢ itemController ☢ editItemRefresh ☢ error:', error);
         }
     }
 };
