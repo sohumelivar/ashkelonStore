@@ -1,5 +1,6 @@
 import axios from 'axios';
 import itemStore from "../store/itemStore";
+import userStore from "../store/userStore";
 
 const axiosFromGood = axios.create({
     withCredentials: true,
@@ -29,6 +30,15 @@ export const getAllGoods = async () => {
         itemStore.setItem(response.data);
     } catch (error) {
         console.log('⚛ --- ⚛ --- ⚛ --- ⚛ ---  >>> ☢ getAll ☢ error:', error);
+    }
+}
+
+export const getAllUserFavoriteApi = async () => {
+    try {
+        const response = await axiosFromGood.get('/getAllUserFav');
+        itemStore.setUserFavorite(response.data);
+    } catch (error) {
+        console.log('⚛ --- ⚛ --- ⚛ --- ⚛ ---  >>> ☢ getAllUserFavoriteApi ☢ error:', error);
     }
 }
 
