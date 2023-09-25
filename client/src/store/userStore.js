@@ -3,7 +3,8 @@ import {makeAutoObservable} from "mobx"
 
  class UserStore {
 
-  user = "ы"
+  user = ""
+  img = ""
   error =""
 
   constructor (){
@@ -13,6 +14,11 @@ import {makeAutoObservable} from "mobx"
   setUser (name){
     this.user=name
   }
+
+  setImg (img) {
+    this.img = img
+  }
+
   setError (error){
     this.error=error
   }
