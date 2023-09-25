@@ -23,16 +23,6 @@ export const addGoodApi = async (name, description, price, img) => {
     }
 }
 
-export const addImg = async (img) => {
-    try {
-        const data = new FormData();
-        data.append('goodsImg', img)
-        await axiosFromGood.post('/addImg', )
-    } catch (error) {
-        console.log('⚛ --- ⚛ --- ⚛ --- ⚛ ---  >>> ☢ addImg ☢ error:', error);
-    }
-}
-
 export const getAllGoods = async () => {
     try {
         const response = await axiosFromGood.get('/getAll');
@@ -93,5 +83,23 @@ export const editItemRefreshApi = async () => {
         return itemStore.setEditItem(response.data);
     } catch (error) {
         console.log('⚛ --- ⚛ --- ⚛ --- ⚛ ---  >>> ☢ editItemRefreshApi ☢ error:', error);
+    }
+}
+
+export const saveChangeApi = async (name, description, price, img) => {
+    try {
+        const response = await axiosFromGood.post('/saveChange', {name, description, price});
+        if (img) {
+            const data = new FormData();
+            data.append('goodsImg', img, response.data.id);
+            await axiosFromGood.post('/addImg', data, {
+                headers: {
+                    'content-type' : 'multipart/form-data'
+                }
+            });
+        }
+        return itemStore.setEditItem(response.data) || itemStore.setMessage('save change');
+    } catch (error) {
+        console.log('⚛ --- ⚛ --- ⚛ --- ⚛ ---  >>> ☢ saveChangeApi ☢ error:', error);
     }
 }

@@ -12,5 +12,6 @@ router.get('/getAllUserItems', itemController.getAllUserItems);
 router.post('/deleteItem', itemController.deleteItem);
 router.post('/editItem', itemController.editItem);
 router.get('/editItemRefresh', itemController.editItemRefresh);
+router.post('/saveChange', itemController.saveChange);
 
 module.exports = router;

@@ -87,8 +87,6 @@ class itemController {
         try {
             const { id } = req.body;
             const result = (await Goods.findOne({where: {id}})).dataValues;
-            console.log('⚛ --- ⚛ --- ⚛ --- ⚛ ---  >>> ☢ itemController ☢ editItem ☢ result:', result)
-
             res.cookie('updateId', {id: result.id}, {httpOnly: true,});
             return res.json(result);
         } catch (error) {
@@ -103,6 +101,19 @@ class itemController {
             return res.json(result);
         } catch (error) {
             console.log('⚛ --- ⚛ --- ⚛ --- ⚛ ---  >>> ☢ itemController ☢ editItemRefresh ☢ error:', error);
+        }
+    }
+
+    async saveChange (req, res) {
+        try {
+            const {name, description, price} = req.body;
+            await Goods.update({name, description, price}, {where: {id: req.cookies.updateId.id}});
+            const result = (await Goods.findOne({where: {id: req.cookies.updateId.id}, include: User}, {include: User})).dataValues;
+            const user = result.user.dataValues;
+            const data = Object.assign(result, {user});
+            return res.json(data);
+        } catch (error) {
+            console.log('⚛ --- ⚛ --- ⚛ --- ⚛ ---  >>> ☢ itemController ☢ saveChange ☢ error:', error);
         }
     }
 };

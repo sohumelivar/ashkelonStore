@@ -9,6 +9,7 @@ class ItemStore  {
   item = [];
   userItems = [];
   editItem = [];
+  message = '';
 
   //  items = [
   //   {
@@ -129,6 +130,10 @@ class ItemStore  {
 
   setEditItem(item) {
     this.editItem = item;
+  }
+
+  setMessage(message) {
+    this.message = message
   }
 
 };
