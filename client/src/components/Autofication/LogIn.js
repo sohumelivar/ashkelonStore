@@ -24,8 +24,12 @@ const LogIn = observer(() => {
     }
   };
 
+  const onKeyDown = e =>{
+    if (e.key === 'Enter') handleButton();
+  }
+
   return (
-    <div className="autoficationDiv">
+    <div className="autoficationDiv" >
       <div>
         <h3>Войдите</h3>
         <div>
@@ -34,6 +38,7 @@ const LogIn = observer(() => {
             value={name}
             onChange={(event) => setName(event.target.value)}
             type="text"
+            onKeyDown={onKeyDown}
           />
         </div>
         <div>
@@ -42,6 +47,7 @@ const LogIn = observer(() => {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             type="password"
+            onKeyDown={onKeyDown}
           />
         </div>
         <h5>
