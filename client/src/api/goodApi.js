@@ -1,5 +1,6 @@
 import axios from 'axios';
 import itemStore from "../store/itemStore";
+import userStore from "../store/userStore";
 
 const axiosFromGood = axios.create({
     withCredentials: true,
@@ -23,22 +24,21 @@ export const addGoodApi = async (name, description, price, img) => {
     }
 }
 
-export const addImg = async (img) => {
-    try {
-        const data = new FormData();
-        data.append('goodsImg', img)
-        await axiosFromGood.post('/addImg', )
-    } catch (error) {
-        console.log('⚛ --- ⚛ --- ⚛ --- ⚛ ---  >>> ☢ addImg ☢ error:', error);
-    }
-}
-
 export const getAllGoods = async () => {
     try {
         const response = await axiosFromGood.get('/getAll');
         itemStore.setItem(response.data);
     } catch (error) {
         console.log('⚛ --- ⚛ --- ⚛ --- ⚛ ---  >>> ☢ getAll ☢ error:', error);
+    }
+}
+
+export const getAllUserFavoriteApi = async () => {
+    try {
+        const response = await axiosFromGood.get('/getAllUserFav');
+        itemStore.setUserFavorite(response.data);
+    } catch (error) {
+        console.log('⚛ --- ⚛ --- ⚛ --- ⚛ ---  >>> ☢ getAllUserFavoriteApi ☢ error:', error);
     }
 }
 
@@ -86,3 +86,39 @@ export const editItemApi = async (id) => {
         console.log('⚛ --- ⚛ --- ⚛ --- ⚛ ---  >>> ☢ editItemApi ☢ error:', error);
     }
 }
+
+export const editItemRefreshApi = async () => {
+    try {
+        const response = await axiosFromGood.get('/editItemRefresh');
+        return itemStore.setEditItem(response.data);
+    } catch (error) {
+        console.log('⚛ --- ⚛ --- ⚛ --- ⚛ ---  >>> ☢ editItemRefreshApi ☢ error:', error);
+    }
+}
+
+export const saveChangeApi = async (name, description, price, img) => {
+    try {
+        const response = await axiosFromGood.post('/saveChange', {name, description, price});
+        if (img) {
+            const data = new FormData();
+            data.append('goodsImg', img, response.data.id);
+            await axiosFromGood.post('/addImg', data, {
+                headers: {
+                    'content-type' : 'multipart/form-data'
+                }
+            });
+        }
+        return itemStore.setEditItem(response.data) || itemStore.setMessage('save change');
+    } catch (error) {
+        console.log('⚛ --- ⚛ --- ⚛ --- ⚛ ---  >>> ☢ saveChangeApi ☢ error:', error);
+    }
+}
+
+export const addFavoriteApi = async (id) => {
+    try {
+        await axiosFromGood.post('/checkFavorite', {id});
+    } catch (error) {
+        console.log('⚛ --- ⚛ --- ⚛ --- ⚛ ---  >>> ☢ addFavoriteApi ☢ error:', error);
+    }
+}
+

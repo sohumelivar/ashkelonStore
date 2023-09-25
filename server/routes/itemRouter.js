@@ -11,5 +11,10 @@ router.get('/pageAfter', itemController.pageViewIdAfterRefresh);
 router.get('/getAllUserItems', itemController.getAllUserItems);
 router.post('/deleteItem', itemController.deleteItem);
 router.post('/editItem', itemController.editItem);
+router.get('/editItemRefresh', itemController.editItemRefresh);
+router.post('/saveChange', itemController.saveChange);
+router.post('/checkFavorite', itemController.checkFavorite);
+router.get('/getAllUserFav', itemController.getAllUserFavoriteItem);
+
 
 module.exports = router;

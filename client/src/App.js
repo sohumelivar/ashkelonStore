@@ -7,6 +7,7 @@ import Header from './components/NavBar/Header';
 import Profile from './components/Profile/Profile';
 import ItemPage from './components/ItemPage/ItemPage';
 import EditGood from './components/Goods/editGoods/EditGoods';
+import Favorite from './components/Favorite/FavoritePage/Favorite';
 
 
 function App() {
@@ -20,6 +21,7 @@ function App() {
         <Route path='/profile' element={<Profile />} />
         <Route path='/item/:id' element={<ItemPage />} />
         <Route path='/item/edit/:id' element={<EditGood />} />
+        <Route path='/favorite' element={<Favorite />} />
       </Routes>
     </BrowserRouter>
   );
