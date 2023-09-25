@@ -8,23 +8,41 @@ import Profile from './components/Profile/Profile';
 import ItemPage from './components/ItemPage/ItemPage';
 import EditGood from './components/Goods/editGoods/EditGoods';
 import Favorite from './components/Favorite/FavoritePage/Favorite';
+import ProtectedRouter from './components/ProtectedRouter/ProtectedRouter';
+import { observer } from 'mobx-react-lite';
+import { useState, useEffect } from 'react';
+import { checkUser } from '../src/api/userApi';
+import userStore from './store/userStore';
 
 
-function App() {
+const App = observer(() => {
+  const [user, setUser] = useState(userStore.user);
+
+  useEffect(() => {
+    const result = checkUser();
+    result.then((data) => setUser(data));
+  }, [user]);
+
   return (
     <BrowserRouter>
     <Header/>
       <Routes>
         <Route path='/' element={<MainPage />} />
-        <Route path='/signup' element={<SignUp />} />
-        <Route path='/signin' element={<LogIn />} />
-        <Route path='/profile' element={<Profile />} />
         <Route path='/item/:id' element={<ItemPage />} />
-        <Route path='/item/edit/:id' element={<EditGood />} />
-        <Route path='/favorite' element={<Favorite />} />
+        
+        <Route element={<ProtectedRouter user={user} />}>
+          <Route path='/item/edit/:id' element={<EditGood />} />
+          <Route path='/favorite' element={<Favorite />} />
+          <Route path='/profile' element={<Profile />} />
+        </Route>
+
+        <Route element={<ProtectedRouter user={!user} />}>
+          <Route path='/signup' element={<SignUp />} />
+          <Route path='/signin' element={<LogIn />} />
+        </Route>
       </Routes>
     </BrowserRouter>
   );
-}
+})
 
 export default App;
