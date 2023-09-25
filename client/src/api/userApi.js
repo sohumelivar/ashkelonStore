@@ -55,6 +55,7 @@ export const checkUser = async () => {
   try {
     const response = await axiosFromUser.get('/checkUser');
     userStore.setUser(response.data.name) || userStore.setImg(response.data.img);
+    return response.data.name
   } catch (error) {
     console.log('⚛ --- ⚛ --- ⚛ --- ⚛ ---  >>> ☢ checkUser ☢ error:', error);
   }
