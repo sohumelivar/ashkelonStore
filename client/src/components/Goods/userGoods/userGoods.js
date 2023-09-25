@@ -5,7 +5,7 @@ import Form from "react-bootstrap/Form";
 import Card from "react-bootstrap/Card";
 import { useNavigate } from "react-router-dom";
 import { pageViewId, getAllUserItems } from "../../../api/goodApi";
-import { deleteItemApi, editItemApi } from "../../../api/goodApi";
+import { deleteItemApi, editItemApi, addFavoriteApi } from "../../../api/goodApi";
 import itemStore from '../../../store/itemStore';
 
 const userGoods = observer(({ itemData }) => {
@@ -16,20 +16,27 @@ const userGoods = observer(({ itemData }) => {
   }, []); 
 
   const deleteItem = async (e) => {
-    deleteItemApi(e.target.id);
-    getAllUserItems();
+    await deleteItemApi(e.target.id);
+    await getAllUserItems();
   }
 
   const editItem = async (e) => {
     try {
       await editItemApi(e.target.id);
       navigate(`/item/edit/${itemStore.editItem.id}`);
-      console.log('edit item --- >>> ', itemStore.editItem);
     } catch (error) {
       console.log('⚛ --- ⚛ --- ⚛ --- ⚛ ---  >>> ☢ editItem ☢ error:', error);
     }
   }
 
+  const addFavoriteBtn = async () => {
+    try {
+      await addFavoriteApi(itemData.id);
+      await getAllUserItems();
+    } catch (error) {
+      console.log('⚛ --- ⚛ --- ⚛ --- ⚛ ---  >>> ☢ addFavoriteBtn ☢ error:', error);
+    }
+  }
 
   return (
     <Card
@@ -67,6 +74,9 @@ const userGoods = observer(({ itemData }) => {
         label="добавить в избранное"
         feedback="You must agree before submitting."
         feedbackType="invalid"
+        checked={itemData.checkBox}
+        onChange={addFavoriteBtn}
+        onClick={(e) => e.stopPropagation()}
       />
     </Card>
   );

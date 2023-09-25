@@ -3,7 +3,15 @@ const { User, Goods, Favorite } = require('../models/models');
 class itemController {
     async getAll (req, res) {
         try {
+            if (req.cookies.accessToken) {
+                const userId = req.cookies.accessToken.id;
+                const fav = (await Favorite.findAll({where: {userId}})).map((e) => e.dataValues.goodId);
+                const sortData = (await Goods.findAll({include: User})).map((e) => e = e.dataValues).sort((a, b) => b.id - a.id);
+                sortData.map( el => fav.includes(el.id) ? Object.assign(el, {checkBox: true}) : Object.assign(el, {checkBox: false}));
+                return res.json(sortData);
+            }
             const sortData = (await Goods.findAll({include: User})).map((e) => e = e.dataValues).sort((a, b) => b.id - a.id);
+            sortData.map(el => Object.assign(el, {checkBox: false}));
             return res.json(sortData);
         } catch (error) {
             console.log('⚛ --- ⚛ --- ⚛ --- ⚛ ---  >>> ☢ itemController ☢ getAll ☢ error:', error);
@@ -61,15 +69,31 @@ class itemController {
 
     async getAllUserItems (req, res) {
         try {
-            const item = (await Goods.findAll({where: {userId: req.cookies.accessToken.id}, include: User}, {include: User})).map((e) => e = e.dataValues).sort((a, b) => b.id - a.id);
-            if (item.length > 0) {
-                const user = item[0].user.dataValues;
-                const data = item.map((e) => Object.assign(e, {user}));
+            const userId = req.cookies.accessToken.id;
+            const sortData = (await Goods.findAll({where: {userId}, include: User}, {include: User})).map((e) => e = e.dataValues).sort((a, b) => b.id - a.id);
+            if (sortData.length > 0) {
+                const user = sortData[0].user.dataValues;
+                const data = sortData.map((e) => Object.assign(e, {user}));
+                const fav = (await Favorite.findAll({where: {userId}})).map((e) => e.dataValues.goodId);
+                data.map( el => fav.includes(el.id) ? Object.assign(el, {checkBox: true}) : Object.assign(el, {checkBox: false}));
                 return res.json(data);
             }
             return res.json({message: 'empty'});
         } catch (error) {
             console.log('⚛ --- ⚛ --- ⚛ --- ⚛ ---  >>> ☢ itemController ☢ getAllUserItems ☢ error:', error);
+        }
+    }
+
+    async getAllUserFavoriteItem (req, res) {
+        try {
+            const { accessToken } = req.cookies;
+            const favorite = (await Favorite.findAll({where: {userId: accessToken.id}})).map(el => el.dataValues.goodId);
+            const items = (await Goods.findAll({include: User})).map( el => el = el.dataValues).sort((a, b) => b.id - a.id);
+            items.map( el => favorite.includes(el.id) ? Object.assign(el, {checkBox: true}) : Object.assign(el, {checkBox: false}));
+            const result = items.filter( el => el.checkBox === true );
+            return res.json(result);
+        } catch (error) {
+            console.log('⚛ --- ⚛ --- ⚛ --- ⚛ ---  >>> ☢ itemController ☢ getAllUserFavoriteItem ☢ error:', error);
         }
     }
 
@@ -87,8 +111,6 @@ class itemController {
         try {
             const { id } = req.body;
             const result = (await Goods.findOne({where: {id}})).dataValues;
-            console.log('⚛ --- ⚛ --- ⚛ --- ⚛ ---  >>> ☢ itemController ☢ editItem ☢ result:', result)
-
             res.cookie('updateId', {id: result.id}, {httpOnly: true,});
             return res.json(result);
         } catch (error) {
@@ -103,6 +125,35 @@ class itemController {
             return res.json(result);
         } catch (error) {
             console.log('⚛ --- ⚛ --- ⚛ --- ⚛ ---  >>> ☢ itemController ☢ editItemRefresh ☢ error:', error);
+        }
+    }
+
+    async saveChange (req, res) {
+        try {
+            const {name, description, price} = req.body;
+            await Goods.update({name, description, price}, {where: {id: req.cookies.updateId.id}});
+            const result = (await Goods.findOne({where: {id: req.cookies.updateId.id}, include: User}, {include: User})).dataValues;
+            const user = result.user.dataValues;
+            const data = Object.assign(result, {user});
+            return res.json(data);
+        } catch (error) {
+            console.log('⚛ --- ⚛ --- ⚛ --- ⚛ ---  >>> ☢ itemController ☢ saveChange ☢ error:', error);
+        }
+    }
+
+    async checkFavorite (req, res) {
+        try {
+            const { id } = req.body;
+            if(!req.cookies.accessToken) return res.json({message: 'user not found'});
+            const checkFav = await Favorite.findOne({where: {userId: req.cookies.accessToken.id, goodId: id}});
+            if (checkFav) {
+                await Favorite.destroy({where: {userId: req.cookies.accessToken.id, goodId: id}});
+                return res.json({status: 200, message: 'removed from favorites'});
+            }
+            await Favorite.create({userId: req.cookies.accessToken.id, goodId: id});
+            return res.json({status: 200, message: 'added from favorites'});
+        } catch (error) {
+            console.log('⚛ --- ⚛ --- ⚛ --- ⚛ ---  >>> ☢ itemController ☢ checkFavorite ☢ error:', error);
         }
     }
 };
