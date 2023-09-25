@@ -17,11 +17,12 @@ import userStore from './store/userStore';
 
 const App = observer(() => {
   const [user, setUser] = useState(userStore.user);
+  let userSt = userStore.user;
 
   useEffect(() => {
     const result = checkUser();
     result.then((data) => setUser(data));
-  }, [user]);
+  }, [userSt]);
 
   return (
     <BrowserRouter>
