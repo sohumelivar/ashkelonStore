@@ -9,7 +9,6 @@ import "./Autofication.css";
 
 const SignUp = observer(() => {
   const navigate = useNavigate();
-  console.log('user === >>> ', userStore.user);
 
   const [name, setName] = useState("");
   const [password, setPassword] = useState("");
@@ -28,6 +27,10 @@ const SignUp = observer(() => {
     }
   }
 
+  const onKeyDown = e =>{
+    if (e.key === 'Enter') handleButton();
+  }
+
   return (
 
     <div className="autoficationDiv" >
@@ -41,6 +44,7 @@ const SignUp = observer(() => {
           value={name}
           onChange={(e) => setName(e.target.value)}
           placeholder="Введите имя"
+          onKeyDown={onKeyDown}
         />
       </div>
       <div>
@@ -49,6 +53,7 @@ const SignUp = observer(() => {
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           placeholder="Введите пароль"
+          onKeyDown={onKeyDown}
         />
       </div>
       <div>
@@ -57,6 +62,7 @@ const SignUp = observer(() => {
           value={phone}
           onChange={(e) => setPhone(e.target.value)}
           placeholder="Введите телефон"
+          onKeyDown={onKeyDown}
         />
       </div>
       {userStore.error && <div>{userStore.error}</div>}
