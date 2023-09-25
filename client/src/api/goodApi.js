@@ -103,3 +103,12 @@ export const saveChangeApi = async (name, description, price, img) => {
         console.log('⚛ --- ⚛ --- ⚛ --- ⚛ ---  >>> ☢ saveChangeApi ☢ error:', error);
     }
 }
+
+export const addFavoriteApi = async (id) => {
+    try {
+        await axiosFromGood.post('/checkFavorite', {id});
+    } catch (error) {
+        console.log('⚛ --- ⚛ --- ⚛ --- ⚛ ---  >>> ☢ addFavoriteApi ☢ error:', error);
+    }
+}
+

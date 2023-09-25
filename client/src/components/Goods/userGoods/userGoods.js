@@ -5,7 +5,7 @@ import Form from "react-bootstrap/Form";
 import Card from "react-bootstrap/Card";
 import { useNavigate } from "react-router-dom";
 import { pageViewId, getAllUserItems } from "../../../api/goodApi";
-import { deleteItemApi, editItemApi } from "../../../api/goodApi";
+import { deleteItemApi, editItemApi, addFavoriteApi } from "../../../api/goodApi";
 import itemStore from '../../../store/itemStore';
 
 const userGoods = observer(({ itemData }) => {
@@ -29,6 +29,14 @@ const userGoods = observer(({ itemData }) => {
     }
   }
 
+  const addFavoriteBtn = async () => {
+    try {
+      await addFavoriteApi(itemData.id);
+      await getAllUserItems();
+    } catch (error) {
+      console.log('⚛ --- ⚛ --- ⚛ --- ⚛ ---  >>> ☢ addFavoriteBtn ☢ error:', error);
+    }
+  }
 
   return (
     <Card
@@ -66,6 +74,9 @@ const userGoods = observer(({ itemData }) => {
         label="добавить в избранное"
         feedback="You must agree before submitting."
         feedbackType="invalid"
+        checked={itemData.checkBox}
+        onChange={addFavoriteBtn}
+        onClick={(e) => e.stopPropagation()}
       />
     </Card>
   );
