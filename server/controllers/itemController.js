@@ -86,12 +86,14 @@ class itemController {
 
     async getAllUserFavoriteItem (req, res) {
         try {
-            const { accessToken } = req.cookies;
-            const favorite = (await Favorite.findAll({where: {userId: accessToken.id}})).map(el => el.dataValues.goodId);
-            const items = (await Goods.findAll({include: User})).map( el => el = el.dataValues).sort((a, b) => b.id - a.id);
-            items.map( el => favorite.includes(el.id) ? Object.assign(el, {checkBox: true}) : Object.assign(el, {checkBox: false}));
-            const result = items.filter( el => el.checkBox === true );
-            return res.json(result);
+            if (req.cookies.accessToken) {
+                const { accessToken } = req.cookies;
+                const favorite = (await Favorite.findAll({where: {userId: accessToken.id}})).map(el => el.dataValues.goodId);
+                const items = (await Goods.findAll({include: User})).map( el => el = el.dataValues).sort((a, b) => b.id - a.id);
+                items.map( el => favorite.includes(el.id) ? Object.assign(el, {checkBox: true}) : Object.assign(el, {checkBox: false}));
+                const result = items.filter( el => el.checkBox === true );
+                return res.json(result);
+            }
         } catch (error) {
             console.log('⚛ --- ⚛ --- ⚛ --- ⚛ ---  >>> ☢ itemController ☢ getAllUserFavoriteItem ☢ error:', error);
         }

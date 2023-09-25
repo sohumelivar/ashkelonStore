@@ -14,11 +14,13 @@ const Favorite = observer(() => {
     return (
         <div>
             <div>{`Favorite items from user: ${userStore.user}`}</div>
+            {userStore.user && 
             <div className='cardDiv'>
-               {itemStore.userFavorite.length > 0 ? itemStore.userFavorite.map((item) => (
+               {itemStore.userFavorite.length || userStore.user > 0 ? itemStore.userFavorite.map((item) => (
                 <FavoriteItem key={item.id} userFav={item}/>
                )) : <div>don't have favorites</div>}
             </div>
+            }
         </div>
     )
 })
