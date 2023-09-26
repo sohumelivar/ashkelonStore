@@ -13,6 +13,7 @@ import { observer } from 'mobx-react-lite';
 import { useState, useEffect } from 'react';
 import { checkUser } from '../src/api/userApi';
 import userStore from './store/userStore';
+import EditProfile from './components/Profile/EditProfile';
 
 
 const App = observer(() => {
@@ -35,6 +36,7 @@ const App = observer(() => {
           <Route path='/item/edit/:id' element={<EditGood />} />
           <Route path='/favorite' element={<Favorite />} />
           <Route path='/profile' element={<Profile />} />
+          <Route  path='/edit/profile' element={<EditProfile/>}/>
         </Route>
         <Route element={<ProtectedRouter user={!user} />}>
           <Route path='/signup' element={<SignUp />} />

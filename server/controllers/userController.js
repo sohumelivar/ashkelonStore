@@ -1,6 +1,7 @@
 const { User } = require('../models/models');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
+const { where } = require('sequelize');
 
 class UserController {
     async registration (req, res) {
@@ -84,6 +85,33 @@ class UserController {
         } catch (error) {
             console.log('⚛ --- ⚛ --- ⚛ --- ⚛ ---  >>> ☢ UserController ☢ checkUser ☢ error:', error);
         }
+    }
+
+    async getUserProfile(req,res){
+      try {
+        const result = (await User.findOne({where:{name:req.cookies.accessToken.user}})).dataValues
+        res.json(result)
+      } catch (error) {
+        console.log('⚛ --- ⚛ --- ⚛ --- ⚛ ---  >>> ☢ UserController ☢ getUserProfile ☢ error:', error);
+
+      }
+    }
+
+    async safeChanges(req,res){
+      try {
+        const {name,phone,password} = req.body
+        const hashPassword = await bcrypt.hash(password, 5);
+        await User.update({name,phone,password:hashPassword},{where:{id:req.cookies.accessToken.id}})
+        const result =  (await User.findOne({where:{id:req.cookies.accessToken.id}})).dataValues
+        const accessToken = jwt.sign({name}, process.env.JWT_ACCESS_SECRET, {expiresIn:'3h'});
+        res.cookie("accessToken",{accessToken,user:result.name,id:result.id},{maxAge:30*24*60*1000,httpOnly:true})
+        console.log(result,'==============================')
+        res.json(result)
+        
+      } catch (error) {
+        console.log('⚛ --- ⚛ --- ⚛ --- ⚛ ---  >>> ☢ UserController ☢ safeChanges ☢ error:', error);
+
+      }
     }
 }
 

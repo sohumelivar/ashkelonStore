@@ -62,3 +62,31 @@ export const checkUser = async () => {
     console.log('⚛ --- ⚛ --- ⚛ --- ⚛ ---  >>> ☢ checkUser ☢ error:', error);
   }
 }
+
+
+export const getUserProfileApi = async ()=>{
+  try {
+    const response = await axiosFromUser.get('/getUserProfile')
+   return userStore.setEditProfile(response.data)
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+export const saveChangesApi = async (name,phone,password,img)=>{
+  try {
+    const response = await  axiosFromUser.put('/editProfileInfo',{name,phone,password})
+    console.log(response);
+   if (img) {
+    const data = new FormData();
+    data.append('userPhoto', img, response.data.name);
+    await axiosFromUser.post('/addPhoto', data, {
+        headers: {
+            'content-type' : 'multipart/form-data'
+        }
+    });
+  }  } catch (error) {
+    console.log(error);
+
+  }
+}

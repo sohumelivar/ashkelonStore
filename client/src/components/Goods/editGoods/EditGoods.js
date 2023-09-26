@@ -25,7 +25,7 @@ const editGood = observer(() => {
     async function saveChange () {
         try {
             await saveChangeApi(name, description, price, img);
-            navigate(-1)
+            navigate("/profile")
         } catch (error) {
             console.log('⚛ --- ⚛ --- ⚛ --- ⚛ ---  >>> ☢ saveChange ☢ error:', error);
         }

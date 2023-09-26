@@ -9,7 +9,6 @@ const AddGood = observer(() => {
     const [description, setDescription] = useState('');
     const [price, setPrice] = useState('');
     const [img, setImg] = useState(null);
-    console.log(img);
 
     const navigate = useNavigate();
 
