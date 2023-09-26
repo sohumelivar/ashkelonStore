@@ -14,13 +14,12 @@ const EditProfile = observer(()=>{
       await getUserProfileApi()
       setName(userStore.editProfile.name)
       setPhone(userStore.editProfile.phone)
-
     }
     getUser()
   },[])
 
-  const [name,setName]=useState(userStore.editProfile.name)
-  const [phone,setPhone]=useState(userStore.editProfile.phone)
+  const [name,setName]=useState(userStore.editProfile.name || '')
+  const [phone,setPhone]=useState(userStore.editProfile.phone || '')
   const [password,setPassword]=useState('')
   const [confirmPassword,setConfirmPassword]= useState("")
   const [img,setImg] =useState('')
