@@ -1,0 +1,34 @@
+.carouselBlock{
+  width: 100%;
+  height: 300px;
+
+}
+.contactInfo{
+  width: 450px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  flex-direction: column;
+}
+.photoAndContactDiv{
+  display: flex;
+  height: 500px;
+}
+.carouselParent{
+  width: 400px;
+  height: 200px;
+}
+#photo{
+  width: 400px;
+  height: 300px;
+  background-size: contain; /* Изображение заполняет div, сохраняя пропорции */
+  background-position: center;
+
+}
+.mainCarousel{
+  width: 400px;
+  height: 300px;
+}
+.ask{
+  width: 70%;
+}
