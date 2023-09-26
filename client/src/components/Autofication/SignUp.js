@@ -17,7 +17,9 @@ const SignUp = observer(() => {
   async function handleButton() {
     try {
       const result = await registration(name, password, phone);
-      setName("") || setPassword("") || setPhone("");
+      setName("");
+      setPassword("");
+      setPhone("");
       if (result === 200) {
         userStore.setError('');
         navigate("/");
@@ -58,7 +60,7 @@ const SignUp = observer(() => {
       </div>
       <div>
         <input
-          type="phone"
+          type="tel"
           value={phone}
           onChange={(e) => setPhone(e.target.value)}
           placeholder="Введите телефон"

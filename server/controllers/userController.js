@@ -79,7 +79,7 @@ class UserController {
                 const result = await User.findOne({where: {name}})
                 return res.json({name: result.dataValues.name, id: result.dataValues.id, img: result.dataValues.img});
             } else {
-                return res.json({name: null});
+                return res.json({name: ''});
             }
         } catch (error) {
             console.log('⚛ --- ⚛ --- ⚛ --- ⚛ ---  >>> ☢ UserController ☢ checkUser ☢ error:', error);

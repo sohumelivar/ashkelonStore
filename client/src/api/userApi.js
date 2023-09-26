@@ -12,6 +12,7 @@ export const registration = async (name, password, phone) => {
     const response = await axiosFromUser.post('/signup', { name, password, phone });
     if (response.data.status === 200) {
       userStore.setUser(response.data.name)
+
       return response.data.status
     }
     if (response.data.status !== 200) {
@@ -26,7 +27,7 @@ export const registration = async (name, password, phone) => {
 
 export const signIn = async (name, password) => {
   try {
-    const response = await axiosFromUser.post('/signin', { name, password })
+    const response = await axiosFromUser.post('/signin', { name, password });
     if (response.data.status === 200) {
       userStore.setUser(response.data.name)
       return response.data.status
@@ -54,7 +55,8 @@ export const logout = async () => {
 export const checkUser = async () => {
   try {
     const response = await axiosFromUser.get('/checkUser');
-    userStore.setUser(response.data.name) || userStore.setImg(response.data.img);
+    userStore.setUser(response.data.name);
+    userStore.setImg(response.data.img);
     return response.data.name
   } catch (error) {
     console.log('⚛ --- ⚛ --- ⚛ --- ⚛ ---  >>> ☢ checkUser ☢ error:', error);

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { observer } from "mobx-react-lite";
 import userStore from "../../store/userStore";
@@ -14,7 +14,8 @@ const LogIn = observer(() => {
   const handleButton = async () => {
     try {
       const result = await signIn(name, password);
-      setName("") || setPassword("");
+      setName("");
+      setPassword("");
       if (result === 200) {
         userStore.setError('');
         navigate("/");
