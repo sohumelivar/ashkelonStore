@@ -85,6 +85,7 @@ export const saveChangesApi = async (name,phone,password,img)=>{
             'content-type' : 'multipart/form-data'
         }
     });
+    return userStore.setEditProfile(response.data);
   }  } catch (error) {
     console.log(error);
 
