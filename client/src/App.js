@@ -35,7 +35,6 @@ const App = observer(() => {
           <Route path='/favorite' element={<Favorite />} />
           <Route path='/profile' element={<Profile />} />
         </Route>
-
         <Route element={<ProtectedRouter user={!user} />}>
           <Route path='/signup' element={<SignUp />} />
           <Route path='/signin' element={<LogIn />} />

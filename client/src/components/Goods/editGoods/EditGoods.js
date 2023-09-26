@@ -52,3 +52,5 @@ const editGood = observer(() => {
         </div>
     )
 });
+
+export default editGood;
