@@ -75,7 +75,8 @@ export const getUserProfileApi = async ()=>{
 
 export const saveChangesApi = async (name,phone,password,img)=>{
   try {
-    const response = await  axiosFromUser.put('/editProfileInfo',{name,phone,password})
+
+    const response = await axiosFromUser.put('/editProfileInfo',{name,phone,password})
     console.log(response);
    if (img) {
     const data = new FormData();

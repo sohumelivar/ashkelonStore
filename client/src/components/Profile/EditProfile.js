@@ -22,7 +22,7 @@ const EditProfile = observer(()=>{
   const [phone,setPhone]=useState(userStore.editProfile.phone || '')
   const [password,setPassword]=useState('')
   const [confirmPassword,setConfirmPassword]= useState("")
-  const [img,setImg] =useState('')
+  const [img,setImg] =useState(null)
 
   const saveChanges = async ()=>{
     try {
@@ -52,7 +52,7 @@ const EditProfile = observer(()=>{
   <p>Подтвердите пароль<input value={confirmPassword} onChange={(e)=>setConfirmPassword(e.target.value)} type="password"/></p>
 </div>
 <div>
-  <p> Изменить аватар<input value={img} onChange={(e)=>setImg(e.target.files[0])} type="file"/></p>
+  <p> Изменить аватар<input onChange={(e)=>setImg(e.target.files[0])} type="file"/></p>
 </div>
 <Button onClick={saveChanges}>Сохранить изменения</Button>
     </div>
