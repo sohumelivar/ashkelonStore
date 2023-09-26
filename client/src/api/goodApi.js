@@ -107,7 +107,7 @@ export const saveChangeApi = async (name, description, price, img) => {
                     'content-type' : 'multipart/form-data'
                 }
             });
-        }
+          }
         return itemStore.setEditItem(response.data) || itemStore.setMessage('save change');
     } catch (error) {
         console.log('⚛ --- ⚛ --- ⚛ --- ⚛ ---  >>> ☢ saveChangeApi ☢ error:', error);

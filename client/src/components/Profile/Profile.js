@@ -14,8 +14,11 @@ import itemStore from "../../store/itemStore";
 import AddGood from "../Goods/addGoods/AddGood";
 import UserGoods from "../Goods/userGoods/userGoods";
 import { getAllUserItems } from '../../api/goodApi';
+import { useNavigate } from "react-router-dom";
 
 const Profile = observer(() => {
+  const navigate = useNavigate()
+
   useEffect(() => {
     getAllUserItems();
   }, []);
@@ -77,6 +80,7 @@ const Profile = observer(() => {
           </div>
         </div>
       </div>
+          <Button onClick={()=> navigate('/edit/profile')} variant="dark">Изменить профиль</Button>
       <div className="buttons">
         <Button type="button" onClick={checkBox1} className="butt" variant="secondary">
           Разместить объявление

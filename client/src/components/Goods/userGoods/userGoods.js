@@ -50,10 +50,11 @@ const userGoods = observer(({ itemData }) => {
       <Card.Body>
         <Card.Title>{itemData.name}</Card.Title>
         <Card.Text>{itemData.description}</Card.Text>
-        <Button id={itemData.id}
+        <Button id={itemData.id} 
           onClick={(e) => {
             e.stopPropagation();
             editItem(e);
+            navigate(`/item/edit/${itemData.id}`)
           }}
           variant="dark"
         >

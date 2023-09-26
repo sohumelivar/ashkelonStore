@@ -3,13 +3,20 @@ import {makeAutoObservable} from "mobx"
 
  class UserStore {
 
-  user = null
+  user = ""
+  phone=""
+  password=""
   img = ""
   error =""
+  editProfile=[]
+
 
   constructor (){
     makeAutoObservable(this)
   }
+setEditProfile(data){
+  this.editProfile = data
+}
 
   setUser (name){
     this.user=name
@@ -17,6 +24,12 @@ import {makeAutoObservable} from "mobx"
 
   setImg (img) {
     this.img = img
+  }
+  setPhone (phone) {
+    this.phone = phone
+  }
+  setPassword (password) {
+    this.password = password
   }
 
   setError (error){
