@@ -16,10 +16,13 @@ checkUser();
 const location = useLocation().pathname;
 
 const clearError = action(() => {
-  userStore.setError('');
+  setTimeout(() => {
+    userStore.setError('');
+  }, 1000);
 });
 
-if (location !== '/signin' && '/signup') clearError();
+if (location !== '/signup') clearError();
+if (location !== '/signin') clearError();
   
   return (
     <Navbar bg="dark" data-bs-theme="dark">
