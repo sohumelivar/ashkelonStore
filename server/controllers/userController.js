@@ -56,6 +56,9 @@ class UserController {
 
             const accessToken = jwt.sign({name}, process.env.JWT_ACCESS_SECRET, {expiresIn:'3h'});
 
+            console.log('⚛ --- ⚛ --- ⚛ --- ⚛ ---  >>> ☢ UserController ☢ login ☢ name:', name)
+
+
             res.cookie('accessToken', {accessToken, user: name, id: user.id},{maxAge: 30*24*60*1000, httpOnly: true,});
             return res.json({status: 200, accessToken, name});
         } catch (error) {
