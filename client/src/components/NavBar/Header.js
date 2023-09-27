@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { Link, useLocation } from "react-router-dom";
 import { observer } from "mobx-react-lite";
 import userStore from "../../store/userStore";
@@ -8,27 +8,11 @@ import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import { action } from 'mobx';
 import { checkUser } from "../../api/userApi";
-import Cookies from 'js-cookie';
 
 
 
 const Header = observer(() => {
 checkUser();
-
-//! ------------------------
-const cookieName = Cookies.get('user');
-
-console.log('⚛ --- ⚛ --- ⚛ --- ⚛ ---  >>> ☢ Header ☢ cookieName:', cookieName)
-
-
-
-useEffect(() => {
-  const result = checkUser();
-  result.then((data) => userStore.setUser(data));
-  console.log('tut');
-}, [cookieName]);
-
-//! --------------------------
 
 const location = useLocation().pathname;
 
