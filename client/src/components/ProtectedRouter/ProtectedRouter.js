@@ -1,8 +1,7 @@
 import React from 'react';
 import { Navigate, Outlet } from 'react-router-dom';
-import { observer } from 'mobx-react-lite';
 
-const ProtectedRouter = observer(({user, redirectPath = '/' }) => {
+export default function ProtectedRouter({user, redirectPath = '/' }) {
 
   if (!user) {
     return <Navigate to={redirectPath} replace />;
@@ -10,6 +9,4 @@ const ProtectedRouter = observer(({user, redirectPath = '/' }) => {
   return (
     <Outlet />
   );
-})
-
-export default ProtectedRouter;
+}
