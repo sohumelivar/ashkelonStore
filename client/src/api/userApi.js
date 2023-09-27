@@ -77,7 +77,6 @@ export const saveChangesApi = async (name,phone,password,img)=>{
   try {
 
     const response = await axiosFromUser.put('/editProfileInfo',{name,phone,password})
-    console.log(response);
    if (img) {
     const data = new FormData();
     data.append('userPhoto', img, response.data.name);
