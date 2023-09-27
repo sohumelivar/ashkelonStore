@@ -54,7 +54,7 @@ const Profile = observer(() => {
               {userStore.img ? 
               <Image className="logo"
                 src={`${userStore.img}`} alt="profile photo" roundedCircle /> :
-              <Image
+              <Image className="logo"
                 src={`${avatarDefault}`} alt="DSOTM" roundedCircle /> 
               }
             </Col>
