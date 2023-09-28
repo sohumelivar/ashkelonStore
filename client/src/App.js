@@ -12,9 +12,10 @@ import ProtectedRouter from './components/ProtectedRouter/ProtectedRouter';
 import { observer } from 'mobx-react-lite';
 import EditProfile from './components/Profile/EditProfile';
 import userStore from './store/userStore';
+import Cookies from 'js-cookie';
 
 const App = observer(() => {
-
+  const userNameCookie = Cookies.get('user') || false;
   return (
     <BrowserRouter>
     <Header/>
@@ -22,7 +23,7 @@ const App = observer(() => {
         <Route path='/' element={<MainPage />} />
         <Route path='/item/:id' element={<ItemPage />} />
         
-        <Route element={<ProtectedRouter user={userStore.user} />}>
+        <Route element={<ProtectedRouter user={userStore.user || userNameCookie} />}>
           <Route path='/item/edit/:id' element={<EditGood />} />
           <Route path='/favorite' element={<Favorite />} />
           <Route path='/profile' element={<Profile />} />
