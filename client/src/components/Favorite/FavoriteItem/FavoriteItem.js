@@ -1,7 +1,6 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { observer } from 'mobx-react-lite';
-import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import Card from "react-bootstrap/Card";
 import { pageViewId, addFavoriteApi, getAllUserFavoriteApi } from '../../../api/goodApi';
@@ -21,7 +20,7 @@ const FavoriteItem = observer(({userFav}) => {
 
     return (
         <div>
-            <div>Favorite Item</div>      
+            <div>ИЗбранные товары</div>      
             <Card
                 onClick={() => {
                     pageViewId(userFav.id);
@@ -33,14 +32,6 @@ const FavoriteItem = observer(({userFav}) => {
                 <Card.Body>
                     <Card.Title>{userFav.name}</Card.Title>
                     <Card.Text>{userFav.description}</Card.Text>
-                    <Button
-                    onClick={(e) => {
-                        e.stopPropagation();
-                    }}
-                    variant="dark"
-                    >
-                    КУПИТЬ
-                    </Button>
                 </Card.Body>
                 <Form.Check
                     required

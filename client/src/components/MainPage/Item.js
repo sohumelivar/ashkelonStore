@@ -30,14 +30,6 @@ const Item = observer(({ itemData }) => {
       <Card.Body>
         <Card.Title>{itemData.name}</Card.Title>
         <Card.Text>{itemData.description}</Card.Text>
-        <Button
-          onClick={(e) => {
-            e.stopPropagation();
-          }}
-          variant="dark"
-        >
-          КУПИТЬ
-        </Button>
       </Card.Body>
       <Form.Check
         required
