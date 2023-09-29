@@ -102,13 +102,15 @@ class UserController {
 
     async safeChanges(req,res){
       try {
-        const {name,phone,password} = req.body
-        const hashPassword = await bcrypt.hash(password, 5);
-        await User.update({name,phone,password:hashPassword},{where:{id:req.cookies.accessToken.id}})
+        const {name,phone,password} = req.body.data
+        if(password){
+          const hashPassword = await bcrypt.hash(password, 5);
+          await User.update({password:hashPassword},{where:{id:req.cookies.accessToken.id}})
+        }
+        await User.update({name,phone},{where:{id:req.cookies.accessToken.id}})
         const result =  (await User.findOne({where:{id:req.cookies.accessToken.id}})).dataValues
         const accessToken = jwt.sign({name}, process.env.JWT_ACCESS_SECRET, {expiresIn:'3h'});
         res.cookie("accessToken",{accessToken,user:result.name,id:result.id},{maxAge:30*24*60*1000,httpOnly:true})
-        console.log(result,'==============================')
         res.json(result)
         
       } catch (error) {
@@ -116,6 +118,8 @@ class UserController {
 
       }
     }
+    
+    
 }
 
 module.exports = new UserController();
