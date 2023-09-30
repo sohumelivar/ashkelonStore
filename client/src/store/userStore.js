@@ -2,7 +2,7 @@ import {makeAutoObservable} from "mobx"
 
  class UserStore {
 
-  user = ""
+  user = ''
   phone=""
   password=""
   img = ""

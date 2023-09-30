@@ -13,21 +13,24 @@ import { observer } from 'mobx-react-lite';
 import EditProfile from './components/Profile/EditProfile';
 import userStore from './store/userStore';
 import Cookies from 'js-cookie';
+import Chat from './components/Message/Chat/Chat';
 
 const App = observer(() => {
   const userNameCookie = Cookies.get('user') || false;
   return (
     <BrowserRouter>
-    <Header/>
+      <Header />
       <Routes>
         <Route path='/' element={<MainPage />} />
         <Route path='/item/:id' element={<ItemPage />} />
-        
+
         <Route element={<ProtectedRouter user={userStore.user || userNameCookie} />}>
           <Route path='/item/edit/:id' element={<EditGood />} />
           <Route path='/favorite' element={<Favorite />} />
           <Route path='/profile' element={<Profile />} />
-          <Route  path='/edit/profile' element={<EditProfile/>}/>
+          <Route path='/edit/profile' element={<EditProfile />} />
+          <Route path='/chat/:id' element={<Chat />} />
+
         </Route>
         <Route element={<ProtectedRouter user={!userStore.user} />}>
           <Route path='/signup' element={<SignUp />} />
