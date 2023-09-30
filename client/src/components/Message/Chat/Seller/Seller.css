@@ -1,0 +1,13 @@
+.seller{
+  display: flex;
+  margin: 10px;
+  justify-content: flex-end;
+}
+.sellerTime{
+margin-right: 10px;
+margin-left: 10px;
+}
+.sellerMessage{
+  margin-right: 10px;
+margin-left: 10px;
+}

@@ -15,6 +15,7 @@ import AddGood from "../Goods/addGoods/AddGood";
 import UserGoods from "../Goods/userGoods/userGoods";
 import { getAllUserItems } from '../../api/goodApi';
 import { useNavigate } from "react-router-dom";
+import Dialog from "../Message/Dialog/Dialog";
 
 const Profile = observer(() => {
   const navigate = useNavigate()
@@ -51,11 +52,11 @@ const Profile = observer(() => {
         <Container>
           <Row>
             <Col xs={1} md={2}>
-              {userStore.img ? 
-              <Image className="logo"
-                src={`${userStore.img}`} alt="profile photo" roundedCircle /> :
-              <Image className="logo"
-                src={`${avatarDefault}`} alt="DSOTM" roundedCircle /> 
+              {userStore.img ?
+                <Image className="logo"
+                  src={`${userStore.img}`} alt="profile photo" roundedCircle /> :
+                <Image className="logo"
+                  src={`${avatarDefault}`} alt="DSOTM" roundedCircle />
               }
             </Col>
           </Row>
@@ -80,7 +81,7 @@ const Profile = observer(() => {
           </div>
         </div>
       </div>
-          <Button onClick={()=> navigate('/edit/profile')} variant="dark">Изменить профиль</Button>
+      <Button onClick={() => navigate('/edit/profile')} variant="dark">Изменить профиль</Button>
       <div className="buttons">
         <Button type="button" onClick={checkBox1} className="butt" variant="secondary">
           Разместить объявление
@@ -98,15 +99,15 @@ const Profile = observer(() => {
       <div className="divForButtonsOption">
         <div className={addGoodsCN} > <AddGood /> </div>
         <div className={userFavoriteCN} > избранное </div>
-        <div className={userMessageCN} > сообщения</div>
+        <div className={userMessageCN} > <Dialog /></div>
         <div className={userGoodsCN} >
           <div className='cardDiv'>
             {itemStore.userItems && itemStore.userItems.map((item) => (
-            <UserGoods key={item.id} itemData={item} />
+              <UserGoods key={item.id} itemData={item} />
             ))}
           </div>
         </div>
-        
+
       </div>
     </div>
   );

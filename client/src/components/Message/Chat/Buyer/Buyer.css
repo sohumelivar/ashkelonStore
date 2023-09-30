@@ -1,0 +1,12 @@
+.buyer{
+  display: flex;
+  margin: 10px;
+}
+.profile{
+margin-right: 10px;
+margin-left: 10px;
+}
+.message{
+  margin-right: 10px;
+margin-left: 10px;
+}
