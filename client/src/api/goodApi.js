@@ -1,6 +1,5 @@
 import axios from 'axios';
 import itemStore from "../store/itemStore";
-import userStore from "../store/userStore";
 
 const axiosFromGood = axios.create({
     withCredentials: true,
