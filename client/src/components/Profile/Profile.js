@@ -14,6 +14,7 @@ import itemStore from "../../store/itemStore";
 import AddGood from "../Goods/addGoods/AddGood";
 import UserGoods from "../Goods/userGoods/userGoods";
 import { getAllUserItems } from '../../api/goodApi';
+import { lastMessagesApi } from '../../api/messageApi';
 import { useNavigate } from "react-router-dom";
 import Dialog from "../Message/Dialog/Dialog";
 
@@ -22,6 +23,7 @@ const Profile = observer(() => {
 
   useEffect(() => {
     getAllUserItems();
+    lastMessagesApi();
   }, []);
 
 

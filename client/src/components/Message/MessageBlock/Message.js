@@ -8,20 +8,21 @@ import avatarDefault from "../../Profile/DSOTM.jpg";
 import "./Message.css";
 
 const Message = observer(({ lastMessage }) => {
+
   const navigate = useNavigate();
   return (
     <div
       onClick={() => {
-        navigate(`/chat/${lastMessage.id}`);
+        navigate(`/chat/${lastMessage.from}`);
       }}
       className="messageBlock"
     >
       <div className="userInfo">
         <Col xs={1} md={2}>
-          {lastMessage.photo ? (
+          {lastMessage.img ? (
             <Image
               className="logoBuyer"
-              src={lastMessage.photo}
+              src={lastMessage.img}
               alt="profile photo"
               roundedCircle
             />
@@ -35,7 +36,7 @@ const Message = observer(({ lastMessage }) => {
           )}
         </Col>
 
-        <div> {lastMessage.user}</div>
+        <div> {lastMessage.from}</div>
       </div>
 
       <div className="message">{lastMessage.message}</div>

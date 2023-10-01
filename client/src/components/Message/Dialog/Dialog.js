@@ -7,7 +7,7 @@ const Dialog = observer(() => {
 
   return (
     <div className="main">
-      {messageStore.lastsMessages.map((el) => (
+      {messageStore.lastsMessages.length > 0 &&  messageStore.lastsMessages.map((el) => (
         <Message key={el.id} lastMessage={el} />
       ))}
     </div>
