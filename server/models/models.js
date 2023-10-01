@@ -21,6 +21,14 @@ const Favorite = sequelize.define('favorite', {
     id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
 });
 
+const Message = sequelize.define('message', {
+    id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
+    message: { type: DataTypes.STRING },
+    from: { type: DataTypes.STRING },
+    to: { type: DataTypes.STRING },
+    time: { type: DataTypes.STRING },
+})
+
 User.hasMany(Goods);
 Goods.belongsTo(User);
 User.hasMany(Favorite);
@@ -32,4 +40,5 @@ module.exports = {
     User,
     Goods,
     Favorite,
+    Message,
 };

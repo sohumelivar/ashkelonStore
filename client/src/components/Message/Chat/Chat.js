@@ -14,7 +14,7 @@ const Chat = observer(() => {
   return (
     <div className="main">
       {messageStore.messages.map((message) =>
-        message.user === userStore.user ? (
+        message.from === userStore.user ? (
           <Seller key={message.id} sellerMessage={message} />
         ) : (
           <Buyer key={message.id} buyerMessage={message} />

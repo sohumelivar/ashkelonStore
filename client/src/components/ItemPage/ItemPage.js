@@ -2,21 +2,29 @@ import React, { useState } from "react";
 import { observer } from "mobx-react-lite";
 import Carousel from "react-bootstrap/Carousel";
 import Button from "react-bootstrap/Button";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import "./ItemPage.css";
 import itemStore from "../../store/itemStore";
 import InputGroup from "react-bootstrap/InputGroup";
 import Form from "react-bootstrap/Form";
 import { pageViewIdAfterRefresh } from '../../api/goodApi';
+import { sendMessageItemPageApi } from '../../api/messageApi';
+import userStore from "../../store/userStore";
+import messageStore from "../../store/messageStore";
+import Nav from "react-bootstrap/Nav";
 
 const ItemPage = observer(() => {
   const navigate = useNavigate();
   const [buttonInfo, setButtonInfo] = useState("Показать телефон");
+  const [message, setMessage] = useState('');
 
   const handleButton = () => {
     setButtonInfo(itemStore.item.user.phone);
   };
-  const sendButton = () => {};
+  const sendButton = async () => {
+    await sendMessageItemPageApi(message);
+    setMessage('');
+  };
 
   if(!itemStore.item.name) pageViewIdAfterRefresh();
 
@@ -56,21 +64,27 @@ const ItemPage = observer(() => {
           </div>
         </div>
       </div>
-
-      <div className="ask">
-        <h3>Написать продавцу</h3>
-        <InputGroup size="lg">
-          <Form.Control
-            aria-label="Large"
-            aria-describedby="inputGroup-sizing-sm"
-          />
-          <InputGroup.Text id="inputGroup-sizing-lg">
-            <Button onClick={sendButton} variant="grey">
-              Отправить
-            </Button>
-          </InputGroup.Text>
-        </InputGroup>
-      </div>
+       {itemStore.item.user?.name !== userStore.user &&  
+        <div className="ask">
+          <h3>Написать продавцу</h3>
+          <InputGroup size="lg">
+            <Form.Control 
+              placeholder="введите сообщение ..."
+              aria-label="Large"
+              aria-describedby="inputGroup-sizing-sm"
+              value={message}
+              onChange={(e) => setMessage(e.target.value)}
+            />
+            <InputGroup.Text id="inputGroup-sizing-lg">
+              <Button onClick={sendButton} variant="grey">
+                Отправить
+              </Button>
+            </InputGroup.Text>
+          </InputGroup>
+            <p>{messageStore.responseMessage && messageStore.responseMessage}</p>
+            <p>{messageStore.responseMessage && <Nav.Link as={Link} to="/"></Nav.Link>}</p>
+        </div>
+       } 
     </div>
   );
 });
