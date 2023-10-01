@@ -9,7 +9,12 @@ import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/esm/Button";
 
 const Chat = observer(() => {
-  const sendButton = () => {};
+  const sendButton = () => {
+
+
+  };
+
+
 
   return (
     <div className="main">
@@ -19,6 +24,8 @@ const Chat = observer(() => {
         ) : (
           <Buyer key={message.id} buyerMessage={message} />
         )
+
+
       )}
 
       <div className="ask">
