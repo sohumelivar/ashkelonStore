@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { observer } from "mobx-react-lite";
 import { useNavigate } from "react-router-dom";
 import messageStore from "../../../store/messageStore";
+import userStore from '../../../store/userStore';
 import Col from "react-bootstrap/esm/Col";
 import Image from "react-bootstrap/esm/Image";
 import avatarDefault from "../../Profile/DSOTM.jpg";
@@ -19,10 +20,10 @@ const Message = observer(({ lastMessage }) => {
     >
       <div className="userInfo">
         <Col xs={1} md={2}>
-          {lastMessage.img ? (
+          {lastMessage.sender.img ? (
             <Image
               className="logoBuyer"
-              src={lastMessage.img}
+              src={lastMessage.sender.img}
               alt="profile photo"
               roundedCircle
             />
@@ -36,7 +37,7 @@ const Message = observer(({ lastMessage }) => {
           )}
         </Col>
 
-        <div> {lastMessage.from}</div>
+        <div> {lastMessage.sender.name === userStore.user ? <div>{`${lastMessage.sender.name} to: ${lastMessage.receiver.name}`}</div> : <div>{lastMessage.sender.name}</div>}</div>
       </div>
 
       <div className="message">{lastMessage.message}</div>
