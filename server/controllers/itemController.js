@@ -8,11 +8,15 @@ class itemController {
                 const fav = (await Favorite.findAll({where: {userId}})).map((e) => e.dataValues.goodId);
                 const sortData = (await Goods.findAll({include: User})).map((e) => e = e.dataValues).sort((a, b) => b.id - a.id);
                 sortData.map( el => fav.includes(el.id) ? Object.assign(el, {checkBox: true}) : Object.assign(el, {checkBox: false}));
-                return res.json(sortData);
+                const result = JSON.parse(JSON.stringify(sortData));
+                result.map(el => delete el.user.password);
+                return res.json(result);
             }
             const sortData = (await Goods.findAll({include: User})).map((e) => e = e.dataValues).sort((a, b) => b.id - a.id);
             sortData.map(el => Object.assign(el, {checkBox: false}));
-            return res.json(sortData);
+            const result = JSON.parse(JSON.stringify(sortData));
+            result.map(el => delete el.user.password);
+            return res.json(result);
         } catch (error) {
             console.log('⚛ --- ⚛ --- ⚛ --- ⚛ ---  >>> ☢ itemController ☢ getAll ☢ error:', error);
         }
@@ -76,7 +80,9 @@ class itemController {
                 const data = sortData.map((e) => Object.assign(e, {user}));
                 const fav = (await Favorite.findAll({where: {userId}})).map((e) => e.dataValues.goodId);
                 data.map( el => fav.includes(el.id) ? Object.assign(el, {checkBox: true}) : Object.assign(el, {checkBox: false}));
-                return res.json(data);
+                const result = JSON.parse(JSON.stringify(data));
+                result.map(el => delete el.user.password);
+                return res.json(result);
             }
             return res.json({message: 'empty'});
         } catch (error) {

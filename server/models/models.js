@@ -49,6 +49,14 @@ Favorite.belongsTo(Goods);
 Chat.belongsTo(User, { foreignKey: 'user1Id', as: 'user1' });
 Chat.belongsTo(User, { foreignKey: 'user2Id', as: 'user2' });
 Message.belongsTo(Chat);
+Message.belongsTo(User, {
+    foreignKey: 'from',
+    as: 'sender',
+  });
+Message.belongsTo(User, {
+foreignKey: 'to',
+as: 'receiver',
+});  
 
 module.exports = {
     User,
