@@ -119,6 +119,17 @@ class UserController {
       }
     }
     
+    // async testIp (req, res) {
+    //     try {
+    //         const { ip } = req.body;
+    //         console.log('⚛ --- ⚛ --- ⚛ --- ⚛ ---  >>> ☢ UserController ☢ testIp ☢ ip:', ip)
+
+
+    //         res.json('test')
+    //     } catch (error) {
+    //         console.log('⚛ --- ⚛ --- ⚛ --- ⚛ ---  >>> ☢ UserController ☢ testIp ☢ error:', error);
+    //     }
+    // }
     
 }
 

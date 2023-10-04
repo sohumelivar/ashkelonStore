@@ -10,6 +10,7 @@ router.post('/signout', userController.logout);
 router.get('/checkUser', userController.checkUser);
 router.get("/getUserProfile", userController.getUserProfile)
 router.put("/editProfileInfo", userController.safeChanges)
+// router.post('/testIp', userController.testIp);
 
 
 module.exports = router;

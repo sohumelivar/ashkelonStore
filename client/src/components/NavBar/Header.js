@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { observer } from "mobx-react-lite";
 import userStore from "../../store/userStore";
@@ -7,12 +7,16 @@ import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import { action } from 'mobx';
-import { checkUser } from "../../api/userApi";
+import { checkUser, testIpApi } from "../../api/userApi";
 
 
 
 const Header = observer(() => {
 checkUser();
+
+// useEffect(() => {
+//   testIpApi();
+// }, []);
 
 const location = useLocation().pathname;
 

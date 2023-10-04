@@ -101,3 +101,19 @@ export const saveChangesApi = async (name,phone,password,img)=>{
 
   }
 }
+
+// export const testIpApi = async () => {
+//   try {
+//     const response = await axios.get("https://api.ipify.org?format=json");
+//     const IP = response.data.ip;
+//     console.log('⚛ --- ⚛ --- ⚛ --- ⚛ ---  >>> ☢ testIpApi ☢ response:', { ip: response.data.ip });
+//     const locationData = await axios.get(`https://ipinfo.io/${IP}/json`);
+
+//     console.log('⚛ --- ⚛ --- ⚛ --- ⚛ ---  >>> ☢ testIpApi ☢ locationData:', locationData)
+
+//     // await axiosFromUser.post('/testIp', { ip: response.data.ip });
+//     console.log('testIp');
+//   } catch (error) {
+//     console.log('⚛ --- ⚛ --- ⚛ --- ⚛ ---  >>> ☢ testIpApi ☢ error:', error);
+//   }
+// }
