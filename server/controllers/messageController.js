@@ -1,5 +1,7 @@
 const { User, Goods, Message } = require('../models/models');
 
+
+
 class messageController {
     async sendMessageItemPage (req, res) {
         try {
@@ -18,6 +20,8 @@ class messageController {
             console.log('⚛ --- ⚛ --- ⚛ --- ⚛ ---  >>> ☢ messageController ☢ sendMessageItemPage ☢ error:', error);
         }
     }
+    
+    
     
     async getAllLastMessages (req, res) {
         try {
@@ -44,10 +48,22 @@ class messageController {
             await Promise.all(latestMessages.map(processItem));
             const result = latestMessages.map((el, i) => Object.assign(el, {img: img[i]}));
             res.json(result);
+            console.log();
         } catch (error) {
             console.log('⚛ --- ⚛ --- ⚛ --- ⚛ ---  >>> ☢ messageController ☢ getAllLastMessages ☢ error:', error);
         }
     }
+
+
+
+ 
+  
+  
+  
+  
+  
+    
 }
 
 module.exports = new messageController;
+
