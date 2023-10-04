@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { observer } from "mobx-react-lite";
 import userStore from "../../store/userStore";
@@ -6,6 +6,9 @@ import { logout } from "../../api/userApi";
 import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
+
+import { testIpApi } from "../../api/userApi";
+
 import { action } from "mobx";
 import { checkUser } from "../../api/userApi";
 import Cookies from "js-cookie";
@@ -21,8 +24,16 @@ const Header = observer(() => {
     }, 1000);
   });
 
+
+// useEffect(() => {
+//   testIpApi();
+// }, []);
+
+const location = useLocation().pathname;
+
   if (location !== "/signup") clearError();
   if (location !== `/chat/${Cookies.get('chatWith')}`) Cookies.remove("chatWith");
+
 
   if (location !== "/signin") clearError();
 
