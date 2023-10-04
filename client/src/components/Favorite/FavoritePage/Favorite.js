@@ -11,6 +11,7 @@ const Favorite = observer(() => {
         getAllUserFavoriteApi();
     }, []);
 
+  
     return (
         <div>
             <div>{`Favorite items from user: ${userStore.user}`}</div>
