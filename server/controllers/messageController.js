@@ -1,69 +1,75 @@
-const { User, Goods, Message } = require('../models/models');
-
+const { User, Goods, Message, Chat } = require('../models/models');
+const { Op } = require('sequelize');
 
 
 class messageController {
     async sendMessageItemPage (req, res) {
         try {
             const { message } = req.body;
-            const from = req.cookies.accessToken.user;
+            const from = req.cookies.accessToken.id;
             const idItem = req.cookies.updateId.id;
             const itemUserId = (await Goods.findOne({where: {id: idItem}})).dataValues.userId;
-            const to = (await User.findOne({where: {id: itemUserId}})).dataValues.name
-            const time = new Date().toLocaleTimeString('en-US', { hour12: false });
-            (await Message.create({message, from, to, time})).dataValues;
-            const allMessages = (await Message.findAll({where: {from, to}})).map((el) => el.dataValues);
-            const allMessages2 = (await Message.findAll({where: {from: to, to: from }})).map((el) => el.dataValues);
-            const result = [...allMessages, ...allMessages2].sort((a, b) => a.id - b.id);
-            res.json({responseMessage: `сообщение отправлено! Вы можете перейти в чат с пользователем ${to}`});
+            const to = (await User.findOne({where: {id: itemUserId}})).dataValues.id;
+            const messageBD = await Message.create({
+                message,
+                from,
+                to,
+                time: new Date().toLocaleTimeString('en-US', { hour12: false })
+            });
+            let chat = await Chat.findOrCreate({
+                where: {
+                    [Op.or]: [
+                        { user1Id: from, user2Id: to },
+                        { user1Id: to, user2Id: from },
+                    ],
+                },
+                defaults: {
+                    user1Id: from,
+                    user2Id: to
+                }   
+            });
+            chat = chat[0];
+            await messageBD.setChat(chat);
+            res.json({test: 'test'});
         } catch (error) {
             console.log('⚛ --- ⚛ --- ⚛ --- ⚛ ---  >>> ☢ messageController ☢ sendMessageItemPage ☢ error:', error);
         }
     }
-    
-    
-    
+
     async getAllLastMessages (req, res) {
         try {
-            const { user } = req.cookies.accessToken;
-            const incomingMessages = (await Message.findAll({where: {to: user}})).map(el => el.dataValues);
-            function getLatestMessagesFromEachUser(messages) {
-                const latestMessages = {};
-                messages.forEach((message) => {
-                  const { from } = message;
-                  if (!latestMessages[from] || message.updatedAt > latestMessages[from].updatedAt) {
-                    latestMessages[from] = message;
+            const { id } = req.cookies.accessToken;
+            const chat = (await Chat.findAll({
+                where: {
+                    [Op.or]: [
+                        { [Op.and]: { user1Id: id } },
+                        { [Op.and]: { user2Id: id } },
+                    ],
+                },
+            })).map(el => el.dataValues);
+            const messages = (await Message.findAll({
+                include: [
+                  { model: User, as: 'sender' },
+                  { model: User, as: 'receiver' },
+                ],
+              })).map(el => el.dataValues);
+            const idChat = chat.map(el => el.id);
+            const filteredMessages = messages.filter(message => idChat.includes(message.chatId)); 
+            let lastMessagesByChatId = {};
+            filteredMessages.forEach(message => {
+                const chatId = message.chatId;
+                if (!lastMessagesByChatId[chatId] || message.createdAt > lastMessagesByChatId[chatId].createdAt) {
+                    lastMessagesByChatId[chatId] = message;
                 }
-            });              
-                const result = Object.values(latestMessages);
-                return result;
-              }
-            const latestMessages = getLatestMessagesFromEachUser(incomingMessages);
-            
-            const img = [];
-            async function processItem(item) {
-                const result = (await User.findOne({where: {name: item.from}})).dataValues.img;
-                return img.push(result);
-            }              
-            await Promise.all(latestMessages.map(processItem));
-            const result = latestMessages.map((el, i) => Object.assign(el, {img: img[i]}));
+            });
+            lastMessagesByChatId = (Object.values(lastMessagesByChatId)).sort((a, b) => b.id - a.id);
+            const result = JSON.parse(JSON.stringify(lastMessagesByChatId));
+            result.map(el => delete el.sender.password && delete el.receiver.password);
             res.json(result);
-            console.log();
         } catch (error) {
             console.log('⚛ --- ⚛ --- ⚛ --- ⚛ ---  >>> ☢ messageController ☢ getAllLastMessages ☢ error:', error);
         }
     }
-
-
-
- 
-  
-  
-  
-  
-  
-    
 }
 
 module.exports = new messageController;
-

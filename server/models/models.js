@@ -24,21 +24,44 @@ const Favorite = sequelize.define('favorite', {
 const Message = sequelize.define('message', {
     id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
     message: { type: DataTypes.STRING },
-    from: { type: DataTypes.STRING },
-    to: { type: DataTypes.STRING },
+    from: { type: DataTypes.INTEGER },
+    to: { type: DataTypes.INTEGER },
     time: { type: DataTypes.STRING },
 })
 
+const Chat = sequelize.define('chat', {
+    id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
+});
+
+
+User.belongsToMany(User, {
+    through: Chat,
+    as: 'Chats',
+    foreignKey: 'user1Id',
+    otherKey: 'user2Id',
+});
 User.hasMany(Goods);
 Goods.belongsTo(User);
 User.hasMany(Favorite);
 Goods.hasMany(Favorite);
 Favorite.belongsTo(User);
 Favorite.belongsTo(Goods);
+Chat.belongsTo(User, { foreignKey: 'user1Id', as: 'user1' });
+Chat.belongsTo(User, { foreignKey: 'user2Id', as: 'user2' });
+Message.belongsTo(Chat);
+Message.belongsTo(User, {
+    foreignKey: 'from',
+    as: 'sender',
+  });
+Message.belongsTo(User, {
+foreignKey: 'to',
+as: 'receiver',
+});  
 
 module.exports = {
     User,
     Goods,
     Favorite,
     Message,
+    Chat,
 };
