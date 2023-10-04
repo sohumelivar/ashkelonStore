@@ -1,20 +1,25 @@
-import React, { useState } from "react";
+import React from "react";
 import { observer } from "mobx-react-lite";
 import { useNavigate } from "react-router-dom";
-import messageStore from "../../../store/messageStore";
-import userStore from '../../../store/userStore';
+import userStore from "../../../store/userStore";
 import Col from "react-bootstrap/esm/Col";
 import Image from "react-bootstrap/esm/Image";
 import avatarDefault from "../../Profile/DSOTM.jpg";
 import "./Message.css";
+import Cookies from "js-cookie";
 
 const Message = observer(({ lastMessage }) => {
-
   const navigate = useNavigate();
   return (
     <div
       onClick={() => {
-        navigate(`/chat/${lastMessage.from}`);
+        if (userStore.user === lastMessage.sender.name) {
+          Cookies.set("chatWith", lastMessage.to);
+          navigate(`/chat/${lastMessage.to}`);
+        } else {
+          Cookies.set("chatWith", lastMessage.from);
+          navigate(`/chat/${lastMessage.from}`);
+        }
       }}
       className="messageBlock"
     >
@@ -37,7 +42,14 @@ const Message = observer(({ lastMessage }) => {
           )}
         </Col>
 
-        <div> {lastMessage.sender.name === userStore.user ? <div>{`${lastMessage.sender.name} to: ${lastMessage.receiver.name}`}</div> : <div>{lastMessage.sender.name}</div>}</div>
+        <div>
+          {" "}
+          {lastMessage.sender.name === userStore.user ? (
+            <div>{`${lastMessage.sender.name} to: ${lastMessage.receiver.name}`}</div>
+          ) : (
+            <div>{lastMessage.sender.name}</div>
+          )}
+        </div>
       </div>
 
       <div className="message">{lastMessage.message}</div>
