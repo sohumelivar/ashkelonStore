@@ -29,8 +29,6 @@ const Header = observer(() => {
 //   testIpApi();
 // }, []);
 
-const location = useLocation().pathname;
-
   if (location !== "/signup") clearError();
   if (location !== `/chat/${Cookies.get('chatWith')}`) Cookies.remove("chatWith");
 
