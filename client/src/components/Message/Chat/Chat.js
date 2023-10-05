@@ -7,19 +7,45 @@ import Buyer from "./Buyer/Buyer";
 import InputGroup from "react-bootstrap/InputGroup";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/esm/Button";
-import io from "socket.io-client";
 import Cookies from "js-cookie";
+import io from "socket.io-client";
 
 const Chat = observer(() => {
   const [messages, setMessages] = useState(messageStore.messages);
   const [message, setMessage] = useState("");
+  const id = Cookies.get("chatWith");
+  const socket = io('http://localhost:5000');
 
- 
+  // Функция для отправки сообщения
+  const sendMessage = () => {
+    socket.emit("message", { message }); // Отправляем сообщение на сервер
+    setMessage(""); // Очистите поле ввода после отправки сообщения
+  };
+
+  useEffect(() => {
+    // Ожидаем сообщение от сервера
+    socket.on("connection", (message) => {
+      console.log("Получено сообщение от сервера:", message);
+    });
+
+    // Запрашиваем историю чата при монтировании компонента
+    socket.emit("chatHistory");
+
+    // Обрабатываем ответ сервера
+    socket.on('chatHistory', (history) => {
+      setMessages(history); // Обновляем состояние компонента с полученными данными
+    });
+
+    // Очистка слушателя, чтобы избежать утечек памяти
+    return () => {
+      socket.off('chatHistory');
+    };
+  }, []);
 
   return (
     <div className="main">
       {messages.map((message) =>
-        message.from === userStore.user ? (
+        message.sender.name === userStore.user ? (
           <Seller key={message.id} sellerMessage={message} />
         ) : (
           <Buyer key={message.id} buyerMessage={message} />
@@ -38,7 +64,7 @@ const Chat = observer(() => {
             }}
           />
           <InputGroup.Text id="inputGroup-sizing-lg">
-            <Button  variant="grey">
+            <Button onClick={sendMessage} variant="grey">
               Отправить
             </Button>
           </InputGroup.Text>
@@ -49,4 +75,5 @@ const Chat = observer(() => {
 });
 
 export default Chat;
+
 
