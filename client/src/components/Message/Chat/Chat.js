@@ -7,37 +7,28 @@ import Buyer from "./Buyer/Buyer";
 import InputGroup from "react-bootstrap/InputGroup";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/esm/Button";
-import io from "socket.io-client";
 import Cookies from "js-cookie";
+import io from "socket.io-client";
 
 const Chat = observer(() => {
   const [messages, setMessages] = useState(messageStore.messages);
   const [message, setMessage] = useState("");
-  const [socket, setSocket] = useState(null);
   const id = Cookies.get("chatWith");
+  const socket = io('http://localhost:5000');
 
+  const sendMessage = () => {
+    socket.emit("message", { text: 'test' });
+    setMessage(""); // Очистите поле ввода после отправки сообщения
+  };
+
+
+  // Закрытие сокет-соединения при размонтировании компонента
   useEffect(() => {
-    const socket = io("http://localhost:3000");
-    setSocket(socket);
-
-    socket.emit("fetchChatHistory");
-    socket.on("chatHistory", (history) => {
-      setMessages(history);
-    });
-
     return () => {
-      if (socket) {
-        socket.close();
-      }
+      socket.disconnect();
     };
   }, []);
-  const sendButton = () => {
-    if (socket) {
-      socket.emit("sendMessage", { id, message });
-      socket.close();
-      setMessage("");
-    }
-  };
+
 
   return (
     <div className="main">
@@ -61,7 +52,7 @@ const Chat = observer(() => {
             }}
           />
           <InputGroup.Text id="inputGroup-sizing-lg">
-            <Button onClick={sendButton} variant="grey">
+            <Button variant="grey">
               Отправить
             </Button>
           </InputGroup.Text>
