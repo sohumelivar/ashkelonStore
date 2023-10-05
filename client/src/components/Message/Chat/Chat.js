@@ -13,31 +13,8 @@ import Cookies from "js-cookie";
 const Chat = observer(() => {
   const [messages, setMessages] = useState(messageStore.messages);
   const [message, setMessage] = useState("");
-  const [socket, setSocket] = useState(null);
-  const id = Cookies.get("chatWith");
 
-  useEffect(() => {
-    const socket = io("http://localhost:3000");
-    setSocket(socket);
-
-    socket.emit("fetchChatHistory");
-    socket.on("chatHistory", (history) => {
-      setMessages(history);
-    });
-
-    return () => {
-      if (socket) {
-        socket.close();
-      }
-    };
-  }, []);
-  const sendButton = () => {
-    if (socket) {
-      socket.emit("sendMessage", { id, message });
-      socket.close();
-      setMessage("");
-    }
-  };
+ 
 
   return (
     <div className="main">
@@ -61,7 +38,7 @@ const Chat = observer(() => {
             }}
           />
           <InputGroup.Text id="inputGroup-sizing-lg">
-            <Button onClick={sendButton} variant="grey">
+            <Button  variant="grey">
               Отправить
             </Button>
           </InputGroup.Text>
@@ -72,3 +49,4 @@ const Chat = observer(() => {
 });
 
 export default Chat;
+

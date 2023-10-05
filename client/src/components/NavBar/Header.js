@@ -23,14 +23,6 @@ const Header = observer(() => {
       userStore.setError("");
     }, 1000);
   });
-
-
-// useEffect(() => {
-//   testIpApi();
-// }, []);
-
-const location = useLocation().pathname;
-
   if (location !== "/signup") clearError();
   if (location !== `/chat/${Cookies.get('chatWith')}`) Cookies.remove("chatWith");
 
