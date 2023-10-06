@@ -12,10 +12,10 @@ import io from "socket.io-client";
 
 const Chat = observer(() => {
   const [messages, setMessages] = useState(messageStore.messages);
-  const [message, setMessage] = useState("");
+  const [message, setMessage] = useState('');
+
   const id = Cookies.get("chatWith");
   const chatId = Cookies.get("chatId");
-
   const autorizedUser = Cookies.get("autorizedUserId");
   const data = { autorizedUser, id ,chatId, message };
   const socket = io("http://localhost:5000");
@@ -24,23 +24,27 @@ const Chat = observer(() => {
  
 
   useEffect(() => {
-    socket.on("connection", (message) => {
-      console.log("Получено сообщение от сервера:", message);
-    });
-    socket.emit("chatHistory", data);
-    socket.on("chatHistory", (history) => {
-      setMessages(history);
-    });
+    socket.emit('userId', data);
+    socket.emit("messages", data);
+    socket.on('messages', (messages) => {
+      setMessages(messages)
+    })
+    console.log('⚛ --- ⚛ --- ⚛ --- ⚛ ---  >>> ☢ socket.on ☢ messages:', messages)
+
+    socket.on('newMessage', (newMessages) => {
+      socket.emit("messages", data);
+    })
+
     return () => {
-      socket.off("chatHistory");
+      socket.disconnect();
     };
   }, []);
+  
+  
   const sendMessage = () => {
-    socket.emit("message", data);
-    setMessage(""); // Сброс message здесь, после успешной отправки
-    socket.on("chatHistory", (history) => {
-      setMessages(history);
-    });  };
+    socket.emit('sendMessage', data);
+    setMessage('');
+  };
 
 
   return (
