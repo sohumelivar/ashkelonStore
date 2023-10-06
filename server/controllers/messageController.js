@@ -47,8 +47,6 @@ class messageController {
                     ],
                 },
             })).map(el => el.dataValues);
-            console.log('⚛ --- ⚛ --- ⚛ --- ⚛ ---  >>> ☢ messageController ☢ getAllLastMessages ☢ chat:', chat)
-
             const messages = (await Message.findAll({
                 include: [
                   { model: User, as: 'sender' },
@@ -68,11 +66,8 @@ class messageController {
             lastMessagesByChatId = (Object.values(lastMessagesByChatId)).sort((a, b) => {
                 return b.id - a.id
             })
-            console.log('⚛ --- ⚛ --- ⚛ --- ⚛ ---  >>> ☢ messageController ☢ getAllLastMessages ☢ lastMessagesByChatId:', lastMessagesByChatId)
             const result = JSON.parse(JSON.stringify(lastMessagesByChatId));
-            
             result.map(el => delete el.sender.password && delete el.receiver.password);
-            console.log('⚛ --- ⚛ --- ⚛ --- ⚛ ---  >>> ☢ messageController ☢ getAllLastMessages ☢ result:', result)
             res.json(result);
         } catch (error) {
             console.log('⚛ --- ⚛ --- ⚛ --- ⚛ ---  >>> ☢ messageController ☢ getAllLastMessages ☢ error:', error);

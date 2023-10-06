@@ -11,52 +11,104 @@ import Cookies from "js-cookie";
 const Message = observer(({ lastMessage }) => {
   const navigate = useNavigate();
   return (
-    <div
-      onClick={() => {
-        Cookies.set("chatId", lastMessage.chatId);
+    <div 
+    onClick={() => {
+      Cookies.set("chatId", lastMessage.chatId);
 
-        if (userStore.user === lastMessage.sender.name) {
-          Cookies.set("chatWith", lastMessage.to);
-          navigate(`/chat/${lastMessage.to}`);
-        } else {
-          Cookies.set("chatWith", lastMessage.from);
-          navigate(`/chat/${lastMessage.from}`);
-        }
-      }}
-      className="messageBlock"
-    >
+      if (userStore.user === lastMessage.sender.name) {
+        Cookies.set("chatWith", lastMessage.to);
+        navigate(`/chat/${lastMessage.to}`);
+      } else {
+        Cookies.set("chatWith", lastMessage.from);
+        navigate(`/chat/${lastMessage.from}`);
+      }
+    }}
+    className="messageBlock">
       <div className="userInfo">
-        <Col xs={1} md={2}>
+        <div className="avatar">
           {lastMessage.sender.img ? (
-            <Image
+            <img
               className="logoBuyer"
               src={lastMessage.sender.img}
-              alt="profile photo"
-              roundedCircle
+              alt={lastMessage.sende}
             />
           ) : (
-            <Image
+            <img
               className="logoBuyer"
               src={avatarDefault}
               alt="DSOTM"
-              roundedCircle
             />
           )}
-        </Col>
-
-        <div>
-          {" "}
+        </div>
+        <div className="userDetails">
           {lastMessage.sender.name === userStore.user ? (
-            <div>{`${lastMessage.sender.name} to: ${lastMessage.receiver.name}`}</div>
+            <div className="userTo">
+              {`${lastMessage.sender.name} to: ${lastMessage.receiver.name}`}
+            </div>
           ) : (
-            <div>{lastMessage.sender.name}</div>
+            <div className="userName">{lastMessage.sender.name}</div>
           )}
         </div>
       </div>
+      <div className="textAndTime">
+        <div className="messageText">{lastMessage.message}</div>
+        <div className="time">{lastMessage.time}</div>
+      </div>
 
-      <div className="message">{lastMessage.message}</div>
-      <div className="time">{lastMessage.time}</div>
+      {/* <div  className="mainDiv">
+          <div className="firstDiv"></div>
+          <div className="secondDiv"></div>
+      </div> */}
+
+
+
     </div>
+    // <div
+      // onClick={() => {
+      //   Cookies.set("chatId", lastMessage.chatId);
+
+      //   if (userStore.user === lastMessage.sender.name) {
+      //     Cookies.set("chatWith", lastMessage.to);
+      //     navigate(`/chat/${lastMessage.to}`);
+      //   } else {
+      //     Cookies.set("chatWith", lastMessage.from);
+      //     navigate(`/chat/${lastMessage.from}`);
+      //   }
+      // }}
+    //   className="messageBlock"
+    // >
+    //   <div className="userInfo">
+    //     <Col xs={1} md={2}>
+    //       {lastMessage.sender.img ? (
+    //         <Image
+    //           className="logoBuyer"
+    //           src={lastMessage.sender.img}
+    //           alt="profile photo"
+    //           roundedCircle
+    //         />
+    //       ) : (
+    //         <Image
+    //           className="logoBuyer"
+    //           src={avatarDefault}
+    //           alt="DSOTM"
+    //           roundedCircle
+    //         />
+    //       )}
+    //     </Col>
+
+    //     <div>
+    //       {" "}
+    //       {lastMessage.sender.name === userStore.user ? (
+    //         <div>{`${lastMessage.sender.name} to: ${lastMessage.receiver.name}`}</div>
+    //       ) : (
+    //         <div>{lastMessage.sender.name}</div>
+    //       )}
+    //     </div>
+    //   </div>
+
+    //   <div className="message">{lastMessage.message}</div>
+    //   <div className="time">{lastMessage.time}</div>
+    // </div>
   );
 });
 

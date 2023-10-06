@@ -27,8 +27,9 @@ const Item = observer(({ itemData }) => {
     >
       <Card.Img variant="top" src={itemData.img} />
       <Card.Body>
-        <Card.Title>{itemData.name}</Card.Title>
-        <Card.Text>{itemData.description}</Card.Text>
+        <Card.Title>Название: {itemData.name}</Card.Title>
+        <Card.Text>Описание: {itemData.description}</Card.Text>
+        <Card.Text>Цена: {itemData.price}</Card.Text>
       </Card.Body>
       <Form.Check
         required
