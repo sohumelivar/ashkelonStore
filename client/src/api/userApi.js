@@ -14,6 +14,8 @@ export const registration = async (name, password, phone) => {
     if (response.data.status === 200) {
       userStore.setUser(response.data.name);
       Cookies.set('user', response.data.name);
+      Cookies.set('autorizedUserId', response.data.id);
+
       return response.data.status
     }
     if (response.data.status !== 200) {
@@ -32,6 +34,7 @@ export const signIn = async (name, password) => {
     if (response.data.status === 200) {
       userStore.setUser(response.data.name);
       Cookies.set('user', response.data.name);
+      Cookies.set('autorizedUserId', response.data.id);
       return response.data.status
     }
     if (response.data.status !== 200) {
@@ -50,6 +53,9 @@ export const logout = async () => {
     await axiosFromUser.post('/signout');
     userStore.setUser('');
     Cookies.remove('user');
+    Cookies.remove("autorizedUserId")
+    Cookies.remove("chatId")
+
   } catch (error) {
     console.log(error)
   }
