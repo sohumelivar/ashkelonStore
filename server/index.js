@@ -51,7 +51,7 @@ io.on("connection", (socket) => {
   } )
   
   socket.on('messages', async (data) => {
-    const allMessages = (await getAllMessagesInChat(data.autorizedUser, data.id)).sort((a, b) => a.id - b.id);
+    const allMessages = (await getAllMessagesInChat(data.autorizedUser, data.id))?.sort((a, b) => a.id - b.id);
       socket.emit('messages', allMessages)
   })
   
