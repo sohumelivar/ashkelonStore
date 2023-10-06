@@ -16,24 +16,36 @@ const Chat = observer(() => {
   const id = Cookies.get("chatWith");
   const socket = io('http://localhost:5000');
 
+  // Функция для отправки сообщения
   const sendMessage = () => {
-    socket.emit("message", { text: 'test' });
+    socket.emit("message", { message }); // Отправляем сообщение на сервер
     setMessage(""); // Очистите поле ввода после отправки сообщения
   };
 
-
-  // Закрытие сокет-соединения при размонтировании компонента
   useEffect(() => {
+    // Ожидаем сообщение от сервера
+    socket.on("connection", (message) => {
+      console.log("Получено сообщение от сервера:", message);
+    });
+
+    // Запрашиваем историю чата при монтировании компонента
+    socket.emit("chatHistory");
+
+    // Обрабатываем ответ сервера
+    socket.on('chatHistory', (history) => {
+      setMessages(history); // Обновляем состояние компонента с полученными данными
+    });
+
+    // Очистка слушателя, чтобы избежать утечек памяти
     return () => {
-      socket.disconnect();
+      socket.off('chatHistory');
     };
   }, []);
-
 
   return (
     <div className="main">
       {messages.map((message) =>
-        message.from === userStore.user ? (
+        message.sender.name === userStore.user ? (
           <Seller key={message.id} sellerMessage={message} />
         ) : (
           <Buyer key={message.id} buyerMessage={message} />
@@ -52,7 +64,7 @@ const Chat = observer(() => {
             }}
           />
           <InputGroup.Text id="inputGroup-sizing-lg">
-            <Button variant="grey">
+            <Button onClick={sendMessage} variant="grey">
               Отправить
             </Button>
           </InputGroup.Text>
@@ -63,3 +75,5 @@ const Chat = observer(() => {
 });
 
 export default Chat;
+
+
