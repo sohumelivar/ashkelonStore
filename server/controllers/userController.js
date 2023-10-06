@@ -60,7 +60,7 @@ class UserController {
 
 
             res.cookie('accessToken', {accessToken, user: name, id: user.id},{maxAge: 30*24*60*1000, httpOnly: true,});
-            return res.json({status: 200, accessToken, name});
+            return res.json({status: 200, accessToken, name, id: user.id });
         } catch (error) {
             console.log('⚛ --- ⚛ --- ⚛ --- ⚛ ---  >>> ☢ UserController ☢ login ☢ error:', error);
         }

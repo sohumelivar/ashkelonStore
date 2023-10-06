@@ -14,33 +14,34 @@ const Chat = observer(() => {
   const [messages, setMessages] = useState(messageStore.messages);
   const [message, setMessage] = useState("");
   const id = Cookies.get("chatWith");
-  const socket = io('http://localhost:5000');
+  const chatId = Cookies.get("chatId");
 
-  // Функция для отправки сообщения
-  const sendMessage = () => {
-    socket.emit("message", { message }); // Отправляем сообщение на сервер
-    setMessage(""); // Очистите поле ввода после отправки сообщения
-  };
+  const autorizedUser = Cookies.get("autorizedUserId");
+  const data = { autorizedUser, id ,chatId, message };
+  const socket = io("http://localhost:5000");
+
+
+ 
 
   useEffect(() => {
-    // Ожидаем сообщение от сервера
     socket.on("connection", (message) => {
       console.log("Получено сообщение от сервера:", message);
     });
-
-    // Запрашиваем историю чата при монтировании компонента
-    socket.emit("chatHistory");
-
-    // Обрабатываем ответ сервера
-    socket.on('chatHistory', (history) => {
-      setMessages(history); // Обновляем состояние компонента с полученными данными
+    socket.emit("chatHistory", data);
+    socket.on("chatHistory", (history) => {
+      setMessages(history);
     });
-
-    // Очистка слушателя, чтобы избежать утечек памяти
     return () => {
-      socket.off('chatHistory');
+      socket.off("chatHistory");
     };
   }, []);
+  const sendMessage = () => {
+    socket.emit("message", data);
+    setMessage(""); // Сброс message здесь, после успешной отправки
+    socket.on("chatHistory", (history) => {
+      setMessages(history);
+    });  };
+
 
   return (
     <div className="main">
@@ -75,5 +76,3 @@ const Chat = observer(() => {
 });
 
 export default Chat;
-
-

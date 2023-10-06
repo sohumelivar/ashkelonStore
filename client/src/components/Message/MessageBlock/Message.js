@@ -13,6 +13,8 @@ const Message = observer(({ lastMessage }) => {
   return (
     <div
       onClick={() => {
+        Cookies.set("chatId", lastMessage.chatId);
+
         if (userStore.user === lastMessage.sender.name) {
           Cookies.set("chatWith", lastMessage.to);
           navigate(`/chat/${lastMessage.to}`);

@@ -8,6 +8,7 @@ const router = require("./routes");
 const http = require("http");
 const { Message } = require("./models/models");
 const getAllMessagesInChat = require("./api/messageApi");
+const { log } = require("console");
 
 const PORT = process.env.PORT;
 
@@ -41,15 +42,31 @@ app.use("/api", router);
 
 io.on("connection", (socket) => {
   console.log("a user connected");
-  socket.emit("connection", "Привет, клиент!");
   socket.on("chatHistory", async (data) => {
     try {
-      console.log(data);
-      // if(data){
-      //   await
-      // }
-      const allMessagesBetweenUsers = await getAllMessagesInChat(2, 3);
-      socket.emit("chatHistory", allMessagesBetweenUsers);
+      const allMessagesBetweenUsers = await getAllMessagesInChat(
+        data.autorizedUser,
+        data.id
+      );
+      io.to().emit("chatHistory", allMessagesBetweenUsers);
+    } catch (error) {
+      console.log(error);
+    }
+  });
+  socket.on("message", async (data) => {
+    try {
+      await Message.create({
+        message: data.message,
+        from: data.autorizedUser,
+        to: data.id,
+        chatId: data.chatId,
+        time: new Date().toLocaleTimeString('en-US', { hour12: false })
+      });
+      const allMessagesBetweenUsers = await getAllMessagesInChat(
+        data.autorizedUser,
+        data.id
+      );
+      io.emit("chatHistory", allMessagesBetweenUsers);
     } catch (error) {
       console.log(error);
     }
