@@ -65,6 +65,8 @@ class itemController {
             const item = (await Goods.findOne({where: {id: req.cookies.updateId.id}, include: User}, {include: User} )).dataValues;
             const user = item.user.dataValues;
             const data = Object.assign(item, {user});
+            console.log('⚛ --- ⚛ --- ⚛ --- ⚛ ---  >>> ☢ itemController ☢ pageViewIdAfterRefresh ☢ data:', data)
+
             return res.json(data);
         } catch (error) {
             console.log('⚛ --- ⚛ --- ⚛ --- ⚛ ---  >>> ☢ itemController ☢ pageViewIdAfterRefresh ☢ error:', error);

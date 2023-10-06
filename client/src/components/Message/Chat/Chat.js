@@ -49,7 +49,7 @@ const Chat = observer(() => {
 
   return (
     <div className="main">
-      {messages.map((message) =>
+      {messages?.map((message) =>
         message.sender.name === userStore.user ? (
           <Seller key={message.id} sellerMessage={message} />
         ) : (
