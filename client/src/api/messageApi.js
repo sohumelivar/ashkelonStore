@@ -18,11 +18,8 @@ export const sendMessageItemPageApi = async (message) => {
 export const lastMessagesApi = async () => {
     try {
         const response = await axiosFromMessage.get('/getAllLastMessages');
-        console.log('⚛ --- ⚛ --- ⚛ --- ⚛ ---  >>> ☢ lastMessagesApi ☢ response:', response)
-
         messageStore.setLastMessage(response.data);
-
-    } catch (error) {
+     } catch (error) {
         console.log('⚛ --- ⚛ --- ⚛ --- ⚛ ---  >>> ☢ lastMessagesApi ☢ error:', error);
     }
 }

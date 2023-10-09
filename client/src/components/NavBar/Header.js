@@ -1,14 +1,9 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { Link, useLocation } from "react-router-dom";
 import { observer } from "mobx-react-lite";
 import userStore from "../../store/userStore";
 import { logout } from "../../api/userApi";
-import Container from "react-bootstrap/Container";
-import Nav from "react-bootstrap/Nav";
-import Navbar from "react-bootstrap/Navbar";
-
-import { testIpApi } from "../../api/userApi";
-
+import './Header.css';
 import { action } from "mobx";
 import { checkUser } from "../../api/userApi";
 import Cookies from "js-cookie";
@@ -24,11 +19,6 @@ const Header = observer(() => {
     }, 1000);
   });
 
-
-// useEffect(() => {
-//   testIpApi();
-// }, []);
-
   if (location !== "/signup") clearError();
   if (location !== `/chat/${Cookies.get('chatWith')}`) Cookies.remove("chatWith");
 
@@ -36,47 +26,36 @@ const Header = observer(() => {
   if (location !== "/signin") clearError();
 
   return (
-    <Navbar bg="dark" data-bs-theme="dark">
-      <Container>
-        <Navbar.Brand as={Link} to="/">
-          Ashkelon Store
-        </Navbar.Brand>
-        <Nav className="me-auto">
-          <Nav.Link as={Link} to="/">
-            Главная
-          </Nav.Link>
-          <Nav.Link as={Link} to="/catalog">
-            Каталог
-          </Nav.Link>
-          <Nav.Link as={Link} to="/logo">
-            Логотип
-          </Nav.Link>
-          <Nav.Link as={Link} to="/favorite">
-            Избранное
-          </Nav.Link>
+    <header className="navbar">
+      <div className="container">
+        <Link to="/" className="navbar-brand">Ashkelon Store</Link>
+        <nav className="nav">
+          <Link to="/" className="nav-link">Главная</Link>
+          <Link to="/catalog" className="nav-link">Каталог</Link>
+          <Link to="/favorite" className="nav-link">Избранное</Link>
           {userStore.user ? (
-            <Nav.Link as={Link} to="/profile">
-              Профиль{" "}
-            </Nav.Link>
+            <>
+              <Link to="/profile" className="nav-link">
+                Профиль
+                <span className="notification-badge">1</span>
+                </Link>
+              <a
+                href="/"
+                className="nav-link"
+                onClick={(event) => {
+                  event.preventDefault();
+                  logout();
+                }}
+              >
+                Выйти
+              </a>
+            </>
           ) : (
-            <Nav.Link as={Link} to="/signin">
-              Войти{" "}
-            </Nav.Link>
+            <Link to="/signin" className="nav-link">Войти</Link>
           )}
-          {userStore.user && (
-            <Nav.Link
-              onClick={(event) => {
-                event.preventDefault();
-                logout();
-              }}
-              href="/"
-            >
-              Выйти
-            </Nav.Link>
-          )}
-        </Nav>
-      </Container>
-    </Navbar>
+        </nav>
+      </div>
+    </header>
   );
 });
 export default Header;

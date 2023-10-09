@@ -1,6 +1,10 @@
 .buyer{
   display: flex;
   margin: 10px;
+  border: 2px solid #000;
+  background-color: #e9b9b9;
+  padding: 10px;
+  border-radius: 10px;
 }
 .profile{
 margin-right: 10px;
