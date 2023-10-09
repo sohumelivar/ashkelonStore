@@ -28,6 +28,9 @@ const ItemPage = observer(() => {
 
   if(!itemStore.item.name) pageViewIdAfterRefresh();
 
+  const onKeyDown = e =>{
+    if (e.key === 'Enter') sendButton();
+  }
 
   return (
     <div>
@@ -67,7 +70,10 @@ const ItemPage = observer(() => {
        {itemStore.item.user?.name !== userStore.user &&  
         <div className="ask">
           <h3>Написать продавцу</h3>
-          <InputGroup size="lg">
+          <InputGroup 
+          size="lg"
+          onKeyDown={onKeyDown}
+          >
             <Form.Control 
               placeholder="введите сообщение ..."
               aria-label="Large"

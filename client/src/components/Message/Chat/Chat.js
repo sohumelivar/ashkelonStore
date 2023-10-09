@@ -36,7 +36,6 @@ const Chat = observer(() => {
     socket.on('messages', (messages) => {
       setMessages(messages)
     })
-    console.log('⚛ --- ⚛ --- ⚛ --- ⚛ ---  >>> ☢ socket.on ☢ messages:', messages)
 
     socket.on('newMessage', () => {
       socket.emit("messages", data);
@@ -87,6 +86,7 @@ const Chat = observer(() => {
           <InputGroup.Text 
           id="inputGroup-sizing-lg"
           onKeyDown={onKeyDown}
+          placeholder='введите сообщение ...'
           >
             <Button onClick={sendMessage} variant="grey">
               Отправить

@@ -4,6 +4,7 @@ import Form from "react-bootstrap/Form";
 import Card from "react-bootstrap/Card";
 import { useNavigate } from "react-router-dom";
 import { pageViewId, addFavoriteApi, getAllGoods } from "../../api/goodApi";
+import "./Item.css"
 
 const Item = observer(({ itemData }) => {
   const navigate = useNavigate();
