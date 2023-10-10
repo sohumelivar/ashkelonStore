@@ -22,30 +22,28 @@ const Profile = observer(() => {
   const navigate = useNavigate()
 
   useEffect(() => {
-    getAllUserItems();
-    lastMessagesApi();
+    const allFunc = async () => {
+      getAllUserItems();
+      lastMessagesApi();
+    }
+    allFunc();
   }, []);
 
 
   const [addGoodsCN, setAddGoodsCN] = useState('none');
   const [userGoodsCN, setUserGoodsCN] = useState('active');
-  const [userFavoriteCN, setUserFavoriteCN] = useState('none');
   const [userMessageCN, setUserMessageCN] = useState('none');
 
   const checkBox1 = () => {
-    return setAddGoodsCN('visible') || setUserGoodsCN('none') || setUserFavoriteCN('none') || setUserMessageCN('none');
+    return setAddGoodsCN('visible') || setUserGoodsCN('none') || setUserMessageCN('none');
   };
 
   const checkBox2 = () => {
-    return setAddGoodsCN('none') || setUserGoodsCN('visible') || setUserFavoriteCN('none') || setUserMessageCN('none');
-  };
-
-  const checkBox3 = () => {
-    return setAddGoodsCN('none') || setUserGoodsCN('none') || setUserFavoriteCN('visible') || setUserMessageCN('none');
+    return setAddGoodsCN('none') || setUserGoodsCN('visible') || setUserMessageCN('none');
   };
 
   const checkBox4 = () => {
-    return setAddGoodsCN('none') || setUserGoodsCN('none') || setUserFavoriteCN('none') || setUserMessageCN('visible');
+    return setAddGoodsCN('none') || setUserGoodsCN('none') || setUserMessageCN('visible');
   };
 
   return (
@@ -91,16 +89,12 @@ const Profile = observer(() => {
         <Button type="button" onClick={checkBox2} className="butt" variant="secondary">
           Мои обьявления
         </Button>{" "}
-        <Button type="button" onClick={checkBox3} className="butt" variant="secondary">
-          Избранное
-        </Button>{" "}
         <Button type="button" onClick={checkBox4} className="butt" variant="secondary">
           Мои сообщения
         </Button>{" "}
       </div>
       <div className="divForButtonsOption">
         <div className={addGoodsCN} > <AddGood /> </div>
-        <div className={userFavoriteCN} > избранное </div>
         <div className={userMessageCN} > <Dialog /></div>
         <div className={userGoodsCN} >
           <div className='cardDiv'>

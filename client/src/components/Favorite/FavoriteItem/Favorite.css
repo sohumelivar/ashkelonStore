@@ -1,4 +1,4 @@
-.item-card {
+.favorite-item {
     border: 1px solid #ccc;
     border-radius: 8px;
     padding: 16px;
@@ -8,59 +8,48 @@
     text-align: center;
     position: relative;
     justify-content: center;
-    margin-bottom: 10px;
-    margin-left: 10px;
+    margin-top: 16px;
 }
 
-.item-card:hover {
-    cursor: pointer;
-}
-  
-.item-img {
+.favorite-item-img {
     width: 200px;
     height: 200px;
     margin-bottom: 12px;
 }
-  
-.item-details {
+
+.favorite-item-details {
     width: 100%;
 }
-  
-.item-title {
+
+.favorite-item-title {
     font-size: 18px;
     margin-bottom: 8px;
 }
-  
-.item-description {
+
+.favorite-item-description {
     margin-bottom: 8px;
 }
 
-.item-price {
-    font-weight: bold;
-    color: #007bff;
-    margin-bottom: 8px;
-}
-  
-.item-favorite-label {
+.favorite-item-checkbox-label {
     display: flex;
     align-items: center;
     cursor: pointer;
     margin-top: 8px;
     position: relative;
 }
-  
-.item-favorite-checkbox {
+
+.favorite-item-checkbox {
     width: 24px;
     height: 24px;
     margin-right: 8px;
     display: none;
 }
-  
-.item-favorite-heart {
+
+.favorite-item-heart {
     width: 24px;
     height: 24px;
     background: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'><path d='M12 21.35l-1.45-1.32C5.4 16.44 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 7.94-8.55 11.54L12 21.35z'/></svg>")
-      no-repeat center/cover;
+        no-repeat center/cover;
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
@@ -69,9 +58,10 @@
     color: transparent;
     transition: color 0.3s ease;
 }
-  
-.item-favorite-label .item-favorite-heart {
-    color: #ff0000; 
+
+
+.favorite-item-checkbox:checked + .favorite-item-checkbox-label .favorite-item-heart {
+    color: #ff0000;
 }
 
 .heart {
@@ -80,8 +70,7 @@
     height: 24px;
     transition: fill 0.3s ease;
 }
-  
+
 .liked {
     fill: #ff0000;
 }
-  

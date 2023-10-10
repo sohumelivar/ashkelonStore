@@ -6,7 +6,7 @@ const path = require("path");
 const sequelize = require("./db");
 const router = require("./routes");
 const http = require("http");
-const { Message } = require("./models/models");
+const { Message,Chat} = require("./models/models");
 const getAllMessagesInChat = require("./api/messageApi");
 const { log } = require("console");
 
@@ -64,6 +64,13 @@ io.on("connection", (socket) => {
       time: new Date().toLocaleTimeString('en-US', { hour12: false })
     });
     io.emit('newMessage');
+  })
+
+  socket.on('unreadMessage',async (data)=>{
+    console.log(data);
+
+    await Chat.update({unreadMessage: 0},{where:{id:data.chatId}})
+
   })
   
   socket.on('disconnect', () => {

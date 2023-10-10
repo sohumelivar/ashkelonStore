@@ -1,6 +1,7 @@
 import axios from "axios";
 import userStore from "../store/userStore";
 import Cookies from 'js-cookie';
+import { getAllGoods } from "./goodApi";
 
 
 const axiosFromUser = axios.create({
@@ -15,7 +16,6 @@ export const registration = async (name, password, phone) => {
       userStore.setUser(response.data.name);
       Cookies.set('user', response.data.name);
       Cookies.set('autorizedUserId', response.data.id);
-
       return response.data.status
     }
     if (response.data.status !== 200) {
@@ -55,7 +55,8 @@ export const logout = async () => {
     Cookies.remove('user');
     Cookies.remove("autorizedUserId")
     Cookies.remove("chatId")
-
+    localStorage.clear();
+    await getAllGoods();
   } catch (error) {
     console.log(error)
   }

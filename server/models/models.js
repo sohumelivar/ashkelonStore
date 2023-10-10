@@ -31,6 +31,8 @@ const Message = sequelize.define('message', {
 
 const Chat = sequelize.define('chat', {
     id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
+    unreadMessage: { type: DataTypes.INTEGER},
+
 });
 
 

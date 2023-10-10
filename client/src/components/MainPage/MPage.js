@@ -7,14 +7,17 @@ import { getAllGoods } from '../../api/goodApi';
 
 const MainPage = observer(() => {
 
-  useEffect(() => {
-    getAllGoods();
-  }, []);
+useEffect(() => {
+  const getAll = async () => {
+    await getAllGoods();
+  };
+  getAll();
+}, []);
 
 return (
     <div>
       <div className="search-container">
-        <input type="text" placeholder="Название товара" className="search-input"/>
+        <input type="text" placeholder="Название товара" className="search-input" />
         <button className="search-button">ПОИСК ТОВАРА</button>
       </div>
       <div className='cardDiv'>

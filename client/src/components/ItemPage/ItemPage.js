@@ -17,13 +17,19 @@ const ItemPage = observer(() => {
   const navigate = useNavigate();
   const [buttonInfo, setButtonInfo] = useState("Показать телефон");
   const [message, setMessage] = useState('');
+  const [activeDiv, setAsciveDiv] = useState('none');
 
   const handleButton = () => {
     setButtonInfo(itemStore.item.user.phone);
   };
   const sendButton = async () => {
-    await sendMessageItemPageApi(message);
-    setMessage('');
+    if(userStore.user) {
+      await sendMessageItemPageApi(message);
+      setMessage('');
+    } else {
+      setAsciveDiv("active");
+      setMessage('');
+    }
   };
 
   if(!itemStore.item.name) pageViewIdAfterRefresh();
@@ -86,7 +92,8 @@ const ItemPage = observer(() => {
                 Отправить
               </Button>
             </InputGroup.Text>
-          </InputGroup>
+            </InputGroup>
+            <div className={activeDiv}>Необходимо войти в учетную запись, или зарегестрироваться<Link to="/signIn">Войти</Link></div>
             <p>{messageStore.responseMessage && messageStore.responseMessage}</p>
             <p>{messageStore.responseMessage && <Nav.Link as={Link} to="/"></Nav.Link>}</p>
         </div>

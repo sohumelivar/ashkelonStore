@@ -32,13 +32,13 @@
   transition: color 0.3s;
 }
   
-/* .nav-link:hover {
+.nav-link:hover {
   color: #6c6d6e;
-} */
+}
   
-/* .nav-link:active {
-  color: #fff; 
-} */
+.nav-link:active {
+  color: rgb(134, 17, 17); 
+}
   
 .notification-badge {
   display: inline-block;
@@ -52,5 +52,24 @@
   margin-left: 5px; /* Расстояние между кружком и текстом */
   font-size: 10px; /* Уменьшаем размер текста внутри кружка */
   vertical-align: top; /* Поднимаем кружок к верху */
+}
+
+@keyframes backgroundAnimation {
+  0% {
+    background-position: 100% 0;
+  }
+  100% {
+    background-position: 0 0;
+  }
+}
+
+.navbar {
+  background: linear-gradient(to left, black, gray); /* Градиент от черного к серому */
+  background-size: 200% 100%; /* Размер градиента */
+  animation: backgroundAnimation 5s linear infinite alternate; /* Анимация фона */
+  color: white;
+  text-align: center;
+  font-size: 24px;
+  padding: 20px;
 }
 

@@ -7,6 +7,7 @@ class MessageStore {
   lastsMessages = [];
 
   messages=[]
+  unreadMessage = null
 
   responseMessage = null;
 
@@ -19,6 +20,9 @@ class MessageStore {
 
   setResponseMessage (responseMessage) {
     this.responseMessage = responseMessage
+  }
+  setUnreadMessage(unreadMessage) {
+    this.unreadMessage = unreadMessage;
   }
 
 }

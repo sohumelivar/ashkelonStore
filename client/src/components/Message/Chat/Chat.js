@@ -33,6 +33,7 @@ const Chat = observer(() => {
   useEffect(() => {
     socket.emit('userId', data);
     socket.emit("messages", data);
+    socket.emit('unreadMessage',data)
     socket.on('messages', (messages) => {
       setMessages(messages)
     })
@@ -48,8 +49,10 @@ const Chat = observer(() => {
   
   
   const sendMessage = () => {
-    socket.emit('sendMessage', data);
-    setMessage('');
+    if(data.message) {
+      socket.emit('sendMessage', data);
+      setMessage('');
+    }
   };
 
   const onKeyDown = e =>{
