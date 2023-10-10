@@ -48,7 +48,7 @@ io.on("connection", (socket) => {
     userSockets[data.autorizedUser] = socket.id;
     console.log(`=============================================>>>>>>>>>>>>>>>>>>>  Пользователь ${data.autorizedUser} подключился с сокетом ${socket.id}`);
     console.log('⚛ -------------------------------------------------------------------------------- ⚛ --- ⚛ --- ⚛ ---  >>> ☢ userSockets:', userSockets)
-  } )
+  })
   
   socket.on('messages', async (data) => {
     const allMessages = (await getAllMessagesInChat(data.autorizedUser, data.id))?.sort((a, b) => a.id - b.id);
