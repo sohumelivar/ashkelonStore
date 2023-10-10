@@ -1,0 +1,20 @@
+.gray-button {
+    background-color: rgb(88, 86, 86); /* Серый цвет фона */
+    color: #fff; /* Белый цвет текста */
+    padding: 5px 10px; /* Уменьшаем отступы внутри кнопки */
+    margin-right: 10px; /* Отступ справа между кнопками */
+    margin-top: 10px;
+    border: none; /* Убираем границу кнопки */
+    cursor: pointer; /* Курсор при наведении */
+    border-radius: 5px; /* Задаем радиус скругления */
+    transition: background-color 0.3s ease; /* Добавляем анимацию смены цвета */
+  }
+  
+  .gray-button:hover {
+    background-color: #666; /* Более яркий цвет фона при наведении */
+  }
+  
+  .gray-button:last-child {
+    margin-right: 0; /* Убираем отступ у последней кнопки */
+  }
+  

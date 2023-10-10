@@ -32,3 +32,11 @@
 .ask{
   width: 70%;
 }
+
+.none{
+  display: none;
+}
+
+.active{
+  display: block;
+}

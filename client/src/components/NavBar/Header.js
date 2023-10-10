@@ -32,6 +32,7 @@ const Header = observer(() => {
         <nav className="nav">
           <Link to="/" className="nav-link">Главная</Link>
           <Link to="/catalog" className="nav-link">Каталог</Link>
+          <Link to="/logo" className="nav-link">Лого</Link>
           <Link to="/favorite" className="nav-link">Избранное</Link>
           {userStore.user ? (
             <>
