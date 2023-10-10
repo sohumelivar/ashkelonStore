@@ -44,12 +44,15 @@ const Chat = observer(() => {
     return () => {
       socket.disconnect();
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   
   
   const sendMessage = () => {
-    socket.emit('sendMessage', data);
-    setMessage('');
+    if(data.message) {
+      socket.emit('sendMessage', data);
+      setMessage('');
+    }
   };
 
   const onKeyDown = e =>{
