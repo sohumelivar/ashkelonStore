@@ -24,5 +24,14 @@ export const lastMessagesApi = async () => {
     }
 }
 
+export const unreadMessageApi = async () => {
+  try {
+      const response = await axiosFromMessage.get('/unreadMessage');
+      messageStore.setUnreadMessage(response.data)
+   } catch (error) {
+      console.log('⚛ --- ⚛ --- ⚛ --- ⚛ ---  >>> ☢ lastMessagesApi ☢ error:', error);
+  }
+}
+
 
 

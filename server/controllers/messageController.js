@@ -1,5 +1,5 @@
 const { User, Goods, Message, Chat } = require('../models/models');
-const { Op } = require('sequelize');
+const { Op, where } = require('sequelize');
 
 
 class messageController {
@@ -14,7 +14,7 @@ class messageController {
                 message,
                 from,
                 to,
-                time: new Date().toLocaleTimeString('en-US', { hour12: false })
+                time: new Date().toLocaleTimeString('en-US', { hour12: false }),
             });
             let chat = await Chat.findOrCreate({
                 where: {
@@ -29,7 +29,16 @@ class messageController {
                 }   
             });
             chat = chat[0];
-            await messageBD.setChat(chat);
+            const unreadMessageBD = (await Chat.findOne({where : {id:chat.id}})).dataValues.unreadMessage
+   
+            if(unreadMessageBD){
+              await Chat.update({unreadMessage: unreadMessageBD+1},{where:{id:chat.id}})
+            }else{
+              await Chat.update({unreadMessage:1},{where:{id:chat.id}})
+
+            }
+            console.log(unreadMessageBD,'======');
+                        await messageBD.setChat(chat);
             res.json({test: 'test'});
         } catch (error) {
             console.log('⚛ --- ⚛ --- ⚛ --- ⚛ ---  >>> ☢ messageController ☢ sendMessageItemPage ☢ error:', error);
@@ -74,6 +83,25 @@ class messageController {
         }
     }
  
+   async getUnreadMessage (req,res){
+    try {
+      const { id } = req.cookies.accessToken;
+      const unreadMessage = (await Chat.findAll({
+        where: {
+            [Op.or]: [
+                { [Op.and]: { user1Id: id } },
+                { [Op.and]: { user2Id: id } },
+            ],
+        },
+    })).map(el => el.dataValues).reduce((acc,el)=> el.unreadMessage+acc,0);
+    res.json(unreadMessage)
+
+      
+    } catch (error) {
+      console.log('⚛ --- ⚛ --- ⚛ --- ⚛ ---  >>> ☢ messageController ☢ getUnreadMessage ☢ error:', error);
+
+    }
+    }
   
 }
 

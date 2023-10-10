@@ -33,6 +33,7 @@ const Chat = observer(() => {
   useEffect(() => {
     socket.emit('userId', data);
     socket.emit("messages", data);
+    socket.emit('unreadMessage',data)
     socket.on('messages', (messages) => {
       setMessages(messages)
     })
@@ -44,7 +45,6 @@ const Chat = observer(() => {
     return () => {
       socket.disconnect();
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   
   

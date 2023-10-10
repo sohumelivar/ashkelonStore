@@ -11,8 +11,7 @@ module.exports = async function getAllMessagesInChat(autorizedUser, user2) {
             { [Op.and]: { user1Id: user2, user2Id: autorizedUser } },
           ],
         },
-      });
-  
+      });  
       const messages = (
         await Message.findAll({
           where: { chatId: chat.id },

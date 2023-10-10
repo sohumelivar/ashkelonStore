@@ -7,9 +7,12 @@ import './Header.css';
 import { action } from "mobx";
 import { checkUser } from "../../api/userApi";
 import Cookies from "js-cookie";
+import { unreadMessageApi } from "../../api/messageApi";
+import messageStore from "../../store/messageStore";
 
 const Header = observer(() => {
   checkUser();
+  unreadMessageApi()
 
   const location = useLocation().pathname;
 
@@ -38,7 +41,7 @@ const Header = observer(() => {
             <>
               <Link to="/profile" className="nav-link">
                 Профиль
-                <span className="notification-badge">1</span>
+                <span className="notification-badge">{messageStore.unreadMessage}</span>
                 </Link>
               <a
                 href="/"
