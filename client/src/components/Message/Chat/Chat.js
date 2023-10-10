@@ -28,8 +28,12 @@ const Chat = observer(() => {
       console.log("Получено сообщение от сервера:", message);
     });
     socket.emit("chatHistory", data);
+
     socket.on("chatHistory", (history) => {
       setMessages(history);
+    });
+    socket.on("chatHistory", () => {
+      
     });
     return () => {
       socket.off("chatHistory");

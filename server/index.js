@@ -48,7 +48,7 @@ io.on("connection", (socket) => {
         data.autorizedUser,
         data.id
       );
-      io.to().emit("chatHistory", allMessagesBetweenUsers);
+      socket.emit("chatHistory", allMessagesBetweenUsers);
     } catch (error) {
       console.log(error);
     }
@@ -66,7 +66,7 @@ io.on("connection", (socket) => {
         data.autorizedUser,
         data.id
       );
-      io.emit("chatHistory", allMessagesBetweenUsers);
+      socket.emit("chatHistory", allMessagesBetweenUsers);
     } catch (error) {
       console.log(error);
     }
