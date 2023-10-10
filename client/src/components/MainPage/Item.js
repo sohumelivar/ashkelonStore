@@ -4,6 +4,7 @@ import Form from "react-bootstrap/Form";
 import Card from "react-bootstrap/Card";
 import { useNavigate } from "react-router-dom";
 import { pageViewId, addFavoriteApi, getAllGoods } from "../../api/goodApi";
+import "./Item.css"
 
 const Item = observer(({ itemData }) => {
   const navigate = useNavigate();
@@ -27,8 +28,9 @@ const Item = observer(({ itemData }) => {
     >
       <Card.Img variant="top" src={itemData.img} />
       <Card.Body>
-        <Card.Title>{itemData.name}</Card.Title>
-        <Card.Text>{itemData.description}</Card.Text>
+        <Card.Title>Название: {itemData.name}</Card.Title>
+        <Card.Text>Описание: {itemData.description}</Card.Text>
+        <Card.Text>Цена: {itemData.price}</Card.Text>
       </Card.Body>
       <Form.Check
         required

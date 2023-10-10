@@ -40,35 +40,37 @@ app.use("/images", express.static(path.join(__dirname, "images")));
 
 app.use("/api", router);
 
+const userSockets = {};
+
+
 io.on("connection", (socket) => {
-  console.log("a user connected");
-  socket.on("chatHistory", async (data) => {
-    try {
-      const allMessagesBetweenUsers = await getAllMessagesInChat(
-        data.autorizedUser,
-        data.id
-      );
-      socket.emit("chatHistory", allMessagesBetweenUsers);
-    } catch (error) {
-      console.log(error);
-    }
-  });
-  socket.on("message", async (data) => {
-    try {
-      await Message.create({
-        message: data.message,
-        from: data.autorizedUser,
-        to: data.id,
-        chatId: data.chatId,
-        time: new Date().toLocaleTimeString('en-US', { hour12: false })
-      });
-      const allMessagesBetweenUsers = await getAllMessagesInChat(
-        data.autorizedUser,
-        data.id
-      );
-      socket.emit("chatHistory", allMessagesBetweenUsers);
-    } catch (error) {
-      console.log(error);
+  socket.on('userId', (data) => {
+    userSockets[data.autorizedUser] = socket.id;
+    console.log(`=============================================>>>>>>>>>>>>>>>>>>>  Пользователь ${data.autorizedUser} подключился с сокетом ${socket.id}`);
+    console.log('⚛ -------------------------------------------------------------------------------- ⚛ --- ⚛ --- ⚛ ---  >>> ☢ userSockets:', userSockets)
+  } )
+  
+  socket.on('messages', async (data) => {
+    const allMessages = (await getAllMessagesInChat(data.autorizedUser, data.id))?.sort((a, b) => a.id - b.id);
+      socket.emit('messages', allMessages)
+  })
+  
+  socket.on('sendMessage', async (data) => {
+    await Message.create({
+      message: data.message,
+      from: data.autorizedUser, 
+      to: data.id, 
+      chatId: data.chatId, 
+      time: new Date().toLocaleTimeString('en-US', { hour12: false })
+    });
+    io.emit('newMessage');
+  })
+  
+  socket.on('disconnect', () => {
+    const userId = Object.keys(userSockets).find(key => userSockets[key] === socket.id);
+    delete userSockets[userId];
+    if (userId) {
+      console.log(`--------------------------------------------- >>>>>>>>>>>>  Пользователь ${userId} отключился`);
     }
   });
 });

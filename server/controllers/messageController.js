@@ -55,6 +55,7 @@ class messageController {
               })).map(el => el.dataValues);
             const idChat = chat.map(el => el.id);
             const filteredMessages = messages.filter(message => idChat.includes(message.chatId)); 
+
             let lastMessagesByChatId = {};
             filteredMessages.forEach(message => {
                 const chatId = message.chatId;
@@ -62,7 +63,9 @@ class messageController {
                     lastMessagesByChatId[chatId] = message;
                 }
             });
-            lastMessagesByChatId = (Object.values(lastMessagesByChatId)).sort((a, b) => b.id - a.id);
+            lastMessagesByChatId = (Object.values(lastMessagesByChatId)).sort((a, b) => {
+                return b.id - a.id
+            })
             const result = JSON.parse(JSON.stringify(lastMessagesByChatId));
             result.map(el => delete el.sender.password && delete el.receiver.password);
             res.json(result);

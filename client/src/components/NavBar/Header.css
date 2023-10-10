@@ -1,0 +1,56 @@
+.navbar {
+  background-color: #343a40;
+  color: #fff;
+  padding: 15px 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+  
+.navbar-brand {
+  color: #fff;
+  text-decoration: none;
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.navbar-brand:hover {
+  color: rgb(152, 22, 22); /* Цвет текста при наведении на "Ashkelon Store" */
+}
+
+.nav {
+  list-style: none;
+  display: flex;
+  gap: 20px;
+  margin-left: auto;
+}
+
+.nav-link {
+  color: #fff;
+  text-decoration: none;
+  font-weight: bold;
+  transition: color 0.3s;
+}
+  
+/* .nav-link:hover {
+  color: #6c6d6e;
+} */
+  
+/* .nav-link:active {
+  color: #fff; 
+} */
+  
+.notification-badge {
+  display: inline-block;
+  width: 16px; /* Уменьшаем ширину кружка */
+  height: 16px; /* Уменьшаем высоту кружка */
+  background-color: #ff0000; /* Цвет кружка */
+  color: #fff; /* Цвет текста внутри кружка */
+  text-align: center;
+  line-height: 16px; /* Выравниваем текст по центру */
+  border-radius: 50%; /* Создаем круглый кружок */
+  margin-left: 5px; /* Расстояние между кружком и текстом */
+  font-size: 10px; /* Уменьшаем размер текста внутри кружка */
+  vertical-align: top; /* Поднимаем кружок к верху */
+}
+
