@@ -19,6 +19,7 @@ export const lastMessagesApi = async () => {
     try {
         const response = await axiosFromMessage.get('/getAllLastMessages');
         messageStore.setLastMessage(response.data);
+        console.log(response.data);
      } catch (error) {
         console.log('⚛ --- ⚛ --- ⚛ --- ⚛ ---  >>> ☢ lastMessagesApi ☢ error:', error);
     }
@@ -40,6 +41,15 @@ export const clearCountMessagesApi = async (chatWith) => {
     } catch (error) {
         console.log('⚛ --- ⚛ --- ⚛ --- ⚛ ---  >>> ☢ clearCountMessagesApi ☢ error:', error)
     }
+}
+
+export const unreadMessageWithOneUserApi = async ()=>{
+  try {
+    
+  } catch (error) {
+    console.log('⚛ --- ⚛ --- ⚛ --- ⚛ ---  >>> ☢ unreadMessageWithOneUserApi ☢ error:', error)
+
+  }
 }
 
 
