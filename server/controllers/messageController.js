@@ -79,6 +79,7 @@ class messageController {
             })
             const result = JSON.parse(JSON.stringify(lastMessagesByChatId));
             result.map(el => delete el.sender.password && delete el.receiver.password);
+            const usersId =result.map(el=>el.receiver.id === id ? {autorizedUser : el.receiver.id, from: el.sender.id }:{autorizedUser : el.sender.id, from: el.receiver.id})
             res.json(result);
         } catch (error) {
             console.log('⚛ --- ⚛ --- ⚛ --- ⚛ ---  >>> ☢ messageController ☢ getAllLastMessages ☢ error:', error);
@@ -98,12 +99,12 @@ class messageController {
       console.log('⚛ --- ⚛ --- ⚛ --- ⚛ ---  >>> ☢ messageController ☢ getUnreadMessage ☢ error:', error.message);
     }
     }
+    
 
     async clearCountMessages (req, res) {
         try {
             const { id } = req.cookies.accessToken;
             const { chatWith }  = req.body;
-            console.log('⚛ --- ⚛ --- ⚛ --- ⚛ ---  >>> ☢ messageController ☢ clearCountMessages ☢ chatWith:', chatWith)
 
             await Unread.update({counter: 0},{where: {userId: id, from: chatWith}});
             const unreadMessage = await Unread.findAll({where: {userId: id}});
