@@ -7,15 +7,22 @@ import './Header.css';
 import { action } from "mobx";
 import { checkUser } from "../../api/userApi";
 import Cookies from "js-cookie";
-import { unreadMessageApi } from "../../api/messageApi";
+import { unreadMessageApi, clearCountMessagesApi } from "../../api/messageApi";
 import messageStore from "../../store/messageStore";
 
 const Header = observer(() => {
   checkUser();
-  unreadMessageApi()
-
+  
   const location = useLocation().pathname;
-
+  const chatPattern = /^\/chat\//;
+  
+  if (chatPattern.test(location)) {
+    const chatWith = Cookies.get('chatWith');
+    clearCountMessagesApi(chatWith);
+  } else {
+    if(userStore.user) unreadMessageApi();
+  }
+  
   const clearError = action(() => {
     setTimeout(() => {
       userStore.setError("");
@@ -24,7 +31,6 @@ const Header = observer(() => {
 
   if (location !== "/signup") clearError();
   if (location !== `/chat/${Cookies.get('chatWith')}`) Cookies.remove("chatWith");
-
 
   if (location !== "/signin") clearError();
 
@@ -39,10 +45,16 @@ const Header = observer(() => {
           <Link to="/favorite" className="nav-link">Избранное</Link>
           {userStore.user ? (
             <>
+              {messageStore.unreadMessage ? 
               <Link to="/profile" className="nav-link">
                 Профиль
                 <span className="notification-badge">{messageStore.unreadMessage}</span>
-                </Link>
+              </Link>
+            :
+              <Link to="/profile" className="nav-link">
+                Профиль
+              </Link>
+            }
               <a
                 href="/"
                 className="nav-link"
