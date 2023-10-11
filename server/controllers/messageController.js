@@ -1,4 +1,4 @@
-const { User, Goods, Message, Chat } = require('../models/models');
+const { User, Goods, Message, Chat, Unread } = require('../models/models');
 const { Op, where } = require('sequelize');
 
 
@@ -28,17 +28,19 @@ class messageController {
                     user2Id: to
                 }   
             });
-            chat = chat[0];
-            const unreadMessageBD = (await Chat.findOne({where : {id:chat.id}})).dataValues.unreadMessage
-   
-            if(unreadMessageBD){
-              await Chat.update({unreadMessage: unreadMessageBD+1},{where:{id:chat.id}})
-            }else{
-              await Chat.update({unreadMessage:1},{where:{id:chat.id}})
 
+            chat = chat[0];
+            await messageBD.setChat(chat);
+
+            const unreadMessageBD = await Unread.findOne({where : {userId: to, from}});
+            console.log('⚛ --- ⚛ --- ⚛ --- ⚛ ---  >>> ☢ messageController ☢ sendMessageItemPage ☢ unreadMessageBD:', unreadMessageBD)
+
+            if(unreadMessageBD) {
+                const counter = unreadMessageBD.dataValues.counter;
+                await Unread.update({counter: counter + 1}, {where: {userId: to, from}});
+            } else {
+                await Unread.create({userId: to, from, counter: 1});
             }
-            console.log(unreadMessageBD,'======');
-                        await messageBD.setChat(chat);
             res.json({test: 'test'});
         } catch (error) {
             console.log('⚛ --- ⚛ --- ⚛ --- ⚛ ---  >>> ☢ messageController ☢ sendMessageItemPage ☢ error:', error);
@@ -85,24 +87,35 @@ class messageController {
  
    async getUnreadMessage (req,res){
     try {
-      const { id } = req.cookies.accessToken;
-      const unreadMessage = (await Chat.findAll({
-        where: {
-            [Op.or]: [
-                { [Op.and]: { user1Id: id } },
-                { [Op.and]: { user2Id: id } },
-            ],
-        },
-    })).map(el => el.dataValues).reduce((acc,el)=> el.unreadMessage+acc,0);
-    res.json(unreadMessage)
-
-      
+        const { id } = req.cookies.accessToken;
+        const unreadMessage = await Unread.findAll({where: {userId: id}});
+        if(unreadMessage) {
+            const counter = unreadMessage.map( el => el.dataValues).reduce((acc, el) => el.counter + acc, 0);
+            return res.json(counter);
+        }
+        res.json(null);
     } catch (error) {
-      console.log('⚛ --- ⚛ --- ⚛ --- ⚛ ---  >>> ☢ messageController ☢ getUnreadMessage ☢ error:', error);
+      console.log('⚛ --- ⚛ --- ⚛ --- ⚛ ---  >>> ☢ messageController ☢ getUnreadMessage ☢ error:', error.message);
+    }
+    }
 
+    async clearCountMessages (req, res) {
+        try {
+            const { id } = req.cookies.accessToken;
+            const { chatWith }  = req.body;
+            console.log('⚛ --- ⚛ --- ⚛ --- ⚛ ---  >>> ☢ messageController ☢ clearCountMessages ☢ chatWith:', chatWith)
+
+            await Unread.update({counter: 0},{where: {userId: id, from: chatWith}});
+            const unreadMessage = await Unread.findAll({where: {userId: id}});
+            if(unreadMessage) {
+                const counter = unreadMessage.map( el => el.dataValues).reduce((acc, el) => el.counter + acc, 0);
+                return res.json(counter);
+            }
+            res.json(null);
+        } catch (error) {
+            console.log('⚛ --- ⚛ --- ⚛ --- ⚛ ---  >>> ☢ messageController ☢ clearCountMessages ☢ error:', error);
+        }
     }
-    }
-  
 }
 
 

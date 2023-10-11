@@ -27,10 +27,19 @@ export const lastMessagesApi = async () => {
 export const unreadMessageApi = async () => {
   try {
       const response = await axiosFromMessage.get('/unreadMessage');
-      messageStore.setUnreadMessage(response.data)
+      return messageStore.setUnreadMessage(response.data);
    } catch (error) {
       console.log('⚛ --- ⚛ --- ⚛ --- ⚛ ---  >>> ☢ lastMessagesApi ☢ error:', error);
   }
+}
+
+export const clearCountMessagesApi = async (chatWith) => {
+    try {
+        const response = await axiosFromMessage.post('/clearCountMessages', { chatWith });
+        return messageStore.setUnreadMessage(response.data);
+    } catch (error) {
+        console.log('⚛ --- ⚛ --- ⚛ --- ⚛ ---  >>> ☢ clearCountMessagesApi ☢ error:', error)
+    }
 }
 
 

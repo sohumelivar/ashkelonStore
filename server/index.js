@@ -6,9 +6,10 @@ const path = require("path");
 const sequelize = require("./db");
 const router = require("./routes");
 const http = require("http");
-const { Message,Chat} = require("./models/models");
+const { Message, Unread} = require("./models/models");
 const getAllMessagesInChat = require("./api/messageApi");
 const { log } = require("console");
+const { ifError } = require("assert");
 
 const PORT = process.env.PORT;
 
@@ -46,40 +47,70 @@ const userSockets = {};
 io.on("connection", (socket) => {
   socket.on('userId', (data) => {
     userSockets[data.autorizedUser] = socket.id;
-    console.log(`=============================================>>>>>>>>>>>>>>>>>>>  Пользователь ${data.autorizedUser} подключился с сокетом ${socket.id}`);
-    console.log('⚛ -------------------------------------------------------------------------------- ⚛ --- ⚛ --- ⚛ ---  >>> ☢ userSockets:', userSockets)
   })
   
   socket.on('messages', async (data) => {
-    const allMessages = (await getAllMessagesInChat(data.autorizedUser, data.id))?.sort((a, b) => a.id - b.id);
-      socket.emit('messages', allMessages)
+    try {
+      const allMessages = (await getAllMessagesInChat(data.autorizedUser, data.id))?.sort((a, b) => a.id - b.id);
+        socket.emit('messages', allMessages)
+    } catch (error) {
+      console.log('⚛ --- ⚛ --- ⚛ --- ⚛ ---  >>> ☢ socket.on ☢ error:', error);
+    }
   })
   
   socket.on('sendMessage', async (data) => {
-    await Message.create({
-      message: data.message,
-      from: data.autorizedUser, 
-      to: data.id, 
-      chatId: data.chatId, 
-      time: new Date().toLocaleTimeString('en-US', { hour12: false })
-    });
-    io.emit('newMessage');
+    try {
+      await Message.create({
+        message: data.message,
+        from: data.autorizedUser, 
+        to: data.id, 
+        chatId: data.chatId, 
+        time: new Date().toLocaleTimeString('en-US', { hour12: false })
+      });
+      const unreadMessage = await Unread.findOne({where: {userId: data.id, from: data.autorizedUser}});
+      if (unreadMessage) {
+        const { counter } = unreadMessage.dataValues;
+        console.log('⚛ --- ⚛ --- ⚛ --- ⚛ ---  >>> ☢ socket.on ☢ counter:', counter)
+  
+        await Unread.update({counter: counter + 1},{where: {userId: data.id, from: data.autorizedUser}});
+      } else {
+        await Unread.create({counter: 1, userId: data.id, from: data.autorizedUser});
+      }
+      io.emit('newMessage');
+    } catch (error) {
+      console.log('⚛ --- ⚛ --- ⚛ --- ⚛ ---  >>> ☢ socket.on ☢ error:', error);
+    }
   })
 
-  socket.on('unreadMessage',async (data)=>{
-    console.log(data);
-
-    await Chat.update({unreadMessage: 0},{where:{id:data.chatId}})
-
+  socket.on('clearUnreadMessage', async (data) => {
+    try {
+      const unreadMessage = await Unread.findOne({where: {userId: data.autorizedUser, from: data.id}});
+      if (unreadMessage) {
+        await Unread.update({counter: 0},{where: {userId: data.autorizedUser, from: data.id}});
+      };
+      io.emit('getUnreadMessages');
+    } catch (error) {
+      console.log('⚛ --- ⚛ --- ⚛ --- ⚛ ---  >>> ☢ socket.on ☢ error:', error);
+    }
   })
   
   socket.on('disconnect', () => {
     const userId = Object.keys(userSockets).find(key => userSockets[key] === socket.id);
     delete userSockets[userId];
-    if (userId) {
-      console.log(`--------------------------------------------- >>>>>>>>>>>>  Пользователь ${userId} отключился`);
-    }
   });
+
+  socket.on('getUnreadMessages', async (data) => {
+    try {
+      const unreadMessage = await Unread.findAll({where: {userId: data.autorizedUser}});
+      if(unreadMessage) {
+        const counter = unreadMessage.map( el => el.dataValues).reduce((acc, el) => el.counter + acc, 0);
+        return io.emit('newMessageCounter', counter);
+    }
+    io.emit('newMessageCounter', null);
+    } catch (error) {
+      console.log('⚛ --- ⚛ --- ⚛ --- ⚛ ---  >>> ☢ socket.on ☢ error:', error);
+    }
+  })
 });
 
 const start = async () => {

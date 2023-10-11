@@ -31,9 +31,13 @@ const Message = sequelize.define('message', {
 
 const Chat = sequelize.define('chat', {
     id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
-    unreadMessage: { type: DataTypes.INTEGER},
-
 });
+
+const Unread = sequelize.define('unread', {
+    id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
+    counter: { type: DataTypes.INTEGER, defaultValue: 0 },
+    from: { type: DataTypes.INTEGER},
+})
 
 
 User.belongsToMany(User, {
@@ -59,6 +63,8 @@ Message.belongsTo(User, {
 foreignKey: 'to',
 as: 'receiver',
 });  
+Unread.hasMany(User);
+User.hasMany(Unread);
 
 module.exports = {
     User,
@@ -66,4 +72,5 @@ module.exports = {
     Favorite,
     Message,
     Chat,
+    Unread,
 };

@@ -33,21 +33,27 @@ const Chat = observer(() => {
   useEffect(() => {
     socket.emit('userId', data);
     socket.emit("messages", data);
-    socket.emit('unreadMessage',data)
+    socket.emit('clearUnreadMessage',data)
+    socket.emit('getUnreadMessages', data);
     socket.on('messages', (messages) => {
       setMessages(messages)
     })
 
     socket.on('newMessage', () => {
       socket.emit("messages", data);
+      socket.emit('clearUnreadMessage',data);
+      socket.emit('getUnreadMessages', data);
+    })
+
+    socket.on('newMessageCounter', (counter) => {
+      messageStore.setUnreadMessage(counter);
     })
 
     return () => {
       socket.disconnect();
     };
   }, []);
-  
-  
+
   const sendMessage = () => {
     if(data.message) {
       socket.emit('sendMessage', data);
