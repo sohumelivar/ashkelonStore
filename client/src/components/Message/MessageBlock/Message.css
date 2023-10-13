@@ -35,3 +35,11 @@
 .UD {
   margin-left: 100px;
 }
+
+.unreadDivTrue {
+  background-color: aquamarine;
+}
+
+.unreadDivFalse {
+  background-color: aliceblue;
+}
