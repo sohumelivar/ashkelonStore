@@ -33,8 +33,6 @@ class messageController {
             await messageBD.setChat(chat);
 
             const unreadMessageBD = await Unread.findOne({where : {userId: to, from}});
-            console.log('⚛ --- ⚛ --- ⚛ --- ⚛ ---  >>> ☢ messageController ☢ sendMessageItemPage ☢ unreadMessageBD:', unreadMessageBD)
-
             if(unreadMessageBD) {
                 const counter = unreadMessageBD.dataValues.counter;
                 await Unread.update({counter: counter + 1}, {where: {userId: to, from}});
@@ -60,8 +58,8 @@ class messageController {
             })).map(el => el.dataValues);
             const messages = (await Message.findAll({
                 include: [
-                  { model: User, as: 'sender' },
-                  { model: User, as: 'receiver' },
+                  { model: User, as: 'sender', include: Unread },
+                  { model: User, as: 'receiver', include: Unread },
                 ],
               })).map(el => el.dataValues);
             const idChat = chat.map(el => el.id);
@@ -79,7 +77,21 @@ class messageController {
             })
             const result = JSON.parse(JSON.stringify(lastMessagesByChatId));
             result.map(el => delete el.sender.password && delete el.receiver.password);
-            const usersId =result.map(el=>el.receiver.id === id ? {autorizedUser : el.receiver.id, from: el.sender.id }:{autorizedUser : el.sender.id, from: el.receiver.id})
+
+            result.map( el => {
+                if(el.sender.id === id) {
+                    Object.assign(el, { unread: false });
+                } else {
+                    el.receiver.unreads.map( arr => {
+                        if( arr.from === el.sender.id && arr.counter ) {
+                            Object.assign(el, { unread: true });
+                        } 
+                        else if ( arr.from === el.sender.id && arr.counter === 0 ){
+                            Object.assign(el, { unread: false });
+                        }
+                    })
+                }
+            })
             res.json(result);
         } catch (error) {
             console.log('⚛ --- ⚛ --- ⚛ --- ⚛ ---  >>> ☢ messageController ☢ getAllLastMessages ☢ error:', error);
@@ -105,14 +117,16 @@ class messageController {
         try {
             const { id } = req.cookies.accessToken;
             const { chatWith }  = req.body;
-
-            await Unread.update({counter: 0},{where: {userId: id, from: chatWith}});
-            const unreadMessage = await Unread.findAll({where: {userId: id}});
-            if(unreadMessage) {
-                const counter = unreadMessage.map( el => el.dataValues).reduce((acc, el) => el.counter + acc, 0);
-                return res.json(counter);
+            if ( id ) {
+                await Unread.update({counter: 0},{where: {userId: id, from: chatWith}});
+                const unreadMessage = await Unread.findAll({where: {userId: id}});
+                if(unreadMessage) {
+                    const counter = unreadMessage.map( el => el.dataValues).reduce((acc, el) => el.counter + acc, 0);
+                    return res.json(counter);
+                }
+                return res.json(null);
             }
-            res.json(null);
+            return res.json(null);
         } catch (error) {
             console.log('⚛ --- ⚛ --- ⚛ --- ⚛ ---  >>> ☢ messageController ☢ clearCountMessages ☢ error:', error);
         }

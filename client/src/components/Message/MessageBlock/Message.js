@@ -21,7 +21,7 @@ const Message = observer(({ lastMessage }) => {
         navigate(`/chat/${lastMessage.from}`);
       }
     }}
-    className="messageBlock">
+    className={`messageBlock ${lastMessage.unread ? 'unreadDivTrue' : 'unreadDivFalse'}`}>
       <div className="userInfo">
         <div className="avatar">
           {lastMessage.sender.img ? (

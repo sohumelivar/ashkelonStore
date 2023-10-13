@@ -35,6 +35,51 @@ const Header = observer(() => {
   if (location !== "/signin") clearError();
 
   return (
+
+//     <header className="navbar" dir="rtl">
+//   <div className="container">
+//     <Link to="/" className="navbar-brand">חנות אשקלון</Link>
+//     <nav className="nav">
+//       <Link to="/" className="nav-link">ראשי</Link>
+//       <Link to="/catalog" className="nav-link">קטלוג</Link>
+//       <Link to="/logo" className="nav-link">לוגו</Link>
+//       <Link to="/favorite" className="nav-link">מועדפים</Link>
+//       {userStore.user ? (
+//         <>
+//           {messageStore.unreadMessage ? 
+//           <Link to="/profile" className="nav-link">
+//             פרופיל
+//             <span className="notification-badge">{messageStore.unreadMessage}</span>
+//           </Link>
+//         :
+//           <Link to="/profile" className="nav-link">
+//             פרופיל
+//           </Link>
+//         }
+//           <a
+//             href="/"
+//             className="nav-link"
+//             onClick={(event) => {
+//               event.preventDefault();
+//               logout();
+//             }}
+//           >
+//             התנתקות
+//           </a>
+//         </>
+//       ) : (
+//         <Link to="/signin" className="nav-link">כניסה</Link>
+//       )}
+//     </nav>
+//   </div>
+// </header>
+
+
+
+
+
+
+
     <header className="navbar">
       <div className="container">
         <Link to="/" className="navbar-brand">Ashkelon Store</Link>
