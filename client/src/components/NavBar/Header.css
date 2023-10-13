@@ -1,10 +1,15 @@
 .navbar {
+  position: fixed;
+  top: 0; 
+  left: 0; 
+  right: 0; 
   background-color: #343a40;
   color: #fff;
   padding: 15px 0;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  z-index: 999;
 }
   
 .navbar-brand {
@@ -15,7 +20,7 @@
 }
 
 .navbar-brand:hover {
-  color: rgb(152, 22, 22); /* Цвет текста при наведении на "Ashkelon Store" */
+  color: rgb(152, 22, 22);
 }
 
 .nav {
@@ -42,16 +47,16 @@
   
 .notification-badge {
   display: inline-block;
-  width: 16px; /* Уменьшаем ширину кружка */
-  height: 16px; /* Уменьшаем высоту кружка */
-  background-color: #ff0000; /* Цвет кружка */
-  color: #fff; /* Цвет текста внутри кружка */
+  width: 16px; 
+  height: 16px;
+  background-color: #ff0000;
+  color: #fff; 
   text-align: center;
-  line-height: 16px; /* Выравниваем текст по центру */
-  border-radius: 50%; /* Создаем круглый кружок */
-  margin-left: 5px; /* Расстояние между кружком и текстом */
-  font-size: 10px; /* Уменьшаем размер текста внутри кружка */
-  vertical-align: top; /* Поднимаем кружок к верху */
+  line-height: 16px; 
+  border-radius: 50%; 
+  margin-left: 5px; 
+  font-size: 10px; 
+  vertical-align: top; 
 }
 
 @keyframes backgroundAnimation {
@@ -64,9 +69,9 @@
 }
 
 .navbar {
-  background: linear-gradient(to left, black, gray); /* Градиент от черного к серому */
-  background-size: 200% 100%; /* Размер градиента */
-  animation: backgroundAnimation 5s linear infinite alternate; /* Анимация фона */
+  background: linear-gradient(to left, black, gray); 
+  background-size: 200% 100%;
+  animation: backgroundAnimation 5s linear infinite alternate; 
   color: white;
   text-align: center;
   font-size: 24px;

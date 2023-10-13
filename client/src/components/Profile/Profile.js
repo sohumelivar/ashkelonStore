@@ -29,7 +29,6 @@ const Profile = observer(() => {
     allFunc();
   }, []);
 
-
   const [addGoodsCN, setAddGoodsCN] = useState('none');
   const [userGoodsCN, setUserGoodsCN] = useState('active');
   const [userMessageCN, setUserMessageCN] = useState('none');
@@ -46,8 +45,13 @@ const Profile = observer(() => {
     return setAddGoodsCN('none') || setUserGoodsCN('none') || setUserMessageCN('visible');
   };
 
+  if (userStore.backLastMessage) {
+    checkBox4();
+    userStore.setBackLastMessage(null);
+  }
+
   return (
-    <div>
+    <div className="profile_container">
       <div className="profileInfo">
         <Container>
           <Row>

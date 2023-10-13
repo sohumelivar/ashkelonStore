@@ -4,6 +4,14 @@
   }
   
   .cardDiv .card {
-    margin: 10px 
+    margin: 10px;
+  }
+
+  .descrDiv {
+    margin-left: 10px;
+  }
+
+  .favorite_container {
+    margin-top: 100px;
   }
   

@@ -13,8 +13,8 @@ const Favorite = observer(() => {
 
   
     return (
-        <div>
-            <div>{`Favorite items from user: ${userStore.user}`}</div>
+        <div className='favorite_container'>
+            <div className='descrDiv'>{`Favorite items from user: ${userStore.user}`}</div>
             {userStore.user && 
             <div className='cardDiv'>
                {itemStore.userFavorite.length || userStore.user > 0 ? itemStore.userFavorite.map((item) => (
