@@ -74,3 +74,8 @@
 .liked {
     fill: #ff0000;
 }
+
+.favorite-item {
+    margin-left: 10px;
+    margin-top: 10px;
+}

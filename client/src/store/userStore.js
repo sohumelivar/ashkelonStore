@@ -3,11 +3,12 @@ import {makeAutoObservable} from "mobx"
  class UserStore {
 
   user = ''
-  phone=""
-  password=""
-  img = ""
-  error =""
-  editProfile=[]
+  phone = ''
+  password = ''
+  img = ''
+  error = ''
+  editProfile = []
+  backLastMessage = null;
 
 
   constructor (){
@@ -33,6 +34,10 @@ setEditProfile(data){
 
   setError (error){
     this.error=error
+  }
+
+  setBackLastMessage (state) {
+    this.backLastMessage = state;
   }
   
 }

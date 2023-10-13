@@ -5,9 +5,6 @@ import userStore from "../../../store/userStore";
 import messageStore from "../../../store/messageStore";
 import Seller from "./Seller/Seller";
 import Buyer from "./Buyer/Buyer";
-import InputGroup from "react-bootstrap/InputGroup";
-import Form from "react-bootstrap/Form";
-import Button from "react-bootstrap/esm/Button";
 import Cookies from "js-cookie";
 import io from "socket.io-client";
 import './Chat.css'
@@ -67,43 +64,78 @@ const Chat = observer(() => {
 
 
   return (
-    <div className="main">
-      <div className="button-container_my">
-        <button onClick={() => navigate(-1)} className="custom-button">Back</button>
+
+    <div className="chat-container">
+      <button 
+        onClick={() => {
+        userStore.setBackLastMessage('backToLastMessagePage');
+        navigate(-1)}
+        } 
+        className="message-back-button">Back
+      </button>
+      <div className="main-messages-container" ref={messagesContainerRef}>
+        {messages?.map((message) =>
+          message.sender.name === userStore.user ? (
+            <Seller key={message.id} sellerMessage={message} />
+          ) : (
+            <Buyer key={message.id} buyerMessage={message} />
+          )
+        )}
       </div>
-      <div className="messages-container" ref={messagesContainerRef}>
-      {messages?.map((message) =>
-        message.sender.name === userStore.user ? (
-          <Seller key={message.id} sellerMessage={message} />
-        ) : (
-          <Buyer key={message.id} buyerMessage={message} />
-        )
-      )}
-      </div>
-      <div className="ask">
-        <h3>Отправить сообщение</h3>
-        <InputGroup size="lg">
-          <Form.Control
-            aria-label="Large"
-            aria-describedby="inputGroup-sizing-sm"
-            value={message}
-            onChange={(e) => {
-              setMessage(e.target.value);
-            }}
-            onKeyDown={onKeyDown}
-          />
-          <InputGroup.Text 
-          id="inputGroup-sizing-lg"
+      <div className="input-messages-container">
+        <input
+          type="text"
+          value={message}
+          onChange={(e) => setMessage(e.target.value)}
           onKeyDown={onKeyDown}
-          placeholder='введите сообщение ...'
-          >
-            <Button onClick={sendMessage} variant="grey">
-              Отправить
-            </Button>
-          </InputGroup.Text>
-        </InputGroup>
+          placeholder="Введите сообщение..."
+        />
+        <button onClick={sendMessage} className="messagePage-send-button">
+          Отправить
+        </button>
       </div>
     </div>
+
+
+
+
+
+
+
+
+
+
+
+
+    // <div className="main_message">
+    //   <div className="button-container_message">
+    //     <button onClick={() => navigate(-1)} className="custom-button_top_message">Back</button>
+    //   </div>
+      // <div className="messages-container" ref={messagesContainerRef}>
+      // {messages?.map((message) =>
+      //   message.sender.name === userStore.user ? (
+      //     <Seller key={message.id} sellerMessage={message} />
+      //   ) : (
+      //     <Buyer key={message.id} buyerMessage={message} />
+      //   )
+      // )}
+      // </div>
+    //   <div className="ask">
+    //     <h3>Отправить сообщение</h3>
+    //     <div className="input-group_message">
+    //       <input
+    //         type="text"
+    //         value={message}
+    //         onChange={(e) => setMessage(e.target.value)}
+    //         onKeyDown={onKeyDown}
+    //         placeholder="введите сообщение ..."
+    //       />
+    //       <button onClick={sendMessage} className="button_bottom" variant="grey">
+    //         Отправить
+    //       </button>
+    //     </div>
+    //   </div>
+    // </div>
   );
 });
 

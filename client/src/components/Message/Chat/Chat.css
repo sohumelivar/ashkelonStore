@@ -1,8 +1,76 @@
-.main {
+.chat-container {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    overflow-y: hidden; /* Вертикальный скроллинг отключен, так как содержимое будет разделено */
+  }
+
+  .message-back-button {
+    width: 100px;
+    position: fixed;
+    top: 100px;
+    left: 110px;
+    background-color: rgb(68, 65, 65);
+    color: white;
+    font-size: 14px;
+    padding: 10px 16px;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+  }
+  
+  
+  .main-messages-container {
+    flex-grow: 1;
+    overflow-y: auto; /* Разрешаем вертикальный скроллинг в верхней части */
+    width: 60%;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  
+  .input-messages-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    background-color: rgb(232, 225, 225);
+    border-radius: 8px;
+    width: 60%;
+    height: 30vh;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  
+  .input-messages-container input {
+    flex-grow: 1;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+    margin-right: 10px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  
+  .messagePage-send-button {
+    background-color: rgb(85, 23, 23);
+    color: rgb(245, 239, 239);
+    font-size: 14px;
+    padding: 10px 16px;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    margin-left: 10px;
+  }
+  
+
+/* .main_message {
     display: flex;
     flex-direction: column;
     height: 100vh;
     overflow-y: auto;
+    margin-top: 90px;
+    position: relative;
 }
   
 .ask {
@@ -10,17 +78,38 @@
     flex-direction: column;
     align-items: center;
     padding: 20px;
-    position: sticky;
-    bottom: 0;
-    background-color: white;
+    position: fixed;
+    background-color: rgb(232, 225, 225);
+    border-radius: 8px;
+    bottom: 9%; 
+    left: 50%;
+    transform: translate(-50%, 50%); 
+    width: 1000px;
 }
 
 .messages-container {
-flex-grow: 1;
-overflow-y: auto;
+    flex-grow: 1;
+    overflow-y: auto;
+    width: 1000px;
+    margin: 0 auto;
 }
 
-.button-container_my {
+.input-group_message {
+    display: flex;
+    flex-direction: column;
+    width: 80%;
+  }
+  
+.input-group_message input {
+    width: 100%;
+    padding: 10px;
+    border: 2px solid rgb(104, 47, 47);
+    border-radius: 5px;
+    margin-right: 10px;
+    font-size: 16px;
+}
+
+.button-container_message {
     width: 120px;
     height: 40px;
     display: flex;
@@ -29,16 +118,32 @@ overflow-y: auto;
     background-color: rgba(255, 255, 255, 0.1);
     border-radius: 5px;
     margin: 10px 20px;
+    position: absolute;
 }
 
-.custom-button {
-    width: 150px;
-    background-color: gray;
-    color: white;
-    font-size: 14px;
-    padding: 10px 16px;
-    border: none;
-    cursor: pointer;
-    border-radius: 5px;
-    margin: 10px 20px;
+.custom-button_top_message {
+  width: 150px;
+  background-color: rgb(68, 65, 65);
+  color: white;
+  font-size: 14px;
+  padding: 10px 16px;
+  border: none;
+  cursor: pointer;
+  border-radius: 5px;
+  margin-top: 20px;
+  position: fixed;
+  margin-left: 130px;
 }
+
+.button_bottom {
+  width: 150px;
+  background-color: rgb(7, 7, 7);
+  color: rgb(245, 239, 239);
+  font-size: 14px;
+  padding: 10px 16px;
+  border: none;
+  cursor: pointer;
+  border-radius: 5px;
+  margin-top: 10px;
+  margin-left: 620px;
+} */

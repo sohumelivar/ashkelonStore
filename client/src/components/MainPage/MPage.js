@@ -15,7 +15,7 @@ useEffect(() => {
 }, []);
 
 return (
-    <div>
+    <div className='mainPage_container'>
       <div className="search-container">
         <input type="text" placeholder="Название товара" className="search-input" />
         <button className="search-button">ПОИСК ТОВАРА</button>
