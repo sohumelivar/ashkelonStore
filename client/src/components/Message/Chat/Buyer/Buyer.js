@@ -10,10 +10,10 @@ const Buyer = observer(({ buyerMessage }) => {
     <div className="buyer">
       <div className="profile">
         <Col xs={1} md={2}>
-          {buyerMessage.photo ? (
+          {buyerMessage.sender.img ? (
             <Image
               className="logoBuyer"
-              src={buyerMessage.photo}
+              src={buyerMessage.sender.img}
               alt="profile photo"
               roundedCircle
             />
@@ -26,6 +26,7 @@ const Buyer = observer(({ buyerMessage }) => {
             />
           )}
         </Col>
+        <p className="message_sender_name">{buyerMessage.sender.name}</p>
       </div>
       <div className="message">{buyerMessage.message}</div>
       <div className="time">{buyerMessage.time}</div>

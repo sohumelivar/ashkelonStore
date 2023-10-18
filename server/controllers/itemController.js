@@ -1,4 +1,4 @@
-const { User, Goods, Favorite } = require('../models/models');
+const { User, Goods, Favorite, Category } = require('../models/models');
 
 class itemController {
     async getAll (req, res) {
@@ -164,6 +164,99 @@ class itemController {
             return res.json({status: 200, message: 'added from favorites'});
         } catch (error) {
             console.log('⚛ --- ⚛ --- ⚛ --- ⚛ ---  >>> ☢ itemController ☢ checkFavorite ☢ error:', error);
+        }
+    }
+
+    async testCategory (req, res) {
+        try {
+            // const testUser = await User.create({name: 'testUser', password: '123', phone: '123'})
+            // const testItem1 = await Goods.create({name: 'Мото', description: 'BMW', price: '1000', userId: 1, categoryId: 30});     
+            // const testItem2 = await Goods.create({name: 'ангар', description: 'складское помещение', price: '30000', userId: 1, categoryId: 35});     
+            // const testItem3 = await Goods.create({name: 'вилла', description: 'жилая недвижимость', price: '70000', userId: 1, categoryId: 25});     
+
+            const getRelatedCategories = async (categoryId) => {
+                const relatedCategories = (await Category.findAll({
+                  where: { id: categoryId },
+                })).map( el => el.dataValues );
+              
+                if (relatedCategories.length === 0) {
+                  return [];
+                }
+              
+                const childCategories = (await Category.findAll({
+                  where: { parentId: categoryId },
+                })).map( el => el.dataValues );
+              
+                if (childCategories.length > 0) {
+                  const childCategoriesPromises = childCategories.map((childCategory) =>
+                    getRelatedCategories(childCategory.id)
+                  );
+              
+                  const childCategoriesChains = await Promise.all(childCategoriesPromises);
+              
+                  for (const chain of childCategoriesChains) {
+                    relatedCategories.push(...chain);
+                  }
+                }
+              
+                return relatedCategories;
+              };
+              
+              const categoryId = 25;
+              getRelatedCategories(categoryId).then((relatedCategories) => {
+                console.log(relatedCategories);
+              });
+              
+              const categoriesToFind = [
+                25, 26, 27, 35, 43, 44 // Замените этот массив на нужные id категорий
+              ];
+
+              const goods = (await Goods.findAll({
+                where: {
+                  categoryId: categoriesToFind
+                }
+              })).map( el => el.dataValues ).sort((a, b) => a.categoryId - b.categoryId);
+              console.log('⚛ --- ⚛ --- ⚛ --- ⚛ ---  >>> ☢ itemController ☢ testCategory ☢ goods:', goods)
+
+            // ! ----------------------------
+        
+            const categoryArray = [];
+            const searchCategoryRecFunc = async (arr) => {
+                try {
+                    if (arr.parentId === null) return categoryArray;
+                    if(arr.parentId) {
+                        const itemCategory = (await Category.findOne({where: { id: arr.parentId}})).dataValues;
+                        categoryArray.push(itemCategory);
+                        return searchCategoryRecFunc(itemCategory);
+                    } else {
+                        const itemCategory = (await Category.findOne({where: { id: arr.categoryId}})).dataValues;
+                        if(itemCategory.parentId) {
+                            const oneMoreCategory = (await Category.findOne({where: {id: itemCategory.parentId}})).dataValues;
+                            categoryArray.push(oneMoreCategory);
+                            return searchCategoryRecFunc(oneMoreCategory);
+                        } else {
+                            return categoryArray;
+                        }
+                    }
+                } catch (error) {
+                    console.log('⚛ --- ⚛ --- ⚛ --- ⚛ ---  >>> ☢ itemController ☢ rec ☢ error:', error);
+                }
+            }
+
+
+            const resultSearchItem = (await Goods.findOne({where: {id: 17}, include: [
+                { model: Category, as: 'category' }, 
+                { model: User, as: 'user' }
+            ]})).dataValues;
+            // delete resultSearchItem.user.password;
+            searchCategoryRecFunc(resultSearchItem).then(data => {
+                data.push(resultSearchItem.category.dataValues);
+                data?.sort((a, b) => a.id - b.id );
+                resultSearchItem.category = data;
+                res.json(resultSearchItem);
+            }) 
+        } catch (error) {
+            console.log('⚛ --- ⚛ --- ⚛ --- ⚛ ---  >>> ☢ itemController ☢ testCategory ☢ error:', error)
         }
     }
 };

@@ -6,10 +6,18 @@
   padding: 10px;
   border-radius: 10px;
 }
+
 .profile{
+display: flex;
 margin-right: 10px;
 margin-left: 10px;
 }
+
+.message_sender_name{
+  margin-left: 40px;
+  margin-top: 12px;
+}
+
 .message{
   margin-right: 10px;
 margin-left: 10px;

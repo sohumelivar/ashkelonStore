@@ -121,3 +121,11 @@ export const addFavoriteApi = async (id) => {
     }
 }
 
+export const testCategoryApi = async () => {
+    try {
+        await axiosFromGood.post('/testCategory');
+    } catch (error) {
+        console.log('⚛ --- ⚛ --- ⚛ --- ⚛ ---  >>> ☢ testCategoryApi ☢ error:', error);
+    }
+}
+
