@@ -3,7 +3,7 @@ import {observer} from "mobx-react-lite";
 import Item from './Item';
 import ItemStore from '../../store/itemStore';
 import './MPage.css';
-import { getAllGoods } from '../../api/goodApi';
+import { getAllGoods, testCategoryApi } from '../../api/goodApi';
 
 const MainPage = observer(() => {
 
@@ -13,6 +13,9 @@ useEffect(() => {
   };
   getAll();
 }, []);
+
+// testCategoryApi();
+
 
 return (
     <div className='mainPage_container'>

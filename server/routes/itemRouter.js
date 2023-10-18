@@ -15,6 +15,7 @@ router.get('/editItemRefresh', itemController.editItemRefresh);
 router.post('/saveChange', itemController.saveChange);
 router.post('/checkFavorite', itemController.checkFavorite);
 router.get('/getAllUserFav', itemController.getAllUserFavoriteItem);
+router.post('/testCategory', itemController.testCategory);
 
 
 module.exports = router;
