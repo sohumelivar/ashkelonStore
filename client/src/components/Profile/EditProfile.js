@@ -1,9 +1,10 @@
-import React, { useEffect, useState } from "react"
-import {useNavigate} from "react-router-dom"
-import {observer} from 'mobx-react-lite'
-import userStore from "../../store/userStore"
-import Button from "react-bootstrap/esm/Button"
-import { getUserProfileApi, saveChangesApi } from "../../api/userApi"
+import React, { useEffect, useState } from "react";
+import {useNavigate} from "react-router-dom";
+import {observer} from 'mobx-react-lite';
+import userStore from "../../store/userStore";
+import Button from "react-bootstrap/esm/Button";
+import { getUserProfileApi, saveChangesApi } from "../../api/userApi";
+import './EditProfile.css';
 
 
 const EditProfile = observer(()=>{
@@ -37,24 +38,24 @@ const EditProfile = observer(()=>{
 
 
   return (
-    <div>
+    <div className="editProfileContainer">
       <div>Изменить профиль</div>
-<div>
-  <p>Введите Имя<input value={name} onChange={(e)=>setName(e.target.value)} type="text"/></p>
-</div>
-<div>
-  <p>Введите Телефон<input value={phone} onChange={(e)=>setPhone(e.target.value)} type="text"/></p>
-</div>
-<div>
-  <p>Введите пароль<input value={password} onChange={(e)=>setPassword(e.target.value)} type="password"/></p>
-</div>
-<div>
-  <p>Подтвердите пароль<input value={confirmPassword} onChange={(e)=>setConfirmPassword(e.target.value)} type="password"/></p>
-</div>
-<div>
-  <p> Изменить аватар<input onChange={(e)=>setImg(e.target.files[0])} type="file"/></p>
-</div>
-<Button onClick={saveChanges}>Сохранить изменения</Button>
+      <div>
+        <p>Введите Имя<input value={name} onChange={(e)=>setName(e.target.value)} type="text"/></p>
+      </div>
+      <div>
+        <p>Введите Телефон<input value={phone} onChange={(e)=>setPhone(e.target.value)} type="text"/></p>
+      </div>
+      <div>
+        <p>Введите пароль<input value={password} onChange={(e)=>setPassword(e.target.value)} type="password"/></p>
+      </div>
+      <div>
+        <p>Подтвердите пароль<input value={confirmPassword} onChange={(e)=>setConfirmPassword(e.target.value)} type="password"/></p>
+      </div>
+      <div>
+        <p> Изменить аватар<input onChange={(e)=>setImg(e.target.files[0])} type="file"/></p>
+      </div>
+      <Button onClick={saveChanges}>Сохранить изменения</Button>
     </div>
   )
 })

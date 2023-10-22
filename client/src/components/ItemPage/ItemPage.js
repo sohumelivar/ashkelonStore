@@ -39,7 +39,7 @@ const ItemPage = observer(() => {
   }
 
   return (
-    <div>
+    <div className="itemPageContainer">
       <div>
         <Button
           onClick={() => {

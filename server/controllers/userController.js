@@ -20,7 +20,7 @@ class UserController {
             const accessToken = jwt.sign({name}, process.env.JWT_ACCESS_SECRET, {expiresIn:'3h'});
 
             res.cookie('accessToken', { accessToken, user: name, id: newUser.dataValues.id }, {maxAge: 30*24*60*1000, httpOnly: true,});
-            return res.json({status: 200, accessToken, name});
+            return res.json({status: 200, accessToken, name, id: newUser.dataValues.id});
         } catch (error) {
             console.log('⚛ --- ⚛ --- ⚛ --- ⚛ ---  >>> ☢ UserController ☢ registration ☢ error:', error);
         }

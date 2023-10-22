@@ -6,9 +6,9 @@ const axiosFromGood = axios.create({
     baseURL: 'http://localhost:5000/api/good'
   });
 
-export const addGoodApi = async (name, description, price, img) => {
+export const addGoodApi = async (name, description, price, img, categoryId) => {
     try {
-        const response = await axiosFromGood.post('/addGood', {name, description, price});
+        const response = await axiosFromGood.post('/addGood', {name, description, price, categoryId});
         if (img) {
             const data = new FormData();
             data.append('goodsImg', img, response.data.id);

@@ -24,8 +24,8 @@ class itemController {
 
     async addGood (req, res) {
         try {
-            const {name, description, price} = req.body;
-            const result = await Goods.create({name, description, price, userId: req.cookies.accessToken.id});
+            const { name, description, price, categoryId } = req.body;
+            const result = await Goods.create({name, description, price, userId: req.cookies.accessToken.id, categoryId});
             return res.json({message: 'good created', id: result.dataValues.id});
         } catch (error) {
             console.log('⚛ --- ⚛ --- ⚛ --- ⚛ ---  >>> ☢ itemController ☢ addGood ☢ error:', error);

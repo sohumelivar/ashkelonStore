@@ -13,3 +13,21 @@ export const mainCategoryApi = async () => {
         console.log('⚛ --- ⚛ --- ⚛ --- ⚛ ---  >>> ☢ mainCategory ☢ error:', error);
     }
 }
+
+export const getParentCategoryApi = async (id) => {
+    try {
+        const response = await axiosFromCategory.post('/getParentCategory', { id });
+        return response.data;
+    } catch (error) {
+        console.log('⚛ --- ⚛ --- ⚛ --- ⚛ ---  >>> ☢ parentCategoryApi ☢ error:', error);
+    }
+}
+
+export const getSelectCategoryApi = async (id) => {
+    try {
+        const response = await axiosFromCategory.post('/getSelectCategory', { id });
+        return response.data;
+    } catch (error) {
+        console.log('⚛ --- ⚛ --- ⚛ --- ⚛ ---  >>> ☢ getSelectCategory ☢ error:', error);
+    }
+}

@@ -15,18 +15,7 @@
     border-radius: 5px;
     background-color: #f7f7f7;
     width: 600px; /* Измените ширину по вашему усмотрению */
-  }
-
-  .selectCategoryDiv {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-bottom: 10px;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    background-color: #f7f7f7;
-    width: 600px; 
+    height: 60px;
   }
   
   .nameDiv {
@@ -63,55 +52,28 @@
     background-color: #2a77a0;
   }
 
-  .containerCategoryBtninputNameDiv {
+  .inputNameDivBut {
     display: flex;
     align-items: center;
     justify-content: center;
-    flex-direction: column;
     margin-bottom: 10px;
     padding: 10px;
     border: 1px solid #ccc;
     border-radius: 5px;
     background-color: #f7f7f7;
-    width: 600px;
+    width: 600px; /* Измените ширину по вашему усмотрению */
     height: 60px;
   }
 
-  
   #showDivButtonCategory {
-  background-color: #3498db;
-  color: #fff;
-  border: none;
-  padding: 10px 20px;
-  border-radius: 5px;
-  cursor: pointer;
-}
-  
-  #showDivButtonCategory:hover {
-    background-color: #2a77a0;
+    background-color: #007bff; /* Цвет фона кнопки */
+    color: #fff; /* Цвет текста кнопки */
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px; /* Закругление углов кнопки */
+    cursor: pointer;
   }
-  
 
-  /* Стили для контейнера .containerAddMainDiv */
-.containerAddMainDiv {
-  display: flex; /* Устанавливаем flex-контейнер для горизонтального расположения элементов */
-  justify-content: space-between; /* Равномерно распределяем элементы по горизонтали */
-}
-
-/* .selectAnotherCategory {
-  background-color: #3498db;
-  color: #fff;
-  padding: 10px 20px;
-  border: none;
-  cursor: pointer;
-  margin: 5px;
-  border-radius: 5px;
-}
-
-.selectAnotherCategory:hover {
-  background-color: #2980b9; 
-}
-
-.selectAnotherCategory.active {
-  background-color: #ff5733;
-} */
+  #showDivButtonCategory:hover {
+    background-color: #0056b3; /* Цвет фона кнопки при наведении */
+  }
