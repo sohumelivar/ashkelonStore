@@ -3,6 +3,8 @@
     flex-direction: column;
     height: 100vh;
     overflow-y: hidden; /* Вертикальный скроллинг отключен, так как содержимое будет разделено */
+    margin-top: 100px;
+    position: relative;
   }
 
   .message-back-button {
@@ -36,9 +38,13 @@
     background-color: rgb(232, 225, 225);
     border-radius: 8px;
     width: 60%;
-    height: 30vh;
+    height: 120px;
     margin-left: auto;
     margin-right: auto;
+    position: fixed; /* Добавляем позицию fixed */
+    bottom: 0; /* Размещаем внизу */
+    left: 50%; /* Размещаем в середине по горизонтали */
+    transform: translateX(-50%); /* Центрируем по горизонтали */
   }
   
   .input-messages-container input {

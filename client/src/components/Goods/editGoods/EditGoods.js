@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { observer } from 'mobx-react-lite';
 import itemStore from '../../../store/itemStore';
 import { editItemRefreshApi, saveChangeApi } from '../../../api/goodApi';
+import './EditPage.css';
 
 const editGood = observer(() => {
     const [name, setName] = useState(itemStore.editItem.name || '');
@@ -32,7 +33,7 @@ const editGood = observer(() => {
     }
 
     return (
-        <div>
+        <div className='editPageContainer'>
             <div>Edit Page</div>
             <div>название: {itemStore.editItem.name}</div>
                 <div>

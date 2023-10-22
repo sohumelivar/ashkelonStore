@@ -1,20 +1,43 @@
-/* Стили для кнопок .selectAnotherCategory */
-.selectAnotherCategory {
-    background-color: #3498db;
-    color: #fff;
-    padding: 10px 20px;
-    border: none;
-    cursor: pointer;
-    margin: 5px;
-    border-radius: 5px;
-  }
-  
-/* Стили для активной кнопки */
-.selectAnotherCategory.active {
-background-color: #ff5733;
+.mainContainerSelectCategory {
+  display: flex;
+  flex-direction: column;
+  justify-content: center; 
+  align-items: center;
 }
 
-.containerAddMainDiv {
-display: flex; /* Устанавливаем flex-контейнер для горизонтального расположения элементов */
-justify-content: space-between; /* Равномерно распределяем элементы по горизонтали */
-}  
+.mainSelectCategoryDiv {
+  display: flex;
+  justify-content: center; 
+  align-items: center;
+}
+
+.selectCategoryBtn {
+  margin: 5px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px; 
+  cursor: pointer;
+}
+
+.selectCategoryBtn:hover {
+  background-color: #0056b3; 
+}
+
+.brightButton {
+  background-color: #061f39; 
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.parentCategoryDiv {
+  display: flex;
+}
+
+.parentCategoryName {
+  margin: 5px;
+}

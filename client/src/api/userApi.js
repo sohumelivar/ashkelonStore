@@ -22,7 +22,6 @@ export const registration = async (name, password, phone) => {
       userStore.setError(response.data.error)
       return response.data.status
     }
-
   } catch (error) {
     console.log(error)
   }
