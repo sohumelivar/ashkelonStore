@@ -27,8 +27,6 @@ export const getAllGoods = async (location) => {
     try {
         if(location) {
             const response = await axiosFromGood.post('/getAll', { location });
-            console.log('⚛ --- ⚛ --- ⚛ --- ⚛ ---  >>> ☢ getAllGoods ☢ response:', response.data)
-
             return response.data
         }
         const response = await axiosFromGood.post('/getAll');

@@ -9,11 +9,8 @@ const ButtonGroup = observer(() => {
   const selectCategoryBtn = async (e) => {
     try {
       const parentCategory = await getParentCategoryApi(e.target.id);
-      console.log('⚛ --- ⚛ --- ⚛ --- ⚛ ---  >>> ☢ selectCategoryBtn ☢ parentCategory:', parentCategory)
-
       if(parentCategory.length === 0) {
         const finallyCategory = await getSelectCategoryApi(e.target.id);
-        console.log('⚛ --- ⚛ --- ⚛ --- ⚛ ---  >>> ☢ selectCategoryBtn ☢ finallyCategory:', finallyCategory)
         categoryStore.setFinallyCategory(finallyCategory);
         categoryStore.setClassNameCategory(e.target.id);
         return;
@@ -32,7 +29,6 @@ const ButtonGroup = observer(() => {
 
   const goBackCategorybtn = async (e) => {
     try {
-      console.log('eeeeeeee TARGET !!!! -------------- >>> ', e.target.id);
       const result = await getParentCategoryApi(e.target.id);
       if (result.length === 0) {
         return;
@@ -74,7 +70,7 @@ const ButtonGroup = observer(() => {
         {categoryStore.category && categoryStore.category.map((mainCategory) => (
           <button className={`selectCategoryBtn ${mainCategory.finnaly ? 'brightButton' : ''}`} key={mainCategory.id} id={mainCategory.id} onClick={(e) =>{selectCategoryBtn(e)}} >
               {mainCategory.name}
-              {mainCategory.itemsCount && <span className="notification-badge">{mainCategory.itemsCount}</span>}
+              {mainCategory.itemsCount !== 0 && <span className="notification-badge">{mainCategory.itemsCount}</span>}
           </button>
         ))}
       </div>

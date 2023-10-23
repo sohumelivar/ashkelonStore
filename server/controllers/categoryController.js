@@ -80,8 +80,6 @@ class CategoryController {
         try {
             const { id } = req.body;
             const selectCategory = (await Category.findOne({where: { id }})).dataValues;
-            console.log('⚛ --- ⚛ --- ⚛ --- ⚛ ---  >>> ☢ CategoryController ☢ getSelectCagetory ☢ selectCategory:', selectCategory)
-
             res.json(selectCategory);
         } catch (error) {
             console.log('⚛ --- ⚛ --- ⚛ --- ⚛ ---  >>> ☢ CategoryController ☢ getSelectCagetory ☢ error:', error);

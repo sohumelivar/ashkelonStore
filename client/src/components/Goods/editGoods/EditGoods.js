@@ -24,6 +24,14 @@ const editGood = observer(() => {
             setPrice(itemStore.editItem.price);
         }
         getItem();
+
+        return () => {
+            categoryStore.setResetParentCaregory();
+            categoryStore.setFinallyCategory([]);
+            categoryStore.setMainCategory([]);
+            categoryStore.setCategory([]);
+            categoryStore.setNoFinally([]);
+        }
     }, []);
 
     const toggleModal = () => {
