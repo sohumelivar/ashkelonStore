@@ -18,7 +18,6 @@ const CatalogPage = observer(() => {
             .catch((err) => console.log(err))
         getAllGoods();
         return () => {
-            console.log('<<< * <<< --- * --- * --- vse --- * --- * --- >>> * >>>');
             categoryStore.setFinallyCategory([]);
             categoryStore.setMainCategory([]);
             categoryStore.setCategory([]);
@@ -42,7 +41,6 @@ const CatalogPage = observer(() => {
             result
                 .then((items) => itemStore.setItem(items))
                 .catch((err) => console.log(err));
-                console.log('aaaaasssssss');
         } catch (error) {
             console.log('⚛ --- ⚛ --- ⚛ --- ⚛ ---  >>> ☢ searchBtn ☢ error:', error)
         }
