@@ -16,6 +16,8 @@ class itemController {
             sortData.map(el => Object.assign(el, {checkBox: false}));
             const result = JSON.parse(JSON.stringify(sortData));
             result.map(el => delete el.user.password);
+            const { location } = req.body;
+            if (location) return res.json('catalog');
             return res.json(result);
         } catch (error) {
             console.log('⚛ --- ⚛ --- ⚛ --- ⚛ ---  >>> ☢ itemController ☢ getAll ☢ error:', error);
@@ -140,8 +142,8 @@ class itemController {
 
     async saveChange (req, res) {
         try {
-            const {name, description, price} = req.body;
-            await Goods.update({name, description, price}, {where: {id: req.cookies.updateId.id}});
+            const {name, description, price, categoryId} = req.body;
+            await Goods.update({name, description, price, categoryId}, {where: {id: req.cookies.updateId.id}});
             const result = (await Goods.findOne({where: {id: req.cookies.updateId.id}, include: User}, {include: User})).dataValues;
             const user = result.user.dataValues;
             const data = Object.assign(result, {user});

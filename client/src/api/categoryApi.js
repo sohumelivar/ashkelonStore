@@ -31,3 +31,21 @@ export const getSelectCategoryApi = async (id) => {
         console.log('⚛ --- ⚛ --- ⚛ --- ⚛ ---  >>> ☢ getSelectCategory ☢ error:', error);
     }
 }
+
+export const searchCatalogItemsApi = async (id) => {
+    try {
+        const response = await axiosFromCategory.post('/searchCatalogItems', { id });
+        return response.data;
+    } catch (error) {
+        console.log('⚛ --- ⚛ --- ⚛ --- ⚛ ---  >>> ☢ searchCatakogItemsApi ☢ error:', error);
+    }
+}
+
+export const searchAllItemsCatalogApi = async (id) => {
+    try {
+        const response = await axiosFromCategory.post('/searchAllItemsCatalog', { id });
+        return response.data;
+    } catch (error) {
+        console.log('⚛ --- ⚛ --- ⚛ --- ⚛ ---  >>> ☢ searchCatakogItemsApi ☢ error:', error);
+    }
+}

@@ -14,6 +14,7 @@ import EditProfile from './components/Profile/EditProfile';
 import userStore from './store/userStore';
 import Cookies from 'js-cookie';
 import Chat from './components/Message/Chat/Chat';
+import CatalogPage from './components/CatalogPage/CatalogPage';
 
 const App = observer(() => {
   const userNameCookie = Cookies.get('user') || false;
@@ -23,6 +24,7 @@ const App = observer(() => {
       <Routes>
         <Route path='/' element={<MainPage />} />
         <Route path='/item/:id' element={<ItemPage />} />
+        <Route path='/catalog' element={<CatalogPage />}/>
 
         <Route element={<ProtectedRouter user={userStore.user || userNameCookie} />}>
           <Route path='/item/edit/:id' element={<EditGood />} />
