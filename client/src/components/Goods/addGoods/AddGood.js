@@ -16,6 +16,13 @@ const AddGood = observer(() => {
 
     useEffect(() => {
         if (categoryStore.isModalVisible) return categoryStore.setIsModalVisible();
+
+        return () => {
+            categoryStore.setFinallyCategory([]);
+            categoryStore.setMainCategory([]);
+            categoryStore.setCategory([]);
+            categoryStore.setResetParentCaregory();
+        }
     }, []);
     
     const toggleModal = () => {

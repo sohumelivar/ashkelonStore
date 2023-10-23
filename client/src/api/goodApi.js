@@ -23,10 +23,17 @@ export const addGoodApi = async (name, description, price, img, categoryId) => {
     }
 }
 
-export const getAllGoods = async () => {
+export const getAllGoods = async (location) => {
     try {
-        const response = await axiosFromGood.get('/getAll');
+        if(location) {
+            const response = await axiosFromGood.post('/getAll', { location });
+            console.log('⚛ --- ⚛ --- ⚛ --- ⚛ ---  >>> ☢ getAllGoods ☢ response:', response.data)
+
+            return response.data
+        }
+        const response = await axiosFromGood.post('/getAll');
         itemStore.setItem(response.data);
+        return response.data;
     } catch (error) {
         console.log('⚛ --- ⚛ --- ⚛ --- ⚛ ---  >>> ☢ getAll ☢ error:', error);
     }
@@ -95,9 +102,9 @@ export const editItemRefreshApi = async () => {
     }
 }
 
-export const saveChangeApi = async (name, description, price, img) => {
+export const saveChangeApi = async (name, description, price, img, categoryId) => {
     try {
-        const response = await axiosFromGood.post('/saveChange', {name, description, price});
+        const response = await axiosFromGood.post('/saveChange', {name, description, price, categoryId});
         if (img) {
             const data = new FormData();
             data.append('goodsImg', img, response.data.id);

@@ -11,6 +11,8 @@ class CategoryStore {
     parentCategory = [];
     finallyCategory = [];
     completeBtn = false;
+    searchCatalogItems = null;
+    noFinally = [];
 
     setMainCategory (mainCategory) {
         this.mainCategory = mainCategory;
@@ -48,6 +50,14 @@ class CategoryStore {
        this.category.map( el => Object.assign(el, { finnaly: false}));
        this.category = this.category.map( el => el.id === Number(id) ? Object.assign(el, { finnaly: true}) : el );
        
+    }
+
+    setSearchCatalogItems (catalogName) {
+        this.searchCatalogItems = catalogName;
+    }
+
+    setNoFinally (category) {
+        this.noFinally = category;
     }
 }
 

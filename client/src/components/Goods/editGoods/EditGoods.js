@@ -4,6 +4,9 @@ import { observer } from 'mobx-react-lite';
 import itemStore from '../../../store/itemStore';
 import { editItemRefreshApi, saveChangeApi } from '../../../api/goodApi';
 import './EditPage.css';
+import categoryStore from '../../../store/categoryStore';
+import { mainCategoryApi } from '../../../api/categoryApi';
+import SelectCategory from '../selectCategories/SelectCategories';
 
 const editGood = observer(() => {
     const [name, setName] = useState(itemStore.editItem.name || '');
@@ -23,9 +26,21 @@ const editGood = observer(() => {
         getItem();
     }, []);
 
+    const toggleModal = () => {
+        categoryStore.setIsModalVisible();
+        if (categoryStore.isModalVisible) {
+        const result = mainCategoryApi();
+        categoryStore.setResetParentCaregory();
+        result
+            .then((category) => categoryStore.setCategory(category))
+            .catch((err) => console.log(err));
+        };
+    };
+
     async function saveChange () {
         try {
-            await saveChangeApi(name, description, price, img);
+            const categoryId = categoryStore.finallyCategory.id
+            await saveChangeApi(name, description, price, img, categoryId);
             navigate("/profile")
         } catch (error) {
             console.log('⚛ --- ⚛ --- ⚛ --- ⚛ ---  >>> ☢ saveChange ☢ error:', error);
@@ -49,6 +64,14 @@ const editGood = observer(() => {
                 <div>
                     <p>изменить фотографию: <input type="file" onChange={(e) => setImg(e.target.files[0])}/></p>
                 </div>
+                <div className='inputNameDivBut' >
+                    <button id="showDivButtonCategory" onClick={toggleModal}>
+                            Выбрать категорию
+                    </button>
+                </div>
+                {categoryStore.isModalVisible && (
+                    <SelectCategory />
+                )}
                 <button type='button' onClick={saveChange} >Сохранить изменения</button>
         </div>
     )

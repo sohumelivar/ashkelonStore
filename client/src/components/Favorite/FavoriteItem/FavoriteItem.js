@@ -6,6 +6,7 @@ import './Favorite.css';
 
 const FavoriteItem = observer(({ userFav }) => {
   const navigate = useNavigate();
+
   const [isLiked, setIsLiked] = useState(
     userFav.checkBox || false
   );

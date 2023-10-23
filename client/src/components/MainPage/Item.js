@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { observer } from "mobx-react-lite";
 import "./Item.css";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { pageViewId, addFavoriteApi, getAllGoods } from "../../api/goodApi";
 import userStore from "../../store/userStore";
 
 const Item = observer(({ itemData }) => {
+  const location = useLocation().pathname;
   const navigate = useNavigate();
   const [isLiked, setIsLiked] = useState(itemData.checkBox === true ? "liked" : "");
   
@@ -16,7 +17,11 @@ const Item = observer(({ itemData }) => {
   const toggleFavoriteBtn = async () => {
     try {
       await addFavoriteApi(itemData.id);
-      await getAllGoods()
+      if(location === '/catalog') {
+        await getAllGoods(true);
+      } else {
+        await getAllGoods();
+      }
       setIsLiked(!itemData.checkBox === true ? "liked" : "");
     } catch (error) {
       console.log('⚛ --- ⚛ --- ⚛ --- ⚛ ---  >>> ☢ toggleFavoriteBtn ☢ error:', error);
