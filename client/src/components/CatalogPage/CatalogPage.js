@@ -6,11 +6,11 @@ import { mainCategoryApi, searchCatalogItemsApi, searchAllItemsCatalogApi } from
 import categoryStore from '../../store/categoryStore';
 import ItemStore from '../../store/itemStore';
 import Item from '../MainPage/Item';
+import ItemPage from '../ItemPage/ItemPage';
 import itemStore from '../../store/itemStore';
 import { getAllGoods } from '../../api/goodApi';
 
 const CatalogPage = observer(() => {
-
     useEffect(() => {
         const getMainCategory = mainCategoryApi();
         getMainCategory
@@ -24,11 +24,13 @@ const CatalogPage = observer(() => {
             categoryStore.setResetParentCaregory();
             itemStore.setItem([]);
             categoryStore.setNoFinally([]);
+            if(itemStore.itemVisible) itemStore.setItemVisible();
         }
     }, []);
 
     const searchBtn = async () => {
         try {
+            if(itemStore.itemVisible) itemStore.setItemVisible();
             if (!categoryStore.finallyCategory.id) {
                 const result = await searchAllItemsCatalogApi(categoryStore.noFinally.id);
                 if (!result.length) {
@@ -50,11 +52,15 @@ const CatalogPage = observer(() => {
         <div className='containerCatalog'>
             <SelectCategory />
             <button onClick={searchBtn} className='searchBtnCatalog'>SEARCH</button>
-            <div className='cardDiv'>
+            <div className={itemStore.itemVisible ? 'cardDiv unvItems' : 'cardDiv'}>
             {ItemStore.items.map((item) => (
             <Item key={item.id} itemData={item} />
             ))}
-      </div>
+             </div>
+            <div className={itemStore.itemVisible ? 'itemDivCat' : 'unvItems'}>
+                <ItemPage />
+                <button onClick={()=> itemStore.setItemVisible() }>close</button>
+            </div>
         </div>
     )
 });

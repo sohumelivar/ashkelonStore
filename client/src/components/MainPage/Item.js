@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { observer } from "mobx-react-lite";
 import "./Item.css";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import { pageViewId, addFavoriteApi, getAllGoods } from "../../api/goodApi";
 import userStore from "../../store/userStore";
+import itemStore from "../../store/itemStore";
 
 const Item = observer(({ itemData }) => {
   const location = useLocation().pathname;
-  const navigate = useNavigate();
   const [isLiked, setIsLiked] = useState(itemData.checkBox === true ? "liked" : "");
   
   useEffect(() => {
@@ -27,9 +27,8 @@ const Item = observer(({ itemData }) => {
       console.log('⚛ --- ⚛ --- ⚛ --- ⚛ ---  >>> ☢ toggleFavoriteBtn ☢ error:', error);
     }
   };
-
   return (
-    <div className="item-card" onClick={() => { pageViewId(itemData.id); navigate(`/item/${itemData.id}`); }}>
+    <div className="item-card" onClick={() => { pageViewId(itemData.id); itemStore.setItemVisible(); }}>
       <img className="item-img" src={itemData.img} alt={`Название: ${itemData.name}`} />
       <div className="item-details">
         <h2 className="item-title">Название: {itemData.name}</h2>

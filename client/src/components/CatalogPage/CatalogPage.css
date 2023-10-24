@@ -22,3 +22,13 @@
     background-color: #0056b3; 
 }
   
+
+
+.unvItems {
+    display: none;
+}
+
+.itemDivCat {
+    display: flex;
+    margin-top: 200px;
+}

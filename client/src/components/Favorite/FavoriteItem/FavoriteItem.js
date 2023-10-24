@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { observer } from 'mobx-react-lite';
 import { pageViewId, addFavoriteApi, getAllUserFavoriteApi } from '../../../api/goodApi';
 import './Favorite.css';
+import itemStore from '../../../store/itemStore';
 
 const FavoriteItem = observer(({ userFav }) => {
   const navigate = useNavigate();
@@ -32,7 +33,7 @@ const FavoriteItem = observer(({ userFav }) => {
         className="favorite-card"
         onClick={() => {
           pageViewId(userFav.id);
-          navigate(`/item/${userFav.id}`);
+          itemStore.setItemVisible();
         }}
       >
         <img className="item-img" src={userFav.img} alt={`Название: ${userFav.name}`} />
