@@ -48,3 +48,7 @@
 .mainPage_container {
   margin-top: 100px;
 }
+
+.unvItems {
+  display: none;
+}

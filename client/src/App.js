@@ -23,7 +23,7 @@ const App = observer(() => {
       <Header />
       <Routes>
         <Route path='/' element={<MainPage />} />
-        <Route path='/item/:id' element={<ItemPage />} />
+        {/* <Route path='/item/:id' element={<ItemPage />} /> */}
         <Route path='/catalog' element={<CatalogPage />}/>
 
         <Route element={<ProtectedRouter user={userStore.user || userNameCookie} />}>

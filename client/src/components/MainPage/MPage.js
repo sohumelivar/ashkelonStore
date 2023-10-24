@@ -3,7 +3,8 @@ import {observer} from "mobx-react-lite";
 import Item from './Item';
 import ItemStore from '../../store/itemStore';
 import './MPage.css';
-import { getAllGoods, testCategoryApi } from '../../api/goodApi';
+import { getAllGoods } from '../../api/goodApi';
+import ItemPage from '../ItemPage/ItemPage';
 
 const MainPage = observer(() => {
 
@@ -12,10 +13,10 @@ useEffect(() => {
     await getAllGoods();
   };
   getAll();
+  return () => {
+    if(ItemStore.itemVisible) ItemStore.setItemVisible();
+  }
 }, []);
-
-// testCategoryApi();
-
 
 return (
     <div className='mainPage_container'>
@@ -23,10 +24,14 @@ return (
         <input type="text" placeholder="Название товара" className="search-input" />
         <button className="search-button">ПОИСК ТОВАРА</button>
       </div>
-      <div className='cardDiv'>
+      <div className={ItemStore.itemVisible ? 'cardDiv unvItems' : 'cardDiv'}>
         {ItemStore.items.map((item) => (
           <Item key={item.id} itemData={item} />
         ))}
+      </div>
+      <div className={ItemStore.itemVisible ? 'itemDivCat' : 'unvItems'}>
+        <ItemPage />
+        <button onClick={()=> ItemStore.setItemVisible() }>close</button>
       </div>
     </div>
   );

@@ -17,6 +17,7 @@ import { getAllUserItems } from '../../api/goodApi';
 import { lastMessagesApi } from '../../api/messageApi';
 import { useNavigate } from "react-router-dom";
 import Dialog from "../Message/Dialog/Dialog";
+import ItemPage from '../ItemPage/ItemPage';
 
 const Profile = observer(() => {
   const navigate = useNavigate()
@@ -27,6 +28,9 @@ const Profile = observer(() => {
       lastMessagesApi();
     }
     allFunc();
+    return () => {
+      if(itemStore.itemVisible) itemStore.setItemVisible();
+    }
   }, []);
 
   const [addGoodsCN, setAddGoodsCN] = useState('none');
@@ -101,10 +105,14 @@ const Profile = observer(() => {
         <div className={addGoodsCN} > <AddGood /> </div>
         <div className={userMessageCN} > <Dialog /></div>
         <div className={userGoodsCN} >
-          <div className='cardDiv'>
+          <div className={itemStore.itemVisible ? 'cardDiv unvItems' : 'cardDiv'}>
             {itemStore.userItems && itemStore.userItems.map((item) => (
               <UserGoods key={item.id} itemData={item} />
             ))}
+          </div>
+          <div className={itemStore.itemVisible ? 'itemDivCat' : 'unvItems'}>
+            <ItemPage />
+            <button onClick={()=> itemStore.setItemVisible() }>close</button>
           </div>
         </div>
 

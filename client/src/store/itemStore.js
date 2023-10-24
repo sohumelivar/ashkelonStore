@@ -11,6 +11,7 @@ class ItemStore  {
   editItem = [];
   message = '';
   userFavorite = [];
+  itemVisible = false;
  
   setItem(items){
     this.items= items;
@@ -34,6 +35,10 @@ class ItemStore  {
 
   setUserFavorite(data) {
     this.userFavorite = data;
+  }
+
+  setItemVisible () {
+    this.itemVisible = !this.itemVisible;
   }
 
 };
